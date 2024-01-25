@@ -72,23 +72,45 @@ public class PlayerController : MonoBehaviour
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
     }
+    float angleToJump = 0;
+    bool maxAngleLeftReached = false;
+    bool maxAngleRightReached = false;
+    float angle = 0;
 
     private void MoveJumpDirection()
     {
-        //Vector3 jumpAngle = Quaternion.Euler(0f, 0f, maxJumpAngle) * (Vector3.up - transform.position);
+        if(arrowMovementdirection > 0 && !maxAngleRightReached)
+        {
+            angle = 360 - arrowRotationPoint.localRotation.eulerAngles.z;
+            angleToJump += arrowMovementSpeed;
 
-        //Vector3 draw = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z) - transform.position;
-        //Vector3 rotatedDraw = Quaternion.Euler(0f, 0f, maxJumpAngle) * draw;
+            if(angleToJump > maxJumpAngle)
+            {
+                maxAngleRightReached = true;
+            }
+            else
+            {
+                arrowRotationPoint.Rotate(-Vector3.forward * arrowMovementdirection, arrowMovementSpeed);
+                maxAngleLeftReached = false;
+            }
 
-        //Vector3 point = rotatedDraw + transform.position;
+        }  
+        else if(arrowMovementdirection < 0 && !maxAngleLeftReached)
+        {
+            angle = arrowRotationPoint.localRotation.eulerAngles.z;
+            angleToJump -= arrowMovementSpeed;
 
-        float angle = arrowRotationPoint.localRotation.eulerAngles.z;
-        Debug.Log(angle);
-        if (angle<maxJumpAngle)
-        arrowRotationPoint.Rotate(-Vector3.forward * arrowMovementdirection, arrowMovementSpeed);
-        //else if (angle > maxJumpAngle)
-        //Vector3 angle = Quaternion.Euler(0f, 0f, maxJumpAngle) * (Vector3.up - transform.position);
-
+            if (angleToJump < -maxJumpAngle)
+            {
+                maxAngleLeftReached = true;
+            }
+            else
+            {
+                arrowRotationPoint.Rotate(-Vector3.forward * arrowMovementdirection, arrowMovementSpeed);
+                maxAngleRightReached = false;
+            }
+        }
+        
     }
 
     private void OnDisable()
