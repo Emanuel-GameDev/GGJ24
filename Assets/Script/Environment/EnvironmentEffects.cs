@@ -9,8 +9,12 @@ public class EnvironmentEffects : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.GetComponent<PlayerController>() != null)
+        {
+            Debug.Log("sfsf");
+        }
         // Verifica se l'oggetto con cui si è verificata la collisione ha lo script del player
-        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+        PlayerController player = collision.gameObject.GetComponentInChildren<PlayerController>();
         if (player != null)
         {
             playerController = player;

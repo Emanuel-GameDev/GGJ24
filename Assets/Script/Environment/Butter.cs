@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Butter : EnvironmentEffects
+public class Butter : MonoBehaviour
 {
+    // Riferimento allo script del player
+    private PlayerController playerController;
+
     [SerializeField]
     private float slideSpeed = 5f; // Velocità della scivolata
 
@@ -14,17 +17,35 @@ public class Butter : EnvironmentEffects
     private float slideTimer = 0f;
     private Vector2 slideDirection = Vector2.zero;
 
-    protected override void ApplyEffect()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        base.ApplyEffect();
+        // Verifica se l'oggetto con cui si è verificata la collisione ha lo script del player
+        if (collision.gameObject.GetComponent<PlayerController>() != null)
+        {
+            playerController = collision.gameObject.GetComponent<PlayerController>();
+            ApplyEffect();
+        }
+    }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // Se il player esce dalla zona dell'effetto, ripristina la potenza del salto
+        if (playerController != null && collision.gameObject == playerController.gameObject)
+        {
+            playerController.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            playerController = null;
+        }
+    }
+
+    private void ApplyEffect()
+    {
         if (playerController != null)
         {
             // Attiva la scivolata
             isSliding = true;
             slideTimer = 0f;
 
-            SpriteRenderer spriteRenderer = playerController.GetComponent<SpriteRenderer>();
+            SpriteRenderer spriteRenderer = playerController.GetComponentInChildren<SpriteRenderer>();
             if (spriteRenderer != null)
             {
                 slideDirection = spriteRenderer.flipX ? Vector2.left : Vector2.right;
@@ -32,10 +53,8 @@ public class Butter : EnvironmentEffects
         }
     }
 
-    protected override void Update()
+    private void Update()
     {
-        base.Update();
-
         if (isSliding)
         {
             // Applica la logica della scivolata
@@ -51,7 +70,6 @@ public class Butter : EnvironmentEffects
             Vector2 slideVelocity = slideDirection * slideSpeed;
             playerController.GetComponent<Rigidbody2D>().velocity = slideVelocity;
 
-
             // Aggiorna il timer della scivolata
             slideTimer += Time.deltaTime;
 
@@ -60,6 +78,7 @@ public class Butter : EnvironmentEffects
             {
                 // Disattiva la scivolata e ripristina la velocità orizzontale del personaggio
                 isSliding = false;
+                playerController = null;
             }
         }
     }
