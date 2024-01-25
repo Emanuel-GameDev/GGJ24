@@ -16,6 +16,7 @@ public class Butter : EnvironmentEffects
     protected override void ApplyEffect()
     {
         base.ApplyEffect();
+
         if (playerController != null)
         {
             // Attiva la scivolata
@@ -39,8 +40,9 @@ public class Butter : EnvironmentEffects
     {
         if (playerController != null)
         {
-            // Applica la velocità di scivolata
-            playerController.MoveHorizontally(slideSpeed * Time.deltaTime);
+            // Applica la velocità di scivolata solo sull'asse orizzontale
+            Vector2 slideVelocity = new Vector2(slideSpeed, playerController.GetComponent<Rigidbody2D>().velocity.y);
+            playerController.GetComponent<Rigidbody2D>().velocity = slideVelocity;
 
             // Aggiorna il timer della scivolata
             slideTimer += Time.deltaTime;
@@ -48,9 +50,8 @@ public class Butter : EnvironmentEffects
             // Controlla se la durata della scivolata è terminata
             if (slideTimer >= slideDuration)
             {
-                // Disattiva la scivolata e ripristina la velocità del personaggio
+                // Disattiva la scivolata e ripristina la velocità orizzontale del personaggio
                 isSliding = false;
-                playerController.ResetHorizontalMovement();
             }
         }
     }
