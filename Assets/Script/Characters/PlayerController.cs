@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
     {
 
         Vector2 forceDirection = arrowPointer.transform.position - transform.position;
-        rb.AddForceAtPosition(forceDirection * jumpForce, pointToApplyForce.position);
+        rb.AddForceAtPosition(forceDirection.normalized * jumpForce, pointToApplyForce.position);
         
     }
 
