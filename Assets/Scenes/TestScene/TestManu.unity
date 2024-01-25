@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 1400443485}
   - component: {fileID: 1400443488}
   m_Layer: 6
-  m_Name: Burro
+  m_Name: Marmellata
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -307,11 +307,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1400443484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfd1e6005c0afbe4ca55570ec572a216, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c1d01a65b75a0647bd8579938075979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slideSpeed: 1.5
-  slideDuration: 1
+  jumpPowerReduction: 0.5
 --- !u!1 &1708808416
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,7 +588,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: jumpForce
-      value: 3921
+      value: 3500
       objectReference: {fileID: 0}
     - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: rotationSpeed

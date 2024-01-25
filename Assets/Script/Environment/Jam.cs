@@ -1,13 +1,36 @@
-public class Jam : EnvironmentEffects
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Jam : MonoBehaviour
 {
+    private PlayerController playerController;
 
     // Modifica della potenza del salto causata dalla marmellata
     public float jumpPowerReduction = 0.5f;
 
-    // Override del metodo per applicare l'effetto specifico della marmellata
-    protected override void ApplyEffect()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        base.ApplyEffect();
+        if (collision.gameObject.GetComponent<PlayerController>() != null)
+        {
+            playerController = collision.gameObject.GetComponent<PlayerController>();
+
+            ApplyEffect();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (playerController != null)
+        {
+            ResetEffect();
+            playerController = null;
+        }
+    }
+
+    // Override del metodo per applicare l'effetto specifico della marmellata
+    private void ApplyEffect()
+    {
         if (playerController != null)
         {
             // Riduci la potenza del salto
@@ -16,9 +39,8 @@ public class Jam : EnvironmentEffects
     }
 
     // Override del metodo per ripristinare l'effetto specifico della marmellata
-    protected override void ResetEffect()
+    private void ResetEffect()
     {
-        base.ResetEffect();
         if (playerController != null)
         {
             // Ripristina la potenza del salto

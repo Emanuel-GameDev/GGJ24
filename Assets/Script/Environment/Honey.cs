@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Honey : EnvironmentEffects
+public class Honey : MonoBehaviour
 {
+    private PlayerController playerController;
+
     [SerializeField]
     private float attachmentAngle = 45f; // Angolazione di attaccamento al muro
 
@@ -13,9 +15,8 @@ public class Honey : EnvironmentEffects
     private bool isAttached = false;
     private Vector2 wallNormal = Vector2.up; // Normale del muro (inizializzata a Vector2.up, ma dovresti impostarla in base alla configurazione del tuo gioco)
 
-    protected override void Update()
+    private void Update()
     {
-        base.Update();
 
         if (isAttached)
         {
