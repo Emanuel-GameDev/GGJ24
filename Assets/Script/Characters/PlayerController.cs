@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform headCheck;
     [SerializeField] private float headCheckRadius;
 
+    [SerializeField] GameObject visual;
+
 
     private int counterJumpRotation = 0;
 
@@ -234,7 +236,13 @@ public class PlayerController : MonoBehaviour
         if (!headToGround)
             forceDirection = arrowPointer.transform.position - transform.position;
         else
-            forceDirection = new Vector3 (transform.position.x, transform.position.y-1,transform.position.z) - transform.localPosition;
+            forceDirection = Vector2.up;
+
+        if (forceDirection.x > 0 && visual.transform.localScale.x == -1)
+            visual.transform.localScale = new Vector3(1, 1, 1);
+        else if(forceDirection.x < 0 && visual.transform.localScale.x == 1)
+            visual.transform.localScale = new Vector3(-1, 1, 1);
+
 
         rb.AddForceAtPosition(forceDirection.normalized * jumpForce, pointToApplyForce.position);
 
