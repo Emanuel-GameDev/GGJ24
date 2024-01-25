@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
             smashTrail.enabled = false;
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x, transform.position.y, transform.position.z) - transform.position, 1, groundMask);
-
+            
         }
         else
         {
