@@ -253,6 +253,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+--- !u!4 &773567229 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6881965214304423759, guid: ee829758779528748a44f85225cdc62c, type: 3}
+  m_PrefabInstance: {fileID: 1969780016}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1303360456
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +315,7 @@ GameObject:
   - component: {fileID: 1400443485}
   - component: {fileID: 1400443488}
   m_Layer: 6
-  m_Name: Miele
+  m_Name: Burro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -348,7 +353,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.062262252}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -359,7 +364,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 0.8754755}
   m_EdgeRadius: 0
 --- !u!212 &1400443486
 SpriteRenderer:
@@ -422,8 +427,8 @@ Transform:
   m_GameObject: {fileID: 1400443484}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -9.19, y: 1.26, z: 0}
-  m_LocalScale: {x: 5.681801, y: 0.698368, z: 1}
+  m_LocalPosition: {x: -9.13, y: 3.34, z: 0}
+  m_LocalScale: {x: 9.884061, y: 0.698368, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -440,8 +445,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e794a56d740a243ac63136dcb2fc42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachmentAngle: 45
-  coefficenteDiAppiccico: 5
+  lineGroundCheckLenght: 1
+  coefficenteDiAppiccico: 0
 --- !u!1 &1708808416
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,6 +730,10 @@ PrefabInstance:
       propertyPath: rotationSpeed
       value: 4.18
       objectReference: {fileID: 0}
+    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
+      propertyPath: arrowRotationPoint
+      value: 
+      objectReference: {fileID: 773567229}
     - target: {fileID: 1032156374830648262, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_GravityScale
       value: 0.4
@@ -735,11 +744,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4048808120996970296, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.83
+      value: -6.26
       objectReference: {fileID: 0}
     - target: {fileID: 4048808120996970296, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.94
+      value: -0.96
       objectReference: {fileID: 0}
     - target: {fileID: 4048808120996970296, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_LocalPosition.z

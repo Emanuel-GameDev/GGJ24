@@ -13,6 +13,9 @@ public class Butter : MonoBehaviour
     [SerializeField]
     private float slideDuration = 2f; // Durata della scivolata in secondi
 
+    [SerializeField]
+    private float decelarationRatio = 2f; // Durata della decelerazione
+
     private bool isSliding = false;
     private float slideTimer = 0f;
     private Vector2 slideDirection = Vector2.zero;
@@ -32,8 +35,10 @@ public class Butter : MonoBehaviour
         // Se il player esce dalla zona dell'effetto, ripristina la potenza del salto
         if (playerController != null && collision.gameObject == playerController.gameObject)
         {
-            playerController.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             playerController = null;
+
+            if (isSliding)
+                isSliding = false;
         }
     }
 
@@ -79,7 +84,39 @@ public class Butter : MonoBehaviour
                 // Disattiva la scivolata e ripristina la velocità orizzontale del personaggio
                 isSliding = false;
                 playerController = null;
+                Decelerate(decelarationRatio);
             }
         }
+    }
+
+    private IEnumerator Decelerate(float duration)
+    {
+        Rigidbody2D rb;
+        if (playerController != null)
+            rb = playerController.gameObject.GetComponent<Rigidbody2D>();
+        else
+            rb = null;
+
+        // Calcola l'incremento di velocità per frame per raggiungere la velocità finale
+        float finalVelocityX = 0f;
+        float initialVelocityX = rb.velocity.x;
+        float deltaVelocityX = (finalVelocityX - initialVelocityX) / duration;
+
+        // Esegui la decelerazione per la durata specificata
+        float timer = 0f;
+        while (timer < duration)
+        {
+            // Aggiorna la velocità del personaggio
+            float newVelocityX = rb.velocity.x + deltaVelocityX * Time.deltaTime;
+            rb.velocity = new Vector2(newVelocityX, rb.velocity.y);
+
+            // Aggiorna il timer
+            timer += Time.deltaTime;
+
+            yield return null; // Aspetta il frame successivo
+        }
+
+        // Assicura che la velocità finale sia esattamente zero
+        rb.velocity = new Vector2(finalVelocityX, rb.velocity.y);
     }
 }
