@@ -28,7 +28,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
 
+    [Header("Head")]
+    [SerializeField] private Transform headCheck;
+    [SerializeField] private float headCheckRadius;
+
+
+    private int counterJumpRotation = 0;
+
     TrailRenderer smashTrail;
+    Animator animator;
 
     private bool grounded;
     PlayerInputs inputs;
@@ -40,7 +48,9 @@ public class PlayerController : MonoBehaviour
     bool maxAngleLeftReached = false;
     bool maxAngleRightReached = false;
 
-    bool smashing = false;
+    bool headToGround = false;
+
+    public bool smashing = false;
 
     bool movingArrow = false;
     bool rotating = false;
@@ -74,6 +84,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         baseJumpForce = jumpForce;
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         smashTrail = GetComponent<TrailRenderer>();
     }
@@ -87,10 +98,14 @@ public class PlayerController : MonoBehaviour
             MoveJumpDirection();
 
         if (!attachedToWall)
+        {
             GroundCheck(groundMask);
+            HeadCheck(groundMask);
+        }
 
         if (grounded)
         {
+            animator.SetBool("IsSmashing", false);
             smashing = false;
             smashTrail.enabled = false;
         }
@@ -116,6 +131,7 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        Gizmos.DrawWireSphere(headCheck.position, headCheckRadius);
 
         Vector3 draw = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z) - transform.position;
         Vector3 rotatedDraw = Quaternion.Euler(0f, 0f, maxJumpAngle) * draw;
@@ -215,6 +231,8 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 forceDirection = arrowPointer.transform.position - transform.position;
         rb.AddForceAtPosition(forceDirection.normalized * jumpForce, pointToApplyForce.position);
+
+        animator.SetTrigger("Jump");
     }
     public void SetJumpPower(float jumpPower)
     {
@@ -260,6 +278,7 @@ public class PlayerController : MonoBehaviour
             smashTrail.enabled = true;
             SetPlayerRotation();
             rb.velocity = Vector3.zero;
+            animator.SetBool("IsSmashing", true);
 
             rb.AddForce(Vector2.down * smashForce * 100);
         }
@@ -269,9 +288,20 @@ public class PlayerController : MonoBehaviour
 
     #region Checks
 
+    public bool HeadCheck(LayerMask layerMask)
+    {
+        headToGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, layerMask);
+
+        return headToGround;
+    }
+
     public bool GroundCheck(LayerMask layerMask)
     {
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, layerMask);
+
+        if(animator.GetBool("IsGrounded") != grounded)
+            animator.SetBool("IsGrounded", grounded);
+
         return grounded;
     }
 
@@ -291,6 +321,20 @@ public class PlayerController : MonoBehaviour
 
         grounded = false;
         return grounded;
+    }
+
+    #endregion
+
+    #region Others
+
+    private void StartRotationCount()
+    {
+
+    }
+
+    private void ResetCounter()
+    {
+        counterJumpRotation = 0;
     }
 
     #endregion
