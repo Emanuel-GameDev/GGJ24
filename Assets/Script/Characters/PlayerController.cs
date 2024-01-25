@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform headCheck;
     [SerializeField] private float headCheckRadius;
 
+    [SerializeField] GameObject visual;
+
 
     private int counterJumpRotation = 0;
 
@@ -88,7 +90,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         smashTrail = GetComponent<TrailRenderer>();
     }
-
+    float animatorZ = 0;
     private void Update()
     {
         if (rotating)
@@ -106,13 +108,25 @@ public class PlayerController : MonoBehaviour
         if (grounded)
         {
             animator.SetBool("IsSmashing", false);
-            smashing = false;
             smashTrail.enabled = false;
+
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x, transform.position.y, transform.position.z) - transform.position, 1, groundMask);
+            
         }
+        else
+        {
+            animatorZ = 360 - transform.rotation.eulerAngles.z;
+            //Debug.Log(animatorZ);
+            //Debug.Log(torqueAnimator);
+            animator.SetFloat("torque", Mathf.Abs(torqueAnimator));
+            animator.SetFloat("ZRotation", animatorZ);
+        }
+
 
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
     }
+   
 
 
     private void OnDisable()
@@ -132,6 +146,8 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         Gizmos.DrawWireSphere(headCheck.position, headCheckRadius);
+
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x,transform.position.y,transform.position.z));
 
         Vector3 draw = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z) - transform.position;
         Vector3 rotatedDraw = Quaternion.Euler(0f, 0f, maxJumpAngle) * draw;
@@ -234,7 +250,13 @@ public class PlayerController : MonoBehaviour
         if (!headToGround)
             forceDirection = arrowPointer.transform.position - transform.position;
         else
-            forceDirection = new Vector3 (transform.position.x, transform.position.y-1,transform.position.z) - transform.localPosition;
+            forceDirection = Vector2.up;
+
+        if (forceDirection.x > 0 && visual.transform.localScale.x == -1)
+            visual.transform.localScale = new Vector3(1, 1, 1);
+        else if (forceDirection.x < 0 && visual.transform.localScale.x == 1)
+            visual.transform.localScale = new Vector3(-1, 1, 1);
+        torqueAnimator = 0;
 
         rb.AddForceAtPosition(forceDirection.normalized * jumpForce, pointToApplyForce.position);
 
@@ -261,16 +283,28 @@ public class PlayerController : MonoBehaviour
         rb.angularVelocity = 0;
 
     }
+
+    float torqueAnimator = 0;
     private void RotateCharacter()
     {
         if (rotationInput < 0)
         {
             rb.AddTorque(rotationSpeed);
+            torqueAnimator = rb.angularVelocity * Time.deltaTime;
         }
         else if (rotationInput > 0)
         {
             rb.AddTorque(-rotationSpeed);
+            torqueAnimator = rb.angularVelocity * Time.deltaTime;
         }
+
+        if (torqueAnimator < 0 && visual.transform.localScale.x == -1)
+            visual.transform.localScale = new Vector3(1, 1, 1);
+        else if (torqueAnimator > 0 && visual.transform.localScale.x == 1)
+            visual.transform.localScale = new Vector3(-1, 1, 1);
+        
+
+        //animator.SetFloat("torque",)
 
     }
     #endregion
@@ -293,6 +327,11 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Checks
+
+    public void SmashOver()
+    {
+        smashing = false;
+    }
 
     public bool HeadCheck(LayerMask layerMask)
     {

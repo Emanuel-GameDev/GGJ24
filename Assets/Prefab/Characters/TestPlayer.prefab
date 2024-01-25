@@ -289,6 +289,7 @@ MonoBehaviour:
     m_Bits: 64
   headCheck: {fileID: 6200340480174528624}
   headCheckRadius: 0.25
+  visual: {fileID: 613020781728955701}
   smashing: 0
   attachedToWall: 0
 --- !u!96 &8753855081184397388
