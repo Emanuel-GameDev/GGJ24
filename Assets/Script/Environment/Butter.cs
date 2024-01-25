@@ -12,6 +12,7 @@ public class Butter : EnvironmentEffects
 
     private bool isSliding = false;
     private float slideTimer = 0f;
+    private Vector2 slideDirection = Vector2.zero;
 
     protected override void ApplyEffect()
     {
@@ -22,6 +23,12 @@ public class Butter : EnvironmentEffects
             // Attiva la scivolata
             isSliding = true;
             slideTimer = 0f;
+
+            SpriteRenderer spriteRenderer = playerController.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                slideDirection = spriteRenderer.flipX ? Vector2.left : Vector2.right;
+            }
         }
     }
 
@@ -40,9 +47,10 @@ public class Butter : EnvironmentEffects
     {
         if (playerController != null)
         {
-            // Applica la velocità di scivolata solo sull'asse orizzontale
-            Vector2 slideVelocity = new Vector2(slideSpeed, playerController.GetComponent<Rigidbody2D>().velocity.y);
+            // Applica la velocità di scivolata nella direzione determinata
+            Vector2 slideVelocity = slideDirection * slideSpeed;
             playerController.GetComponent<Rigidbody2D>().velocity = slideVelocity;
+
 
             // Aggiorna il timer della scivolata
             slideTimer += Time.deltaTime;
