@@ -10,10 +10,15 @@ public class Honey : MonoBehaviour
     private float attachmentAngle = 45f; // Angolazione di attaccamento al muro
 
     [SerializeField]
-    private float attachmentCoefficient = 5f; // Coefficiente di attaccamento al muro
+    private float coefficenteDiAppiccico = 5f; // Coefficiente di attaccamento al muro
 
     private bool isAttached = false;
     private Vector2 wallNormal = Vector2.up; // Normale del muro (inizializzata a Vector2.up, ma dovresti impostarla in base alla configurazione del tuo gioco)
+
+    private void Start()
+    {
+        CalculateWallNormal();
+    }
 
     private void Update()
     {
@@ -35,7 +40,7 @@ public class Honey : MonoBehaviour
             if (angle < attachmentAngle)
             {
                 // Calcola la forza di attaccamento al muro
-                float attachmentForce = attachmentCoefficient * Mathf.Abs(playerController.gameObject.GetComponent<Rigidbody2D>().gravityScale);
+                float attachmentForce = coefficenteDiAppiccico * Mathf.Abs(playerController.gameObject.GetComponent<Rigidbody2D>().gravityScale);
 
                 // Applica la forza di attaccamento al muro
                 playerController.GetComponent<Rigidbody2D>().velocity = new Vector2(playerController.GetComponent<Rigidbody2D>().velocity.x, -attachmentForce);
@@ -45,13 +50,10 @@ public class Honey : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (playerController != null && !isAttached)
+        if (collision.gameObject.GetComponent<PlayerController>() != null && !isAttached)
         {
-            // Attiva l'attaccamento al muro quando il personaggio entra nella zona del miele
+            playerController = collision.gameObject.GetComponent<PlayerController>();
             isAttached = true;
-
-            // Ottieni la normale del muro quando il personaggio entra nella zona del miele
-            CalculateWallNormal();
         }
     }
 
@@ -68,6 +70,7 @@ public class Honey : MonoBehaviour
     {
         // Calcola la normale del muro (modifica questa logica in base alla configurazione del tuo gioco)
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, Mathf.Infinity, LayerMask.GetMask("Wall"));
+
         if (hit.collider != null)
         {
             wallNormal = hit.normal;
