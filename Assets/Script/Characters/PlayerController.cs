@@ -6,5 +6,4 @@ public class PlayerController : MonoBehaviour
 {
     PlayerInputs inputs;
 
-    
 }
