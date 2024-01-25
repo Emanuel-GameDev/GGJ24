@@ -324,7 +324,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 3000
-  arrowMovementSpeed: 1
+  arrowSensitivity: 1
+  arrowPointer: {fileID: 1809180912859708768}
+  arrowRotationPoint: {fileID: 6881965214304423759}
+  line: {fileID: 6167584356458765812}
+  smashForce: 250
   rotationSpeed: 3
   pointToApplyForce: {fileID: 8008876647909593805}
   groundCheck: {fileID: 8901035957351916170}
@@ -332,10 +336,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  arrowPointer: {fileID: 1809180912859708768}
-  arrowRotationPoint: {fileID: 6881965214304423759}
-  line: {fileID: 6167584356458765812}
   maxJumpAngle: 70
+  attachedToWall: 0
 --- !u!1 &4545591137679664987
 GameObject:
   m_ObjectHideFlags: 0
