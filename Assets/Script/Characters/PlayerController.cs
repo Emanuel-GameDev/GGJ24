@@ -229,7 +229,13 @@ public class PlayerController : MonoBehaviour
     }
     private void Jump()
     {
-        Vector2 forceDirection = arrowPointer.transform.position - transform.position;
+        Vector2 forceDirection = Vector2.zero;
+
+        if (!headToGround)
+            forceDirection = arrowPointer.transform.position - transform.position;
+        else
+            forceDirection = new Vector3 (transform.position.x, transform.position.y-1,transform.position.z) - transform.localPosition;
+
         rb.AddForceAtPosition(forceDirection.normalized * jumpForce, pointToApplyForce.position);
 
         animator.SetTrigger("Jump");
@@ -290,7 +296,7 @@ public class PlayerController : MonoBehaviour
 
     public bool HeadCheck(LayerMask layerMask)
     {
-        headToGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, layerMask);
+        headToGround = Physics2D.OverlapCircle(headCheck.position, headCheckRadius, layerMask);
 
         return headToGround;
     }
