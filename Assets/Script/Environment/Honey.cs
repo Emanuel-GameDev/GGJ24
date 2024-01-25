@@ -7,18 +7,12 @@ public class Honey : MonoBehaviour
     private PlayerController playerController;
 
     [SerializeField]
-    private float attachmentAngle = 45f; // Angolazione di attaccamento al muro
+    private int lineGroundCheckLenght = 1;
 
     [SerializeField]
     private float coefficenteDiAppiccico = 5f; // Coefficiente di attaccamento al muro
 
     private bool isAttached = false;
-    private Vector2 wallNormal = Vector2.up; // Normale del muro (inizializzata a Vector2.up, ma dovresti impostarla in base alla configurazione del tuo gioco)
-
-    private void Start()
-    {
-        CalculateWallNormal();
-    }
 
     private void Update()
     {
@@ -32,19 +26,17 @@ public class Honey : MonoBehaviour
 
     private void AttachToWall()
     {
-        if (playerController != null)
+        List<Vector2> dirsToCheck = new List<Vector2>()
+        { Vector2.down, Vector2.left, Vector2.right};
+
+        if (playerController != null && playerController.LineGroundCheck(LayerMask.GetMask("Wall"), dirsToCheck, lineGroundCheckLenght))
         {
-            // Verifica se il personaggio ha superato l'angolazione di attaccamento
-            float angle = Vector2.Angle(Vector2.up, wallNormal);
+            float attachmentForce = coefficenteDiAppiccico * 
+                Mathf.Abs(playerController.gameObject.GetComponent<Rigidbody2D>().gravityScale);
 
-            if (angle < attachmentAngle)
-            {
-                // Calcola la forza di attaccamento al muro
-                float attachmentForce = coefficenteDiAppiccico * Mathf.Abs(playerController.gameObject.GetComponent<Rigidbody2D>().gravityScale);
-
-                // Applica la forza di attaccamento al muro
-                playerController.GetComponent<Rigidbody2D>().velocity = new Vector2(playerController.GetComponent<Rigidbody2D>().velocity.x, -attachmentForce);
-            }
+            // Applica la forza di attaccamento al muro
+            playerController.gameObject.GetComponent<Rigidbody2D>().velocity = 
+                new Vector2(playerController.gameObject.GetComponent<Rigidbody2D>().velocity.x, -attachmentForce);
         }
     }
 
@@ -54,6 +46,7 @@ public class Honey : MonoBehaviour
         {
             playerController = collision.gameObject.GetComponent<PlayerController>();
             isAttached = true;
+            playerController.attachedToWall = true;
         }
     }
 
@@ -63,17 +56,8 @@ public class Honey : MonoBehaviour
         {
             // Disattiva l'attaccamento al muro quando il personaggio esce dalla zona del miele
             isAttached = false;
-        }
-    }
-
-    private void CalculateWallNormal()
-    {
-        // Calcola la normale del muro (modifica questa logica in base alla configurazione del tuo gioco)
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, Mathf.Infinity, LayerMask.GetMask("Wall"));
-
-        if (hit.collider != null)
-        {
-            wallNormal = hit.normal;
+            playerController.attachedToWall = false;
+            playerController = null;
         }
     }
 }
