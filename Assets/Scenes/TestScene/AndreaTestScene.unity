@@ -869,10 +869,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: headCheck
-      value: 
-      objectReference: {fileID: 4297406374389478190}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: jumpForce
       value: 8000
       objectReference: {fileID: 0}
@@ -883,10 +879,6 @@ PrefabInstance:
     - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: rotationSpeed
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: headCheckRadius
-      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: groundCheckRadius
@@ -1021,11 +1013,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee829758779528748a44f85225cdc62c, type: 3}
---- !u!4 &4297406374389478190 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6200340480174528624, guid: ee829758779528748a44f85225cdc62c, type: 3}
-  m_PrefabInstance: {fileID: 4297406374389478189}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
