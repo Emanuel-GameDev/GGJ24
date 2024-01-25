@@ -235,11 +235,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &798781285 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6881965214304423759, guid: ee829758779528748a44f85225cdc62c, type: 3}
-  m_PrefabInstance: {fileID: 4297406374389478189}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1492326011
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,18 +510,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: maxJumpAngle
-      value: 41
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: groundCheckRadius
-      value: 0.65
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: arrowRotationPoint
-      value: 
-      objectReference: {fileID: 798781285}
     - target: {fileID: 1032156374830648262, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_GravityScale
       value: 1
@@ -553,7 +536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4048808120996970296, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.05
+      value: 1.88
       objectReference: {fileID: 0}
     - target: {fileID: 4048808120996970296, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_LocalPosition.y

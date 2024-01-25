@@ -30,8 +30,14 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rb;
 
+    float angle = 0;
+    float angleToJump = 0;
+    bool maxAngleLeftReached = false;
+    bool maxAngleRightReached = false;
+
     bool movingArrow=false;
     bool rotating = false;
+    public bool attachedToWall = false;
 
     float rotationInput = 0;
 
@@ -46,11 +52,35 @@ public class PlayerController : MonoBehaviour
 
         inputs.Gameplay.Rotate.performed += Rotate_performed;
         inputs.Gameplay.Rotate.canceled += Rotate_canceled;
+
+        inputs.Gameplay.Smash.performed += Smash_performed;
+
         inputs.Gameplay.Jump.performed += Jump_performed;
         inputs.Gameplay.Jump.canceled += Jump_canceled;
 
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
+    }
+
+    private void Smash_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (!grounded)
+            Smash();
+    }
+
+    private void Smash()
+    {
+        if (!grounded)
+        {
+            SetPlayerRotation();
+
+        }
+        
+    }
+
+    private void SetPlayerRotation()
+    {
+        
     }
 
     private void Awake()
@@ -67,15 +97,12 @@ public class PlayerController : MonoBehaviour
         if (movingArrow)
             MoveJumpDirection();
 
-        GroundCheck(groundMask);
+        if(!attachedToWall) 
+            GroundCheck(groundMask);
 
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
     }
-    float angleToJump = 0;
-    bool maxAngleLeftReached = false;
-    bool maxAngleRightReached = false;
-    float angle = 0;
 
     private void MoveJumpDirection()
     {
@@ -199,11 +226,27 @@ public class PlayerController : MonoBehaviour
         return grounded;
     }
 
+    public bool LineGroundCheck(LayerMask layerMask,List<Vector2> dirs,int distance)
+    {
+        foreach(Vector2 dir in dirs)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(groundCheck.position,dir,distance,layerMask);
+            if(hit.collider != null)
+            {
+                grounded = true;
+                return grounded;
+            }
+        }
+
+        grounded=false ;
+        return grounded;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
 
-        Vector3 draw = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z) - transform.position;
+        Vector3 draw = new Vector3(transform.position.x, transform.position.y+3, transform.position.z) - transform.position;
         Vector3 rotatedDraw = Quaternion.Euler(0f, 0f, maxJumpAngle) * draw;
 
         Vector3 point = rotatedDraw + transform.position; 
