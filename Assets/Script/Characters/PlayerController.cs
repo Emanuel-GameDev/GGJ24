@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityEngine.Windows;
 
 public class PlayerController : MonoBehaviour
@@ -18,13 +20,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
 
     [SerializeField] private Transform arrowPointer;
+    [SerializeField] private Transform arrowRotationPoint;
     [SerializeField] private LineRenderer line;
 
+    [SerializeField, Range(0, 180)] private float maxJumpAngle = 0;
 
     private bool grounded;
     PlayerInputs inputs;
 
     Rigidbody2D rb;
+
+    bool movingArrow=false;
+    bool rotating = false;
+
+    float rotationInput = 0;
 
     float baseJumpForce;
     float arrowMovementdirection=0;
@@ -58,7 +67,7 @@ public class PlayerController : MonoBehaviour
         if (movingArrow)
             MoveJumpDirection();
 
-        GroundCheck();
+        GroundCheck(groundMask);
 
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
@@ -66,14 +75,27 @@ public class PlayerController : MonoBehaviour
 
     private void MoveJumpDirection()
     {
-        Debug.Log("MoveArrow");
-        arrowPointer.Translate(Vector3.right * arrowMovementdirection * arrowMovementSpeed);
+        //Vector3 jumpAngle = Quaternion.Euler(0f, 0f, maxJumpAngle) * (Vector3.up - transform.position);
+
+        //Vector3 draw = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z) - transform.position;
+        //Vector3 rotatedDraw = Quaternion.Euler(0f, 0f, maxJumpAngle) * draw;
+
+        //Vector3 point = rotatedDraw + transform.position;
+
+        float angle = arrowRotationPoint.localRotation.eulerAngles.z;
+        Debug.Log(angle);
+        if (angle<maxJumpAngle)
+        arrowRotationPoint.Rotate(-Vector3.forward * arrowMovementdirection, arrowMovementSpeed);
+        //else if (angle > maxJumpAngle)
+        //Vector3 angle = Quaternion.Euler(0f, 0f, maxJumpAngle) * (Vector3.up - transform.position);
+
     }
 
     private void OnDisable()
     {
         inputs.Gameplay.Rotate.performed -= Rotate_performed;
         inputs.Gameplay.Rotate.canceled -= Rotate_canceled;
+
         inputs.Gameplay.Jump.performed -= Jump_performed;
         inputs.Gameplay.Jump.canceled -= Jump_canceled;
 
@@ -98,10 +120,6 @@ public class PlayerController : MonoBehaviour
         movingArrow = false;
     }
 
-    bool movingArrow=false;
-    bool rotating = false;
-
-    float rotationInput = 0;
     private void Rotate_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         //sposta
@@ -135,10 +153,8 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-
         Vector2 forceDirection = arrowPointer.transform.position - transform.position;
         rb.AddForceAtPosition(forceDirection.normalized * jumpForce, pointToApplyForce.position);
-        
     }
 
     public void SetJumpPower(float jumpPower)
@@ -155,15 +171,27 @@ public class PlayerController : MonoBehaviour
         jumpForce = baseJumpForce;
     }
 
-    public void GroundCheck()
+    public bool GroundCheck(LayerMask layerMask)
     {
-        grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundMask);
-        
+        grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, layerMask);
+        return grounded;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+
+        Vector3 draw = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z) - transform.position;
+        Vector3 rotatedDraw = Quaternion.Euler(0f, 0f, maxJumpAngle) * draw;
+
+        Vector3 point = rotatedDraw + transform.position; 
+        
+        Gizmos.DrawLine(transform.position, point);
+
+        rotatedDraw = Quaternion.Euler(0f, 0f, -maxJumpAngle) * draw;
+
+        point = rotatedDraw + transform.position; 
+        Gizmos.DrawLine(transform.position, point);
     }
 
 }
