@@ -511,7 +511,7 @@ Transform:
   m_GameObject: {fileID: 1400443484}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.11, y: -3.57, z: 0}
+  m_LocalPosition: {x: -0.34, y: -2.32, z: 0}
   m_LocalScale: {x: 4.5464206, y: 0.698368, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -529,7 +529,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fcca607f04b03441b4a1659edfef08a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bounceForce: 5
+  smashBounceForce: 104
+  smashBounceActivator: 1
 --- !u!1 &1708808416
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,6 +825,14 @@ PrefabInstance:
     - target: {fileID: 1497921766743447306, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_Name
       value: TestPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2371625701575465560, guid: ee829758779528748a44f85225cdc62c, type: 3}
+      propertyPath: m_Size.y
+      value: 1.1620319
+      objectReference: {fileID: 0}
+    - target: {fileID: 2371625701575465560, guid: ee829758779528748a44f85225cdc62c, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.081015944
       objectReference: {fileID: 0}
     - target: {fileID: 4048808120996970296, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_LocalPosition.x
