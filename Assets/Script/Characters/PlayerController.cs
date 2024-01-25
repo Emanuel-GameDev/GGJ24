@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        oldJumpForce = jumpForce;
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -52,19 +53,24 @@ public class PlayerController : MonoBehaviour
     }
     private void Jump()
     {
-        //Vector2 forceToAdd = new Vector2(0, transform. * jumpForce);
+        Vector2 forceToAdd = new Vector2(0, transform.position.y * jumpForce);
         Debug.Log("jump");
         rb.AddForce(Vector2.up * jumpForce);
     }
 
     public void SetJumpPower(float jumpPower)
     {
-
+        jumpForce = jumpPower;
     }
 
     public float GetJumpPower()
     {
         return jumpForce;
+    }
+    float oldJumpForce;
+    public void ResetJumpPower()
+    {
+        jumpForce = oldJumpForce;
     }
 
 }
