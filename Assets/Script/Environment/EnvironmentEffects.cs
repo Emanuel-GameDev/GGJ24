@@ -39,4 +39,9 @@ public class EnvironmentEffects : MonoBehaviour
     {
         // Implementa qui la logica per ripristinare la potenza del salto
     }
+
+    protected virtual void Update()
+    {
+        
+    }
 }
