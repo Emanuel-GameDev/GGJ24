@@ -200,16 +200,18 @@ public class PlayerController : MonoBehaviour
             angleRightGrounded = false;
             balanced = false;
 
-            if (!canGlide)
-            {
-                animatorZ = 360 - transform.rotation.eulerAngles.z;
-                //Debug.Log(animatorZ);
-                //Debug.Log(torqueAnimator);
-                animator.SetFloat("torque", Mathf.Abs(torqueAnimator));
-                animator.SetFloat("ZRotation", animatorZ);
-            }
+            
 
 
+        }
+
+        if (!canGlide)
+        {
+            animatorZ = 360 - transform.rotation.eulerAngles.z;
+            Debug.Log(animatorZ);
+            //Debug.Log(torqueAnimator);
+            animator.SetFloat("torque", Mathf.Abs(torqueAnimator));
+            animator.SetFloat("ZRotation", animatorZ);
         }
 
         StartRotationCount();
@@ -352,16 +354,12 @@ public class PlayerController : MonoBehaviour
         else
             forceDirection = Vector2.up;
 
-        if (arrowPointer.rotation.eulerAngles.z < 0 && visual.transform.localScale.x == -1)
+        if (angleToJump > 0 && visual.transform.localScale.x == -1)
             visual.transform.localScale = new Vector3(1, 1, 1);
-        //else if(forceDirection.x > 0 && visual.transform.localScale.x == 1)
-        //visual.transform.localScale = new Vector3(-1, 1, 1);
-        else if (arrowPointer.rotation.eulerAngles.z > 0 && visual.transform.localScale.x == 1)
+        else if (angleToJump < 0 && visual.transform.localScale.x == 1)
             visual.transform.localScale = new Vector3(-1, 1, 1);
-        //else if (forceDirection.x < 0 && visual.transform.localScale.x == -1)
-        //    visual.transform.localScale = new Vector3(1, 1, 1);
 
-        //Debug.Log(arrowPointer.rotation.eulerAngles.z);
+        
 
         torqueAnimator = 0;
         rotationThisJump = 0;
@@ -439,10 +437,10 @@ public class PlayerController : MonoBehaviour
             rb.AddTorque(-rotationSpeed);
         }
 
-        if (torqueAnimator < 0 && visual.transform.localScale.x == -1)
-            visual.transform.localScale = new Vector3(1, 1, 1);
-        else if (torqueAnimator > 0 && visual.transform.localScale.x == 1)
-            visual.transform.localScale = new Vector3(-1, 1, 1);
+        //if (torqueAnimator < 0 && visual.transform.localScale.x == -1)
+        //    visual.transform.localScale = new Vector3(1, 1, 1);
+        //else if (torqueAnimator > 0 && visual.transform.localScale.x == 1)
+        //    visual.transform.localScale = new Vector3(-1, 1, 1);
 
 
 
