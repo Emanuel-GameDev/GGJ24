@@ -5,7 +5,7 @@ using UnityEngine;
 public class BounceAnts : MonoBehaviour
 {
     [SerializeField]
-    private float smashBounceForce = 40f;
+    private float smashBounceForce = 104f;
 
     [SerializeField]
     private bool smashBounceActivator = false;
