@@ -358,9 +358,7 @@ public class PlayerController : MonoBehaviour
             visual.transform.localScale = new Vector3(-1, 1, 1);
 
         
-
         rotationThisJump = 0;
-
 
         float forceToUse = 0;
 
