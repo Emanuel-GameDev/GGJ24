@@ -23,6 +23,15 @@ public class OneWayPlatform : MonoBehaviour
         inputs.Player.Down.performed -= StartPlatformDisabling;
     }
 
+    private void OnEnable()
+    {
+        inputs = new PlayerInputs();
+
+        inputs.Enable();
+
+        inputs.Player.Down.performed += StartPlatformDisabling;
+    }
+
     private void StartPlatformDisabling(InputAction.CallbackContext obj)
     {
         if (playerCanGoDown && !coroutineRunning && playerCollider != null && 
@@ -41,16 +50,7 @@ public class OneWayPlatform : MonoBehaviour
 
             playerCollider = character.gameObject.GetComponent<Collider2D>();
 
-            EnableInputs();
-
         }
-    }
-
-    private void EnableInputs()
-    {
-        inputs = playerCollider.gameObject.GetComponent<PlayerController>().inputs;
-
-        inputs.Player.Down.performed += StartPlatformDisabling;
     }
 
     private void OnCollisionExit2D(Collision2D collision)
