@@ -274,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d2cdf3d0e09f3d4997d52f54c39b35d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLezzume: 1
   jumpForce: 3000
   jumpBadassForce: 15
   rotationToUnlockBadassJump: 4
