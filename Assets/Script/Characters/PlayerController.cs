@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    [SerializeField] GameObject visual;
+    [SerializeField] public  GameObject visual;
 
     public bool balanced = false;
     public bool angleLeftGrounded = false;
@@ -416,8 +416,10 @@ public class PlayerController : MonoBehaviour
         if (!grounded)
         {
             rotationThisJump = 0;
+
             smashing = true;
             smashTrail.enabled = true;
+
             SetPlayerRotation();
             rb.velocity = Vector3.zero;
             animator.SetBool("IsSmashing", true);
