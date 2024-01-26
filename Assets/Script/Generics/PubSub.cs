@@ -5,7 +5,8 @@ using UnityEngine;
 
 public enum EMessageType
 {
-    checkpointTaken
+    checkpointTaken,
+    finishReached
 }
 
 public class FunctionsList : Dictionary<EMessageType, List<Action<object>>> { }
