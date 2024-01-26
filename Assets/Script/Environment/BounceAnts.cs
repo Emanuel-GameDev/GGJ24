@@ -14,7 +14,6 @@ public class BounceAnts : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<PlayerController>() != null)
         {
-            Debug.Log("osf");
             smashBounceActivator = !smashBounceActivator;
 
             if (smashBounceActivator && collision.gameObject.GetComponent<PlayerController>().smashing)

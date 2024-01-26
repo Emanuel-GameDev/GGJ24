@@ -827,8 +827,16 @@ PrefabInstance:
       value: TestPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 2371625701575465560, guid: ee829758779528748a44f85225cdc62c, type: 3}
+      propertyPath: m_Size.x
+      value: 1.1511307
+      objectReference: {fileID: 0}
+    - target: {fileID: 2371625701575465560, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_Size.y
       value: 1.1620319
+      objectReference: {fileID: 0}
+    - target: {fileID: 2371625701575465560, guid: ee829758779528748a44f85225cdc62c, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.006869316
       objectReference: {fileID: 0}
     - target: {fileID: 2371625701575465560, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_Offset.y
