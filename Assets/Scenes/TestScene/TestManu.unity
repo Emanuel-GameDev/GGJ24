@@ -324,7 +324,7 @@ SpriteRenderer:
   m_Size: {x: 100, y: 32.421875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &965045637
@@ -399,7 +399,7 @@ GameObject:
   - component: {fileID: 1400443485}
   - component: {fileID: 1400443488}
   m_Layer: 6
-  m_Name: Trampolo
+  m_Name: Ham
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -434,7 +434,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.000000059604645, y: -0.0026119947}
@@ -526,10 +526,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1400443484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c1d01a65b75a0647bd8579938075979, type: 3}
+  m_Script: {fileID: 11500000, guid: fbeabe553c9d5b9458b7b4ac99ff3c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPowerReduction: 0.5
+  gravityDivider: 0.321
 --- !u!1 &1708808416
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,6 +817,14 @@ PrefabInstance:
       propertyPath: arrowRotationPoint
       value: 
       objectReference: {fileID: 773567229}
+    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
+      propertyPath: HamEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
+      propertyPath: HamEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1032156374830648262, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_GravityScale
       value: 0.4
@@ -827,7 +835,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2371625701575465560, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_Size.x
-      value: 1.1511307
+      value: 0.9068136
       objectReference: {fileID: 0}
     - target: {fileID: 2371625701575465560, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_Size.y
@@ -835,7 +843,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2371625701575465560, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_Offset.x
-      value: 0.006869316
+      value: 0.02237463
       objectReference: {fileID: 0}
     - target: {fileID: 2371625701575465560, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_Offset.y

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
 
     private bool grounded;
+    public bool Grounded => grounded;
     PlayerInputs inputs;
 
     Rigidbody2D rb;
@@ -63,6 +65,8 @@ public class PlayerController : MonoBehaviour
 
     float baseJumpForce;
     float arrowMovementdirection = 0;
+
+    bool canGlide = false;
 
     #region UnityFunctions
     private void OnEnable()
@@ -117,15 +121,17 @@ public class PlayerController : MonoBehaviour
             if(hit.collider !=null)
                 if(visual.transform.localScale.x>0)
                     visual.transform.localScale = new Vector3(-1, 1, 1);
-
         }
         else
         {
-            animatorZ = 360 - transform.rotation.eulerAngles.z;
-            //Debug.Log(animatorZ);
-            //Debug.Log(torqueAnimator);
-            animator.SetFloat("torque", Mathf.Abs(torqueAnimator));
-            animator.SetFloat("ZRotation", animatorZ);
+            if (!canGlide)
+            {
+                animatorZ = 360 - transform.rotation.eulerAngles.z;
+                //Debug.Log(animatorZ);
+                //Debug.Log(torqueAnimator);
+                animator.SetFloat("torque", Mathf.Abs(torqueAnimator));
+                animator.SetFloat("ZRotation", animatorZ);
+            }
         }
 
 
@@ -201,9 +207,12 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            //Ruota
-            rotating = true;
-            rotationInput = obj.ReadValue<float>();
+            if (!canGlide)
+            {
+                //Ruota
+                rotating = true;
+                rotationInput = obj.ReadValue<float>();
+            }
         }
 
     }
@@ -299,6 +308,13 @@ public class PlayerController : MonoBehaviour
         deactivateGroundCheck = false;
         
     }
+
+    public void TriggerGlideMode(bool mode)
+    {
+        canGlide = mode;
+
+    }
+
     #endregion
 
     #region RotationMovement
