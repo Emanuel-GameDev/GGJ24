@@ -16,10 +16,11 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.GetComponent<PlayerController>())
+        if(collision.gameObject.GetComponent<PlayerController>() && !taken)
         {
             taken = true;
             animator.SetTrigger("Taken");
+            PubSub.Instance.Notify(EMessageType.checkpointTaken, this);
         }
     }
 }
