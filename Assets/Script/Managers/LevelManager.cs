@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class LevelManager : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class LevelManager : MonoBehaviour
 
     private void FinishReached(object obj)
     {
-        
+        GetComponent<PlayableDirector>().Play();
     }
 
     //private void OnDisable()
