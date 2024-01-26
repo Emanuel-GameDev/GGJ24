@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Lezzume")]
     [SerializeField,Min(1)] private float maxLezzume = 1;
+    [SerializeField] private Slider lezzumeSlider;
 
     [Header("Jump")]
     [SerializeField] private float jumpForce = 10;
@@ -64,6 +66,8 @@ public class PlayerController : MonoBehaviour
                 lezzume=0;
             else
                 lezzume=value;
+
+            lezzumeSlider.value=lezzume;
         
         }
     }
@@ -140,12 +144,21 @@ public class PlayerController : MonoBehaviour
         lastPointRotation = transform.TransformDirection(Vector3.up);
         lastPointRotation.z = 0;
 
-        Lezzume = maxLezzume;
+        lezzumeSlider.maxValue = maxLezzume;
+        Lezzume = 0;
+
+        
+
     }
     float animatorZ = 0;
     private void Update()
     {
-        if (Lezzume <= 0)
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SetLezzume(Lezzume + 1);
+        }
+
+            if (Lezzume >= maxLezzume)
         {
             Die();
             return;
