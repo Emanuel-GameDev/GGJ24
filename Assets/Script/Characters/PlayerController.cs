@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -93,6 +94,8 @@ public class PlayerController : MonoBehaviour
     float animatorZ = 0;
     private void Update()
     {
+        torqueAnimator = rb.angularVelocity * Time.deltaTime;
+
         if (rotating)
             RotateCharacter();
 
@@ -111,7 +114,10 @@ public class PlayerController : MonoBehaviour
             smashTrail.enabled = false;
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x, transform.position.y, transform.position.z) - transform.position, 1, groundMask);
-            
+            if(hit.collider !=null)
+                if(visual.transform.localScale.x>0)
+                    visual.transform.localScale = new Vector3(-1, 1, 1);
+
         }
         else
         {
@@ -140,6 +146,7 @@ public class PlayerController : MonoBehaviour
         inputs.Gameplay.Jump.canceled -= Jump_canceled;
 
         inputs.Disable();
+        inputs.Dispose();
     }
 
     private void OnDrawGizmos()
@@ -245,6 +252,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Jump()
     {
+        
         Vector2 forceDirection = Vector2.zero;
 
         if (!headToGround)
@@ -252,15 +260,24 @@ public class PlayerController : MonoBehaviour
         else
             forceDirection = Vector2.up;
 
-        if (forceDirection.x > 0 && visual.transform.localScale.x == -1)
+        if (arrowPointer.rotation.eulerAngles.z < 0 && visual.transform.localScale.x == -1)
             visual.transform.localScale = new Vector3(1, 1, 1);
-        else if (forceDirection.x < 0 && visual.transform.localScale.x == 1)
+        //else if(forceDirection.x > 0 && visual.transform.localScale.x == 1)
+            //visual.transform.localScale = new Vector3(-1, 1, 1);
+        else if (arrowPointer.rotation.eulerAngles.z > 0 && visual.transform.localScale.x == 1)
             visual.transform.localScale = new Vector3(-1, 1, 1);
+        //else if (forceDirection.x < 0 && visual.transform.localScale.x == -1)
+        //    visual.transform.localScale = new Vector3(1, 1, 1);
+
+        Debug.Log(arrowPointer.rotation.eulerAngles.z);
+
         torqueAnimator = 0;
+        
 
         rb.AddForceAtPosition(forceDirection.normalized * jumpForce, pointToApplyForce.position);
 
         animator.SetTrigger("Jump");
+        StartCoroutine(DeactivateGround());
     }
     public void SetJumpPower(float jumpPower)
     {
@@ -273,6 +290,14 @@ public class PlayerController : MonoBehaviour
     public void ResetJumpPower()
     {
         jumpForce = baseJumpForce;
+    }
+
+    IEnumerator DeactivateGround()
+    {
+        deactivateGroundCheck = true;
+        yield return new WaitForSeconds(0.5f);
+        deactivateGroundCheck = false;
+        
     }
     #endregion
 
@@ -290,12 +315,10 @@ public class PlayerController : MonoBehaviour
         if (rotationInput < 0)
         {
             rb.AddTorque(rotationSpeed);
-            torqueAnimator = rb.angularVelocity * Time.deltaTime;
         }
         else if (rotationInput > 0)
         {
             rb.AddTorque(-rotationSpeed);
-            torqueAnimator = rb.angularVelocity * Time.deltaTime;
         }
 
         if (torqueAnimator < 0 && visual.transform.localScale.x == -1)
@@ -304,7 +327,6 @@ public class PlayerController : MonoBehaviour
             visual.transform.localScale = new Vector3(-1, 1, 1);
         
 
-        //animator.SetFloat("torque",)
 
     }
     #endregion
@@ -340,12 +362,20 @@ public class PlayerController : MonoBehaviour
         return headToGround;
     }
 
+    bool deactivateGroundCheck=false;
     public bool GroundCheck(LayerMask layerMask)
     {
+        if (deactivateGroundCheck)
+        {
+            grounded = false; 
+        }
+        else
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, layerMask);
+
 
         if(animator.GetBool("IsGrounded") != grounded)
             animator.SetBool("IsGrounded", grounded);
+
 
         return grounded;
     }
