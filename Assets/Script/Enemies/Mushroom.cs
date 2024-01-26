@@ -15,6 +15,8 @@ public class MushroomBehaviour : MonoBehaviour
 
     void Start()
     {
+        if (pointA == null || pointB == null) return;
+
         currentTarget = pointA;
 
         transform.position = pointB.position;
@@ -22,6 +24,8 @@ public class MushroomBehaviour : MonoBehaviour
 
     void Update()
     {
+        if (pointA == null || pointB == null) return;
+
         Patrol();
     }
 
