@@ -16,7 +16,14 @@ public class LevelManager : MonoBehaviour
     private void OnEnable()
     {
         PubSub.Instance.RegisterFunction(EMessageType.checkpointTaken, SetLastCheckpointTaken);
+        PubSub.Instance.RegisterFunction(EMessageType.finishReached, FinishReached);
     }
+
+    private void FinishReached(object obj)
+    {
+        
+    }
+
     //private void OnDisable()
     //{
     //    PubSub.Instance.UnregisterFunction(EMessageType.checkpointTaken, SetLastCheckpointTaken);
@@ -25,6 +32,7 @@ public class LevelManager : MonoBehaviour
     {
         Respawn();
     }
+
     private void Update()
     {
         //respawn

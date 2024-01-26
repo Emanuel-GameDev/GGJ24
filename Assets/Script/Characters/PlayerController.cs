@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         inputs = new PlayerInputs();
+        PubSub.Instance.RegisterFunction(EMessageType.finishReached, FinishReached);
 
         inputs.Enable();
 
@@ -100,6 +101,11 @@ public class PlayerController : MonoBehaviour
         line.SetPosition(1, arrowPointer.position);
     }
 
+    private void FinishReached(object obj)
+    {
+        inputs.Disable();
+        animator.SetTrigger("Finish");
+    }
 
     private void Awake()
     {
