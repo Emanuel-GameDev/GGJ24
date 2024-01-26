@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 382f022322b621a429b3a545f26f4b83
+guid: 34ae51887ef89df408e62c0fa059a09e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: top shelf_0
+      name: top shelf new_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 66c7adf2a8e50d9468a0418a54e5394d
-      internalID: 129897455
+      spriteID: e2db77aa0c23c7e429d9ca7d44e1b97f
+      internalID: -149500968
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: top shelf_1
+      name: top shelf new_1
       rect:
         serializedVersion: 2
         x: 100
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9fd5a2019e684a34faf871884136acd3
-      internalID: 105671107
+      spriteID: 00f86e74968e0c34ea269336fbacdb4c
+      internalID: -1513939200
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: top shelf_2
+      name: top shelf new_2
       rect:
         serializedVersion: 2
         x: 200
@@ -166,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9942cc1ff4f27e54b8ed736c4b6f74d7
-      internalID: -859850175
+      spriteID: 1cb8108a7fbb7a04eb2b85aaf4f7b632
+      internalID: -477220845
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: top shelf_3
+      name: top shelf new_3
       rect:
         serializedVersion: 2
         x: 0
@@ -187,14 +187,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 045caedd5b627fd43acfab54559fb1a9
-      internalID: -1006277249
+      spriteID: 079b704875e573d498154b3b44064e68
+      internalID: 1403743054
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: top shelf_4
+      name: top shelf new_4
       rect:
         serializedVersion: 2
         x: 100
@@ -208,14 +208,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92975ad748dc69c4b908483356af1df9
-      internalID: 2107305067
+      spriteID: 4a526393e07852648a105f8c9eaf7756
+      internalID: 1649740059
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: top shelf_5
+      name: top shelf new_5
       rect:
         serializedVersion: 2
         x: 200
@@ -229,14 +229,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fba4950250fe7384fac595c024ba03bb
-      internalID: -450270945
+      spriteID: fad5925f23d302b49a94e4e30226ef5a
+      internalID: 932325764
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: top shelf_6
+      name: top shelf new_6
       rect:
         serializedVersion: 2
         x: 0
@@ -250,14 +250,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1021f39e52836ce499e1e7c232906c3a
-      internalID: 392786558
+      spriteID: d6756d4cea9b00e47a8dcd1dfb194c9f
+      internalID: 2069468179
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: top shelf_7
+      name: top shelf new_7
       rect:
         serializedVersion: 2
         x: 100
@@ -271,14 +271,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 437d13e40824a014781273316a841cf8
-      internalID: 175247633
+      spriteID: 3da1251bb226cd543932910c83d17e88
+      internalID: 988339531
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: top shelf_8
+      name: top shelf new_8
       rect:
         serializedVersion: 2
         x: 200
@@ -292,8 +292,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4f25541f4fa88741b48abd3d4bef68d
-      internalID: -15506748
+      spriteID: 1d91249a319149e42b927a9703bac020
+      internalID: 102091012
       vertices: []
       indices: 
       edges: []
@@ -309,15 +309,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      top shelf_0: 129897455
-      top shelf_1: 105671107
-      top shelf_2: -859850175
-      top shelf_3: -1006277249
-      top shelf_4: 2107305067
-      top shelf_5: -450270945
-      top shelf_6: 392786558
-      top shelf_7: 175247633
-      top shelf_8: -15506748
+      top shelf new_0: -149500968
+      top shelf new_1: -1513939200
+      top shelf new_2: -477220845
+      top shelf new_3: 1403743054
+      top shelf new_4: 1649740059
+      top shelf new_5: 932325764
+      top shelf new_6: 2069468179
+      top shelf new_7: 988339531
+      top shelf new_8: 102091012
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

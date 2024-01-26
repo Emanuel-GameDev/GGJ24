@@ -5,30 +5,12 @@ using UnityEngine;
 public class BreakThings : MonoBehaviour
 {
     private PlayerController playerController;
+    private Animator animator;
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.GetComponent<PlayerController>() != null)
-    //    {
-    //        playerController = collision.gameObject.GetComponent<PlayerController>();
-
-    //        if (playerController.smashing)
-    //        {
-    //            Destroy(gameObject);
-    //        }
-    //        else
-    //            gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
-    //    }
-    //}
-
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    if (playerController != null)
-    //    {
-    //        gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
-    //        playerController = null;
-    //    }
-    //}
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -38,8 +20,13 @@ public class BreakThings : MonoBehaviour
 
             if (playerController.smashing)
             {
-                Destroy(gameObject);
+                animator.SetBool("Break", true);
             }
         }
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
 }
