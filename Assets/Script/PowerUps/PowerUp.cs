@@ -7,6 +7,8 @@ public class PowerUp : MonoBehaviour
 {
     protected PlayerController playerController;
 
+    public Sprite icon;
+
     protected virtual void PickUp()
     {
         System.Type type = this.GetType();
@@ -25,7 +27,7 @@ public class PowerUp : MonoBehaviour
      
     }
 
-    protected virtual void RemovePower()
+    public virtual void RemovePower()
     {
         // Ottieni tutti i componenti PowerUp sul PlayerController
         PowerUp[] powerUps = playerController.GetComponents<PowerUp>();

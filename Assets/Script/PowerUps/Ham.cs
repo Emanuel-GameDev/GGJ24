@@ -77,7 +77,7 @@ public class Ham : PowerUp
 
     }
 
-    protected override void RemovePower()
+    public override void RemovePower()
     {
         playerController.TriggerGlideMode(false);
 

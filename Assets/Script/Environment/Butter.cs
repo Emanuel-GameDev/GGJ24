@@ -53,7 +53,8 @@ public class Butter : MonoBehaviour
             SpriteRenderer spriteRenderer = playerController.GetComponentInChildren<SpriteRenderer>();
             if (spriteRenderer != null)
             {
-                slideDirection = spriteRenderer.flipX ? Vector2.left : Vector2.right;
+                Transform visualP = playerController.visual.transform;
+                slideDirection = visualP.localScale.x == -1f ? Vector2.left : Vector2.right;
             }
         }
     }
