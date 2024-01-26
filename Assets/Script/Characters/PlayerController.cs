@@ -153,12 +153,13 @@ public class PlayerController : MonoBehaviour
     float animatorZ = 0;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SetLezzume(Lezzume + 1);
-        }
+        //Debug
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    SetLezzume(Lezzume + 1);
+        //}
 
-            if (Lezzume >= maxLezzume)
+        if (Lezzume >= maxLezzume)
         {
             Die();
             return;
@@ -182,10 +183,10 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsSmashing", false);
             smashTrail.enabled = false;
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x, transform.position.y, transform.position.z) - transform.position, 1, groundMask);
-            if (hit.collider != null)
-                if (visual.transform.localScale.x > 0)
-                    visual.transform.localScale = new Vector3(-1, 1, 1);
+            //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x, transform.position.y, transform.position.z) - transform.position, 1, groundMask);
+            //if (hit.collider != null)
+            //    if (visual.transform.localScale.x > 0)
+            //        visual.transform.localScale = new Vector3(-1, 1, 1);
 
             GroundAngleCheck(groundAngleMask);
 
@@ -221,7 +222,7 @@ public class PlayerController : MonoBehaviour
         if (!canGlide)
         {
             animatorZ = 360 - transform.rotation.eulerAngles.z;
-            Debug.Log(animatorZ);
+            //Debug.Log(animatorZ);
             animator.SetFloat("ZRotation", animatorZ);
         }
 
@@ -461,6 +462,8 @@ public class PlayerController : MonoBehaviour
             SetPlayerRotation();
             rb.velocity = Vector3.zero;
             animator.SetBool("IsSmashing", true);
+
+            visual.transform.localScale = new Vector3(1, 1, 1);
 
             rb.AddForce(Vector2.down * smashForce * 100);
         }
