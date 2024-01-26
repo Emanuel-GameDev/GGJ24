@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Lezzume")]
+    [SerializeField,Min(1)] private float maxLezzume = 1;
+
     [Header("Jump")]
     [SerializeField] private float jumpForce = 10;
     [SerializeField] private float jumpBadassForce = 15;
@@ -42,13 +45,28 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float headCheckRadius;
 
 
-
-    [SerializeField] public  GameObject visual;
+    [SerializeField] public GameObject visual;
 
     public bool balanced = false;
     public bool angleLeftGrounded = false;
     public bool angleRightGrounded = false;
 
+    float lezzume;
+
+    float Lezzume
+    {
+        get { return lezzume; }
+        set 
+        { 
+            if(value>maxLezzume)
+                lezzume=maxLezzume;
+            else if (value<0)
+                lezzume=0;
+            else
+                lezzume=value;
+        
+        }
+    }
 
     int counterJumpRotation = 0;
 
@@ -121,11 +139,18 @@ public class PlayerController : MonoBehaviour
     {
         lastPointRotation = transform.TransformDirection(Vector3.up);
         lastPointRotation.z = 0;
+
+        Lezzume = maxLezzume;
     }
     float animatorZ = 0;
     private void Update()
     {
-        torqueAnimator = rb.angularVelocity * Time.deltaTime;
+        if (Lezzume <= 0)
+        {
+            Die();
+            return;
+        }
+
 
         if (rotating)
             RotateCharacter();
@@ -156,7 +181,7 @@ public class PlayerController : MonoBehaviour
                 if (rotationThisJump > 0)
                 {
                     //aggiungere formiche qui
-                    Debug.Log(rotationThisJump);
+                    
 
                     if (rotationThisJump >= rotationToUnlockBadassJump)
                         nextIsBadassJump = true;
@@ -175,16 +200,16 @@ public class PlayerController : MonoBehaviour
             angleRightGrounded = false;
             balanced = false;
 
-            if (!canGlide)
-            {
-                animatorZ = 360 - transform.rotation.eulerAngles.z;
-                //Debug.Log(animatorZ);
-                //Debug.Log(torqueAnimator);
-                animator.SetFloat("torque", Mathf.Abs(torqueAnimator));
-                animator.SetFloat("ZRotation", animatorZ);
-            }
+            
 
 
+        }
+
+        if (!canGlide)
+        {
+            animatorZ = 360 - transform.rotation.eulerAngles.z;
+            Debug.Log(animatorZ);
+            animator.SetFloat("ZRotation", animatorZ);
         }
 
         StartRotationCount();
@@ -193,7 +218,10 @@ public class PlayerController : MonoBehaviour
         line.SetPosition(1, arrowPointer.position);
     }
 
-
+    private void Die()
+    {
+        Debug.Log("Morto");
+    }
 
     private void OnDisable()
     {
@@ -273,10 +301,9 @@ public class PlayerController : MonoBehaviour
     }
     private void Smash_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-
-        if (!grounded)
             Smash();
     }
+
     #endregion
 
     #region JumpRelated
@@ -325,18 +352,13 @@ public class PlayerController : MonoBehaviour
         else
             forceDirection = Vector2.up;
 
-        if (arrowPointer.rotation.eulerAngles.z < 0 && visual.transform.localScale.x == -1)
+        if (angleToJump > 0 && visual.transform.localScale.x == -1)
             visual.transform.localScale = new Vector3(1, 1, 1);
-        //else if(forceDirection.x > 0 && visual.transform.localScale.x == 1)
-        //visual.transform.localScale = new Vector3(-1, 1, 1);
-        else if (arrowPointer.rotation.eulerAngles.z > 0 && visual.transform.localScale.x == 1)
+        else if (angleToJump < 0 && visual.transform.localScale.x == 1)
             visual.transform.localScale = new Vector3(-1, 1, 1);
-        //else if (forceDirection.x < 0 && visual.transform.localScale.x == -1)
-        //    visual.transform.localScale = new Vector3(1, 1, 1);
 
-        //Debug.Log(arrowPointer.rotation.eulerAngles.z);
+        
 
-        torqueAnimator = 0;
         rotationThisJump = 0;
 
 
@@ -366,6 +388,16 @@ public class PlayerController : MonoBehaviour
         jumpForce = baseJumpForce;
     }
 
+    public float GetLezzume()
+    {
+        return Lezzume;
+    }
+
+    public void SetLezzume(float newValue)
+    {
+        Lezzume = newValue;
+    }
+
     IEnumerator DeactivateGround()
     {
         deactivateGroundCheck = true;
@@ -385,12 +417,12 @@ public class PlayerController : MonoBehaviour
     #region RotationMovement
     private void SetPlayerRotation()
     {
-        transform.SetPositionAndRotation(transform.position, Quaternion.Euler(Vector3.zero));
+        transform.rotation = Quaternion.identity;
         rb.angularVelocity = 0;
 
     }
 
-    float torqueAnimator = 0;
+
     private void RotateCharacter()
     {
         if (rotationInput < 0)
@@ -401,13 +433,6 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddTorque(-rotationSpeed);
         }
-
-        if (torqueAnimator < 0 && visual.transform.localScale.x == -1)
-            visual.transform.localScale = new Vector3(1, 1, 1);
-        else if (torqueAnimator > 0 && visual.transform.localScale.x == 1)
-            visual.transform.localScale = new Vector3(-1, 1, 1);
-
-
 
     }
     #endregion
