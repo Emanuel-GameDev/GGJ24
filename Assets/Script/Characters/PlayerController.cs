@@ -73,13 +73,15 @@ public class PlayerController : MonoBehaviour
     public bool smashing = false;
 
     bool movingArrow = false;
-    bool rotating = false;
+    public bool rotating = false;
     public bool attachedToWall = false;
 
     float rotationInput = 0;
 
     float baseJumpForce;
     float arrowMovementdirection = 0;
+
+    private List<PowerUp> powerUps = new List<PowerUp>();
 
     #region UnityFunctions
     private void OnEnable()
@@ -529,6 +531,21 @@ public class PlayerController : MonoBehaviour
         lastPointRotation.z = 0;
         totalRotattion = 0;
         counterJumpRotation = 0;
+    }
+
+    public List<PowerUp> GetActivePowers()
+    {
+        return powerUps;
+    }
+
+    public PowerUp GetLastPowerUp()
+    {
+        return powerUps[powerUps.Count];
+    }
+
+    public PowerUp GetFirst()
+    {
+        return powerUps[0];
     }
 
     #endregion
