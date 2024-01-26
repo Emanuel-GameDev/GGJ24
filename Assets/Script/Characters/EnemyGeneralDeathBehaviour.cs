@@ -28,9 +28,16 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
 
             // Se player sta schiacciando nemico muore, poi ritorna
             if (playerController.smashing)
-                Destroy(gameObject);
-
-            GiveHit(playerController);
+            {
+                if (gameObject.transform.parent.gameObject != null)
+                    Destroy(gameObject.transform.parent.gameObject);
+                else
+                    Destroy(gameObject);
+            }
+            else
+            {
+                GiveHit(playerController);
+            }
         }
     }
 
