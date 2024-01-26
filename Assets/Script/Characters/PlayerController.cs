@@ -45,7 +45,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float headCheckRadius;
 
 
-
     [SerializeField] public GameObject visual;
 
     public bool balanced = false;
@@ -152,7 +151,6 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        torqueAnimator = rb.angularVelocity * Time.deltaTime;
 
         if (rotating)
             RotateCharacter();
@@ -183,7 +181,7 @@ public class PlayerController : MonoBehaviour
                 if (rotationThisJump > 0)
                 {
                     //aggiungere formiche qui
-                    Debug.Log(rotationThisJump);
+                    
 
                     if (rotationThisJump >= rotationToUnlockBadassJump)
                         nextIsBadassJump = true;
@@ -211,8 +209,6 @@ public class PlayerController : MonoBehaviour
         {
             animatorZ = 360 - transform.rotation.eulerAngles.z;
             Debug.Log(animatorZ);
-            //Debug.Log(torqueAnimator);
-            animator.SetFloat("torque", Mathf.Abs(torqueAnimator));
             animator.SetFloat("ZRotation", animatorZ);
         }
 
@@ -363,7 +359,6 @@ public class PlayerController : MonoBehaviour
 
         
 
-        torqueAnimator = 0;
         rotationThisJump = 0;
 
 
@@ -427,7 +422,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    float torqueAnimator = 0;
+
     private void RotateCharacter()
     {
         if (rotationInput < 0)
@@ -438,13 +433,6 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddTorque(-rotationSpeed);
         }
-
-        //if (torqueAnimator < 0 && visual.transform.localScale.x == -1)
-        //    visual.transform.localScale = new Vector3(1, 1, 1);
-        //else if (torqueAnimator > 0 && visual.transform.localScale.x == 1)
-        //    visual.transform.localScale = new Vector3(-1, 1, 1);
-
-
 
     }
     #endregion
