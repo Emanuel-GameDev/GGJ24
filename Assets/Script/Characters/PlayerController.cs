@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Jump")]
     [SerializeField] private float jumpForce = 10;
+    [SerializeField] private float jumpBadassForce = 15;
+    [SerializeField] private int rotationToUnlockBadassJump = 4;
     [SerializeField, Range(0, 180)] private float maxJumpAngle = 0;
 
     [Header("Arrow")]
@@ -29,14 +32,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
 
+    [SerializeField] private Transform groundCheckAngleLeft;
+    [SerializeField] private Transform groundCheckAngleRight;
+    [SerializeField] private float groundCheckAngleRadius = 1;
+    [SerializeField] private LayerMask groundAngleMask;
+
+
     [Header("Head")]
     [SerializeField] private Transform headCheck;
     [SerializeField] private float headCheckRadius;
 
+    
+
     [SerializeField] GameObject visual;
 
+    public bool balanced=false;
+    public bool angleLeftGrounded = false;
+    public bool angleRightGrounded = false;
 
-    private int counterJumpRotation = 0;
+
+     int counterJumpRotation = 0;
 
     TrailRenderer smashTrail;
     Animator animator;
@@ -51,7 +66,9 @@ public class PlayerController : MonoBehaviour
     bool maxAngleLeftReached = false;
     bool maxAngleRightReached = false;
 
+    bool nextIsBadassJump = false;
     bool headToGround = false;
+    bool canGlide = false;
 
     public bool smashing = false;
 
@@ -91,6 +108,12 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         smashTrail = GetComponent<TrailRenderer>();
     }
+
+    private void Start()
+    {
+        lastPointRotation = transform.TransformDirection(Vector3.up);
+        lastPointRotation.z = 0;
+    }
     float animatorZ = 0;
     private void Update()
     {
@@ -118,16 +141,45 @@ public class PlayerController : MonoBehaviour
                 if(visual.transform.localScale.x>0)
                     visual.transform.localScale = new Vector3(-1, 1, 1);
 
+            GroundAngleCheck(groundAngleMask);
+
+            if (balanced)
+            {
+                if (rotationThisJump > 0)
+                {
+                    //aggiungere formiche qui
+                    Debug.Log(rotationThisJump);
+
+                    if(rotationThisJump >= rotationToUnlockBadassJump)
+                        nextIsBadassJump = true;
+
+                    rotationThisJump = 0;
+                    ResetCurrentRadialCounter();
+
+                }
+            }
+
+
         }
         else
         {
-            animatorZ = 360 - transform.rotation.eulerAngles.z;
-            //Debug.Log(animatorZ);
-            //Debug.Log(torqueAnimator);
-            animator.SetFloat("torque", Mathf.Abs(torqueAnimator));
-            animator.SetFloat("ZRotation", animatorZ);
+            angleLeftGrounded = false;
+            angleRightGrounded = false;
+            balanced = false;
+
+            if (!canGlide)
+            {
+                animatorZ = 360 - transform.rotation.eulerAngles.z;
+                //Debug.Log(animatorZ);
+                //Debug.Log(torqueAnimator);
+                animator.SetFloat("torque", Mathf.Abs(torqueAnimator));
+                animator.SetFloat("ZRotation", animatorZ);
+            }
+
+            
         }
 
+        StartRotationCount();
 
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
@@ -153,6 +205,9 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         Gizmos.DrawWireSphere(headCheck.position, headCheckRadius);
+
+        Gizmos.DrawWireSphere(groundCheckAngleLeft.position, groundCheckAngleRadius);
+        Gizmos.DrawWireSphere(groundCheckAngleRight.position, groundCheckAngleRadius);
 
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x,transform.position.y,transform.position.z));
 
@@ -209,6 +264,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Smash_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        
         if (!grounded)
             Smash();
     }
@@ -269,12 +325,21 @@ public class PlayerController : MonoBehaviour
         //else if (forceDirection.x < 0 && visual.transform.localScale.x == -1)
         //    visual.transform.localScale = new Vector3(1, 1, 1);
 
-        Debug.Log(arrowPointer.rotation.eulerAngles.z);
+        //Debug.Log(arrowPointer.rotation.eulerAngles.z);
 
         torqueAnimator = 0;
-        
+        rotationThisJump = 0;
 
-        rb.AddForceAtPosition(forceDirection.normalized * jumpForce, pointToApplyForce.position);
+
+        float forceToUse = 0;
+
+        if (nextIsBadassJump)
+            forceToUse = jumpBadassForce;
+        else
+            forceToUse = jumpForce;
+
+        rb.AddForceAtPosition(forceDirection.normalized * forceToUse, pointToApplyForce.position);
+        ResetCurrentRadialCounter();
 
         animator.SetTrigger("Jump");
         StartCoroutine(DeactivateGround());
@@ -325,8 +390,8 @@ public class PlayerController : MonoBehaviour
             visual.transform.localScale = new Vector3(1, 1, 1);
         else if (torqueAnimator > 0 && visual.transform.localScale.x == 1)
             visual.transform.localScale = new Vector3(-1, 1, 1);
-        
 
+        
 
     }
     #endregion
@@ -336,6 +401,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!grounded)
         {
+            rotationThisJump = 0;
             smashing = true;
             smashTrail.enabled = true;
             SetPlayerRotation();
@@ -380,6 +446,22 @@ public class PlayerController : MonoBehaviour
         return grounded;
     }
 
+    public bool GroundAngleCheck(LayerMask layerMask)
+    {
+        if(grounded)
+        {
+            angleLeftGrounded = Physics2D.OverlapCircle(groundCheckAngleLeft.position, groundCheckAngleRadius, layerMask);
+            angleRightGrounded = Physics2D.OverlapCircle(groundCheckAngleRight.position, groundCheckAngleRadius, layerMask);
+
+
+            if (angleLeftGrounded && angleRightGrounded && Mathf.Abs(rb.angularVelocity) < 1)
+                balanced = true;
+            else
+                balanced = false;
+        }
+        return balanced;
+    }
+
     public bool LineGroundCheck(LayerMask layerMask, List<Vector2> dirs, int distance)
     {
         foreach (Vector2 dir in dirs)
@@ -399,16 +481,37 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
-
+    float totalRotattion = 0;
     #region Others
 
+    private Vector3 lastPointRotation;
     private void StartRotationCount()
     {
+        Vector3 facing = transform.TransformDirection(Vector3.up);
+        facing.z = 0;
 
+        float angle = Vector3.Angle(lastPointRotation, facing);
+
+        if (Vector3.Cross(lastPointRotation, facing).z < 0)
+            angle *= -1;
+
+        totalRotattion += angle;
+        lastPointRotation = facing;
+
+        counterJumpRotation = ((int)totalRotattion) / 360;
+        
+        if(Mathf.Abs(counterJumpRotation)==1)
+        {
+            rotationThisJump++;
+            ResetCurrentRadialCounter();
+        }
     }
-
-    private void ResetCounter()
+    public int rotationThisJump = 0;
+    private void ResetCurrentRadialCounter()
     {
+        lastPointRotation = transform.TransformDirection(Vector3.up);
+        lastPointRotation.z = 0;
+        totalRotattion = 0;
         counterJumpRotation = 0;
     }
 

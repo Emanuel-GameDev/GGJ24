@@ -17,10 +17,10 @@ public class LevelManager : MonoBehaviour
     {
         PubSub.Instance.RegisterFunction(EMessageType.checkpointTaken, SetLastCheckpointTaken);
     }
-    private void OnDisable()
-    {
-        PubSub.Instance.UnregisterFunction(EMessageType.checkpointTaken, SetLastCheckpointTaken);
-    }
+    //private void OnDisable()
+    //{
+    //    PubSub.Instance.UnregisterFunction(EMessageType.checkpointTaken, SetLastCheckpointTaken);
+    //}
     private void Start()
     {
         Respawn();
