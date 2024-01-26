@@ -275,6 +275,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 3000
+  jumpBadassForce: 15
+  rotationToUnlockBadassJump: 4
   maxJumpAngle: 70
   arrowSensitivity: 1
   arrowPointer: {fileID: 1809180912859708768}
@@ -302,6 +304,7 @@ MonoBehaviour:
   angleRightGrounded: 0
   smashing: 0
   attachedToWall: 0
+  rotationThisJump: 0
 --- !u!96 &8753855081184397388
 TrailRenderer:
   serializedVersion: 3
@@ -412,7 +415,7 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_MaskInteraction: 0
-  m_Autodestruct: 1
+  m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
 --- !u!95 &7569324819255595193

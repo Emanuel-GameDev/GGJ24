@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Lezzume")]
+    [SerializeField,Min(1)] private float maxLezzume = 1;
+
     [Header("Jump")]
     [SerializeField] private float jumpForce = 10;
     [SerializeField] private float jumpBadassForce = 15;
@@ -43,12 +46,28 @@ public class PlayerController : MonoBehaviour
 
 
 
-    [SerializeField] public  GameObject visual;
+    [SerializeField] public GameObject visual;
 
     public bool balanced = false;
     public bool angleLeftGrounded = false;
     public bool angleRightGrounded = false;
 
+    float lezzume;
+
+    float Lezzume
+    {
+        get { return lezzume; }
+        set 
+        { 
+            if(value>maxLezzume)
+                lezzume=maxLezzume;
+            else if (value<0)
+                lezzume=0;
+            else
+                lezzume=value;
+        
+        }
+    }
 
     int counterJumpRotation = 0;
 
@@ -119,10 +138,18 @@ public class PlayerController : MonoBehaviour
     {
         lastPointRotation = transform.TransformDirection(Vector3.up);
         lastPointRotation.z = 0;
+
+        Lezzume = maxLezzume;
     }
     float animatorZ = 0;
     private void Update()
     {
+        if (Lezzume <= 0)
+        {
+            Die();
+            return;
+        }
+
         torqueAnimator = rb.angularVelocity * Time.deltaTime;
 
         if (rotating)
@@ -191,7 +218,10 @@ public class PlayerController : MonoBehaviour
         line.SetPosition(1, arrowPointer.position);
     }
 
-
+    private void Die()
+    {
+        Debug.Log("Morto");
+    }
 
     private void OnDisable()
     {
@@ -271,10 +301,9 @@ public class PlayerController : MonoBehaviour
     }
     private void Smash_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-
-        if (!grounded)
             Smash();
     }
+
     #endregion
 
     #region JumpRelated
@@ -364,6 +393,16 @@ public class PlayerController : MonoBehaviour
         jumpForce = baseJumpForce;
     }
 
+    public float GetLezzume()
+    {
+        return Lezzume;
+    }
+
+    public void SetLezzume(float newValue)
+    {
+        Lezzume = newValue;
+    }
+
     IEnumerator DeactivateGround()
     {
         deactivateGroundCheck = true;
@@ -383,7 +422,7 @@ public class PlayerController : MonoBehaviour
     #region RotationMovement
     private void SetPlayerRotation()
     {
-        transform.SetPositionAndRotation(transform.position, Quaternion.Euler(Vector3.zero));
+        transform.rotation = Quaternion.identity;
         rb.angularVelocity = 0;
 
     }
