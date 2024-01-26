@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -44,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     private bool grounded;
     public bool Grounded => grounded;
-    PlayerInputs inputs;
+    public PlayerInputs inputs;
 
     Rigidbody2D rb;
 
@@ -118,8 +117,8 @@ public class PlayerController : MonoBehaviour
             smashTrail.enabled = false;
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x, transform.position.y, transform.position.z) - transform.position, 1, groundMask);
-            if(hit.collider !=null)
-                if(visual.transform.localScale.x>0)
+            if (hit.collider != null)
+                if (visual.transform.localScale.x > 0)
                     visual.transform.localScale = new Vector3(-1, 1, 1);
         }
         else
@@ -138,7 +137,7 @@ public class PlayerController : MonoBehaviour
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
     }
-   
+
 
 
     private void OnDisable()
@@ -160,7 +159,7 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         Gizmos.DrawWireSphere(headCheck.position, headCheckRadius);
 
-        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x,transform.position.y,transform.position.z));
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x, transform.position.y, transform.position.z));
 
         Vector3 draw = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z) - transform.position;
         Vector3 rotatedDraw = Quaternion.Euler(0f, 0f, maxJumpAngle) * draw;
@@ -207,12 +206,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (!canGlide)
-            {
-                //Ruota
-                rotating = true;
-                rotationInput = obj.ReadValue<float>();
-            }
+
+            //Ruota
+            rotating = true;
+            rotationInput = obj.ReadValue<float>();
         }
 
     }
@@ -261,7 +258,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Jump()
     {
-        
+
         Vector2 forceDirection = Vector2.zero;
 
         if (!headToGround)
@@ -272,7 +269,7 @@ public class PlayerController : MonoBehaviour
         if (arrowPointer.rotation.eulerAngles.z < 0 && visual.transform.localScale.x == -1)
             visual.transform.localScale = new Vector3(1, 1, 1);
         //else if(forceDirection.x > 0 && visual.transform.localScale.x == 1)
-            //visual.transform.localScale = new Vector3(-1, 1, 1);
+        //visual.transform.localScale = new Vector3(-1, 1, 1);
         else if (arrowPointer.rotation.eulerAngles.z > 0 && visual.transform.localScale.x == 1)
             visual.transform.localScale = new Vector3(-1, 1, 1);
         //else if (forceDirection.x < 0 && visual.transform.localScale.x == -1)
@@ -281,7 +278,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log(arrowPointer.rotation.eulerAngles.z);
 
         torqueAnimator = 0;
-        
+
 
         rb.AddForceAtPosition(forceDirection.normalized * jumpForce, pointToApplyForce.position);
 
@@ -306,7 +303,7 @@ public class PlayerController : MonoBehaviour
         deactivateGroundCheck = true;
         yield return new WaitForSeconds(0.5f);
         deactivateGroundCheck = false;
-        
+
     }
 
     public void TriggerGlideMode(bool mode)
@@ -341,7 +338,7 @@ public class PlayerController : MonoBehaviour
             visual.transform.localScale = new Vector3(1, 1, 1);
         else if (torqueAnimator > 0 && visual.transform.localScale.x == 1)
             visual.transform.localScale = new Vector3(-1, 1, 1);
-        
+
 
 
     }
@@ -378,18 +375,18 @@ public class PlayerController : MonoBehaviour
         return headToGround;
     }
 
-    bool deactivateGroundCheck=false;
+    bool deactivateGroundCheck = false;
     public bool GroundCheck(LayerMask layerMask)
     {
         if (deactivateGroundCheck)
         {
-            grounded = false; 
+            grounded = false;
         }
         else
-        grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, layerMask);
+            grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, layerMask);
 
 
-        if(animator.GetBool("IsGrounded") != grounded)
+        if (animator.GetBool("IsGrounded") != grounded)
             animator.SetBool("IsGrounded", grounded);
 
 
