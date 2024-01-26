@@ -13,6 +13,11 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
     private int hitCount = 1;
     private bool canDetectHit = true;
 
+    private void Start()
+    {
+        PubSub.Instance.RegisterFunction(EMessageType.projectileHit, GiveHit);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<PlayerController>() != null)
@@ -25,34 +30,47 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
             if (playerController.smashing)
                 Destroy(gameObject);
 
-            // Guarda se ha power up
-            List<PowerUp> playerActivePowers = playerController.GetActivePowers();
+            GiveHit(playerController);
+        }
+    }
 
-            if (playerActivePowers.Count > 0)
+    private void GiveHit(object obj)
+    {
+        if (obj is null) return;
+
+        PlayerController playerController = null;
+
+        if (obj is PlayerController)
+            playerController = (PlayerController)obj;
+
+        // Guarda se ha power up
+        List<PowerUp> playerActivePowers = playerController.GetActivePowers();
+
+        if (playerActivePowers.Count > 0)
+        {
+            // se li ha togli l'ultimo e ritorna
+            PowerUp lastPowerUp = playerController.GetLastPowerUp();
+
+            lastPowerUp.RemovePower();
+        }
+        else
+        {
+            // se non ne ha togli una vita e ritorna
+            if (hitCount == hitsNeededToMakePlayerDie)
             {
-                // se li ha togli l'ultimo e ritorna
-                PowerUp lastPowerUp = playerController.GetLastPowerUp();
-
-                lastPowerUp.RemovePower();
+                Destroy(playerController.gameObject);
             }
             else
             {
-                // se non ne ha togli una vita e ritorna
-                if (hitCount == hitsNeededToMakePlayerDie)
-                {
-                    Destroy(collision.gameObject);
-                }
-                else
-                {
-                    hitCount++;
-                }
+                hitCount++;
             }
-
-            // Fine
-
-            StartCoroutine(Cooldown());
         }
+
+        // Fine
+        Debug.Log("Colpito");
+        StartCoroutine(Cooldown());
     }
+
     private IEnumerator Cooldown()
     {
         canDetectHit = false;
