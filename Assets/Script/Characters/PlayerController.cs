@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
             if (value > lezzume)
             {
                 slidingCoroutine = LevelManager.Instance.StartCoroutine(LevelManager.Instance.ClampLezzumeBar(value));
-                GetComponentInChildren<ChangeShaderWhenDamaged>().TakeDamage(colorWhenDamaged);
+                
             }
             else
             {
