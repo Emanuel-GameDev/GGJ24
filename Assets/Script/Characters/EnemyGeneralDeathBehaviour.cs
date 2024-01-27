@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyGeneralDeathBehaviour : MonoBehaviour
 {
@@ -10,10 +11,39 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
     [SerializeField]
     private int hitCooldown = 4;
 
+    [SerializeField]
+    private Transform deathCloud;
+
     private int hitCount = 1;
     private bool canDetectHit = true;
+    private Animator anim;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Start()
+    {
+        anim = GetComponent<Animator>();    
+    }
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.GetComponent<PlayerController>() != null)
+    //    {
+    //        if (!canDetectHit) return;
+
+    //        PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
+
+    //        // Se player sta schiacciando nemico muore, poi ritorna
+    //        if (playerController.smashing)
+    //        {
+    //            anim.SetTrigger("Death");
+    //        }
+    //        else
+    //        {
+    //            GiveHit(playerController);
+    //        }
+    //    }
+    //}
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<PlayerController>() != null)
         {
@@ -24,10 +54,7 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
             // Se player sta schiacciando nemico muore, poi ritorna
             if (playerController.smashing)
             {
-                if (gameObject.transform.parent.gameObject != null)
-                    Destroy(gameObject.transform.parent.gameObject);
-                else
-                    Destroy(gameObject);
+                anim.SetTrigger("Death");
             }
             else
             {
@@ -78,5 +105,20 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
 
         Debug.Log("Countdown finished!");
         canDetectHit = true;    
+    }
+
+    private IEnumerator Death()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        if (gameObject.transform.parent.gameObject != null)
+            Destroy(gameObject.transform.parent.gameObject);
+        else
+            Destroy(gameObject);
+    }
+
+    public void Die()
+    {
+        StartCoroutine(Death());
     }
 }
