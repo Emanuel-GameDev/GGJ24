@@ -19,7 +19,7 @@ public class PowerUp : MonoBehaviour
             playerController.gameObject.GetComponent<PowerUp>().Initialize(this);
         }
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     protected virtual void Initialize(PowerUp startingPower)

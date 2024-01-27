@@ -17,12 +17,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Transform levelSpawn;
     [SerializeField] PlayerController playerController;
     [SerializeField] List<Checkpoint> levelCheckpoints;
-    [SerializeField] GameObject respawnableParent;
 
     Checkpoint lastTakenCheckPoint;
 
     Transform respawnPoint;
-    private Dictionary<GameObject, Transform> itemRespawnPoints = new Dictionary<GameObject, Transform>();
 
     private void OnEnable()
     {
@@ -46,14 +44,6 @@ public class LevelManager : MonoBehaviour
         if (levelSpawn != null)
         {
             Respawn();
-
-
-            for (int i = 0; i < respawnableParent.transform.childCount; i++)
-            {
-                GameObject newGO = respawnableParent.transform.GetChild(i).gameObject;
-                itemRespawnPoints.Add(newGO, newGO.transform);
-
-            }
         }
     
     }
@@ -128,13 +118,10 @@ public class LevelManager : MonoBehaviour
 
     private void RespawnItems()
     {
-
-        foreach (KeyValuePair<GameObject, Transform> item in itemRespawnPoints)
+        foreach (PowerUp power in playerController.GetActivePowers())
         {
-            GameObject newGO = item.Key;
-            newGO.transform.position = item.Value.position;
-
-            Instantiate(newGO);
+            power.gameObject.SetActive(true);
+            
         }
 
     }
