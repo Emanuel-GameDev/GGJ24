@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyGeneralDeathBehaviour : MonoBehaviour
 {
@@ -10,8 +11,23 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
     [SerializeField]
     private int hitCooldown = 4;
 
+    [SerializeField]
+    private Transform deathCloud;
+    [SerializeField]
+    private Vector2 pos;
+
+    public UnityEvent OnDeath;
+
     private int hitCount = 1;
     private bool canDetectHit = true;
+
+
+    private void SetDeathCloudPos(Vector2 pos)
+    {
+        if (deathCloud == null) return;
+
+        deathCloud.localPosition = pos;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -24,7 +40,10 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
             // Se player sta schiacciando nemico muore, poi ritorna
             if (playerController.smashing)
             {
-                if (gameObject.transform.parent != null)
+                SetDeathCloudPos(pos);
+                OnDeath.Invoke();
+
+                if (gameObject.transform.parent.gameObject != null)
                     Destroy(gameObject.transform.parent.gameObject);
                 else
                     Destroy(gameObject);
@@ -50,17 +69,13 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
         }
         else
         {
-            float damage = playerController.GetLezzume() + 1;
-            playerController.SetLezzume(damage);
-
             // se non ne ha togli una vita e ritorna
             if (hitCount == hitsNeededToMakePlayerDie)
             {
-                LevelManager.Instance.Respawn();
+                Destroy(playerController.gameObject);
             }
             else
             {
-                
                 hitCount++;
             }
         }
