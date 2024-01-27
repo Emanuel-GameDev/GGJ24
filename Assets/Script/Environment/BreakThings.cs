@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BreakThings : MonoBehaviour
@@ -20,7 +18,22 @@ public class BreakThings : MonoBehaviour
 
             if (playerController.smashing)
             {
-                animator.SetBool("Break", true);
+                if (animator != null)
+                    animator.SetBool("Break", true);
+            }
+        }
+    }
+
+    // Per usare lo script per oggetti in generale usare on trigger enter
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<PlayerController>() != null)
+        {
+            playerController = collision.gameObject.GetComponent<PlayerController>();
+
+            if (playerController.smashing)
+            {
+                Destroy();
             }
         }
     }
