@@ -11,6 +11,9 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
     [SerializeField]
     private int hitCooldown = 4;
 
+    [SerializeField]
+    private AudioClip hitClip;
+
     private int hitCount = 1;
     private bool canDetectHit = true;
     private Animator anim;
@@ -61,6 +64,8 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
         {
             float damage = playerController.GetLezzume() + 1;
             playerController.SetLezzume(damage);
+
+            AudioManager.instance.PlaySound(hitClip);
 
             // se non ne ha togli una vita e ritorna
             if (hitCount == hitsNeededToMakePlayerDie)

@@ -12,6 +12,9 @@ public class Honey : MonoBehaviour
     [SerializeField]
     private float coefficenteDiAppiccico = 5f; // Coefficiente di attaccamento al muro
 
+    [SerializeField]
+    private AudioClip clip;
+
     private bool isAttached = false;
 
     private void Update()
@@ -47,6 +50,8 @@ public class Honey : MonoBehaviour
             playerController = collision.gameObject.GetComponent<PlayerController>();
             isAttached = true;
             playerController.attachedToWall = true;
+
+            AudioManager.instance.PlaySound(clip);
         }
     }
 

@@ -146,3 +146,4 @@ MonoBehaviour:
   slideSpeed: 5
   slideDuration: 2
   decelarationRatio: 2
+  clip: {fileID: 8300000, guid: 3850971790fbebf4d971b334d0896882, type: 3}

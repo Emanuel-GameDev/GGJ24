@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitsNeededToMakePlayerDie: 2
   hitCooldown: 4
+  hitClip: {fileID: 8300000, guid: 8135351233711644f885f43d78aa7a2a, type: 3}
 --- !u!1 &1073911080376075305
 GameObject:
   m_ObjectHideFlags: 0

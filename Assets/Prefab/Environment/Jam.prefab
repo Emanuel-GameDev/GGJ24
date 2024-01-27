@@ -143,4 +143,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1d01a65b75a0647bd8579938075979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: ce3ad852928c7fb45acfdcd1d2ce072d, type: 3}
   jumpPowerReduction: 0.5
