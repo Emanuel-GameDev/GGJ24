@@ -33,6 +33,12 @@ public class Ham : PowerUp
         inputs = playerController.inputs;
 
         inputs.Gameplay.Rotate.performed += MoveHorizontal;
+        inputs.Gameplay.Rotate.canceled += DisableHorizontal;
+    }
+
+    private void DisableHorizontal(InputAction.CallbackContext obj)
+    {
+        moveInAir = false;
     }
 
     private void OnDisable()
