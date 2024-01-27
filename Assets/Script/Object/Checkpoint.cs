@@ -6,6 +6,7 @@ public class Checkpoint : MonoBehaviour
 {
      bool taken=false;
     Animator animator;
+    [SerializeField] AudioClip checkpointTakenAudio;
 
     private void Awake()
     {
@@ -18,9 +19,15 @@ public class Checkpoint : MonoBehaviour
     {
         if(collision.gameObject.GetComponent<PlayerController>() && !taken)
         {
+
             taken = true;
             animator.SetTrigger("Taken");
             PubSub.Instance.Notify(EMessageType.checkpointTaken, this);
         }
+    }
+
+    public void PlayCheckpointSound()
+    {
+        AudioManager.instance.PlaySound(checkpointTakenAudio);
     }
 }
