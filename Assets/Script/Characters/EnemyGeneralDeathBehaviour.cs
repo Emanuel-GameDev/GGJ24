@@ -12,17 +12,15 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
     private int hitCooldown = 4;
 
     [SerializeField]
-    private AudioClip hitClip;
+    private UnityEvent utilityEvent;
 
     private int hitCount = 1;
     private bool canDetectHit = true;
     private Animator anim;
-    private ChangeShaderWhenDamaged shade;
 
     private void Start()
     {
         anim = GetComponent<Animator>();    
-        shade = GetComponent<ChangeShaderWhenDamaged>();
 
         if (anim == null)
             anim = GetComponentInParent<Animator>();
@@ -43,6 +41,7 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
             }
             else
             {
+                utilityEvent.Invoke();
                 GiveHit(playerController);
             }
         }
@@ -64,8 +63,6 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
         {
             float damage = playerController.GetLezzume() + 1;
             playerController.SetLezzume(damage);
-
-            AudioManager.instance.PlaySound(hitClip);
 
             // se non ne ha togli una vita e ritorna
             if (hitCount == hitsNeededToMakePlayerDie)
