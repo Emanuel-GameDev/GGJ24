@@ -17,8 +17,15 @@ public class Projectile : MonoBehaviour
         StopCoroutine(AliveTimer());
 
         if (collision.gameObject.GetComponent<PlayerController>() != null)
+        {
             PubSub.Instance.Notify(EMessageType.projectileHit, collision.gameObject.GetComponent<PlayerController>());
+        }
 
+        gameObject.SetActive(false);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
         gameObject.SetActive(false);
     }
 
