@@ -68,7 +68,7 @@ public class SaltShooter : MonoBehaviour
                 // Attiva il proiettile e imposta la velocità
                 projectile.SetActive(true);
                 Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-                rb.velocity = new Vector2(firePoint.localPosition.y, 0) * projectileSpeed;
+                rb.velocity = new Vector2(transform.localScale.x, 0) * projectileSpeed;
 
                 // Esci dal loop dopo aver sparato un proiettile
                 return;
