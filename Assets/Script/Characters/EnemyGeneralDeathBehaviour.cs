@@ -23,7 +23,27 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
         anim = GetComponent<Animator>();    
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.GetComponent<PlayerController>() != null)
+    //    {
+    //        if (!canDetectHit) return;
+
+    //        PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
+
+    //        // Se player sta schiacciando nemico muore, poi ritorna
+    //        if (playerController.smashing)
+    //        {
+    //            anim.SetTrigger("Death");
+    //        }
+    //        else
+    //        {
+    //            GiveHit(playerController);
+    //        }
+    //    }
+    //}
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<PlayerController>() != null)
         {
