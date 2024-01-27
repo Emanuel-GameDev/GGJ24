@@ -20,6 +20,9 @@ public class SaltShooter : MonoBehaviour
     [SerializeField]
     private int poolProjectileAmount = 10;
 
+    [SerializeField]
+    private AudioClip shootClip;
+
     private float fireTimer; // Timer per il rateo di sparo
     private List<GameObject> projectilePool = new List<GameObject>(); // Pool di proiettili
 
@@ -69,6 +72,8 @@ public class SaltShooter : MonoBehaviour
                 projectile.SetActive(true);
                 Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
                 rb.velocity = new Vector2(transform.localScale.x, 0) * projectileSpeed;
+
+                AudioManager.instance.PlaySound(shootClip);
 
                 // Esci dal loop dopo aver sparato un proiettile
                 return;
