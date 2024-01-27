@@ -85,6 +85,8 @@ public class PlayerController : MonoBehaviour
             else
                 lezzume = value;
 
+            if (lezzume == maxLezzume)
+                LevelManager.Instance.StartRespawn();
 
         }
     }
