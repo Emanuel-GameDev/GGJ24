@@ -31,8 +31,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("OnAir")]
     [SerializeField] private float rotationSpeed = 1;
-
+    [SerializeField] private Image voteDisplay;
     [SerializeField] private Transform pointToApplyForce;
+    [SerializeField] private Sprite[] voteImages = new Sprite[3];
 
     [Header("Ground")]
     [SerializeField] private Transform groundCheck;
@@ -221,7 +222,30 @@ public class PlayerController : MonoBehaviour
         //    Die();
         //    return;
         //}
-        
+        if (rotationThisJump > 0 && !lastWasBadassJumping)
+        {
+            if(displayCoroutine!=null)
+                StopCoroutine(displayCoroutine);
+
+            voteDisplay.color=new Color(1,1,1,1);
+
+            switch (rotationThisJump)
+            {
+                case 1:
+                    voteDisplay.sprite = voteImages[0];
+                    break;
+                case 2:
+                    voteDisplay.sprite = voteImages[1];
+                    break;
+                case 3:
+                    voteDisplay.sprite = voteImages[2];
+                    break;
+                default:
+                    voteDisplay.sprite = voteImages[voteImages.Length - 1];
+                    break;
+            }
+        }
+
 
 
         if (rotating)
@@ -242,10 +266,6 @@ public class PlayerController : MonoBehaviour
             smashTrail.enabled = false;
 
 
-            //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x, transform.position.y, transform.position.z) - transform.position, 1, groundMask);
-            //if (hit.collider != null)
-            //    if (visual.transform.localScale.x > 0)
-            //        visual.transform.localScale = new Vector3(-1, 1, 1);
 
             GroundAngleCheck(groundAngleMask);
 
@@ -253,10 +273,12 @@ public class PlayerController : MonoBehaviour
             {
                 if (rotationThisJump > 0 )
                 {
+                    displayCoroutine = StartCoroutine(RemoveDisplay());
                     if (!lastWasBadassJumping)
                     {
                         //aggiungere formiche qui
-
+                        if (rotationThisJump >= voteImages.Length)
+                            voteDisplay.gameObject.GetComponentInParent<Animator>().SetTrigger("Ants");
 
                         if (rotationThisJump >= rotationToUnlockBadassJump)
                             nextIsBadassJump = true;
@@ -279,7 +301,7 @@ public class PlayerController : MonoBehaviour
             angleRightGrounded = false;
             balanced = false;
 
-
+            
 
 
         }
@@ -295,6 +317,12 @@ public class PlayerController : MonoBehaviour
 
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
+    }
+    Coroutine displayCoroutine;
+    IEnumerator RemoveDisplay()
+    {
+        yield return new WaitForSeconds(1);
+        voteDisplay.color = new Color(1, 1, 1, 0);
     }
 
     private void Die()
@@ -537,7 +565,7 @@ public class PlayerController : MonoBehaviour
         //    rb.AddTorque(-rotationSpeed);
         //}
 
-        if (canGlide) return;
+        if (canGlide|| grounded) return;
 
         rb.angularVelocity = 0;
 
@@ -547,6 +575,8 @@ public class PlayerController : MonoBehaviour
         else rotDir = -1;
 
         transform.Rotate(0, 0, -rotDir * rotationSpeed * Time.deltaTime);
+
+
 
     }
     #endregion
