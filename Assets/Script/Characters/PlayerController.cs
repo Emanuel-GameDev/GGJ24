@@ -31,8 +31,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("OnAir")]
     [SerializeField] private float rotationSpeed = 1;
-
+    [SerializeField] private Image voteDisplay;
     [SerializeField] private Transform pointToApplyForce;
+    [SerializeField] private Sprite[] voteImages = new Sprite[3];
 
     [Header("Ground")]
     [SerializeField] private Transform groundCheck;
@@ -214,7 +215,28 @@ public class PlayerController : MonoBehaviour
         //    Die();
         //    return;
         //}
-        
+        if (rotationThisJump > 0 && !lastWasBadassJumping)
+        {
+            voteDisplay.color = new Color(1, 1, 1, 1);
+            switch (rotationThisJump)
+            {
+                case 1:
+                    voteDisplay.sprite = voteImages[0];
+                    break;
+                case 2:
+                    voteDisplay.sprite = voteImages[1];
+                    break;
+                case 3:
+                    voteDisplay.sprite = voteImages[2];
+                    break;
+                default:
+                    voteDisplay.sprite = voteImages[voteImages.Length - 1];
+                    break;
+            }
+        }
+        else
+            voteDisplay.color = new Color(0, 0, 0, 0);
+
 
 
         if (rotating)
@@ -235,10 +257,6 @@ public class PlayerController : MonoBehaviour
             smashTrail.enabled = false;
 
 
-            //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x, transform.position.y, transform.position.z) - transform.position, 1, groundMask);
-            //if (hit.collider != null)
-            //    if (visual.transform.localScale.x > 0)
-            //        visual.transform.localScale = new Vector3(-1, 1, 1);
 
             GroundAngleCheck(groundAngleMask);
 
@@ -272,7 +290,7 @@ public class PlayerController : MonoBehaviour
             angleRightGrounded = false;
             balanced = false;
 
-
+            
 
 
         }
@@ -531,6 +549,8 @@ public class PlayerController : MonoBehaviour
         else rotDir = -1;
 
         transform.Rotate(0, 0, -rotDir * rotationSpeed * Time.deltaTime);
+
+
 
     }
     #endregion
