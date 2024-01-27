@@ -2119,10 +2119,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4129089139326434012, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4129089139326434012, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.601469
       objectReference: {fileID: 0}
@@ -2166,58 +2162,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ham_Mer
       objectReference: {fileID: 0}
-    - target: {fileID: 5495673660532072134, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
-      propertyPath: m_FlipX
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5495673660532072134, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
-      propertyPath: m_FlipY
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5809960045183749868, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
-      propertyPath: pos.x
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 5809960045183749868, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
-      propertyPath: pos.y
-      value: -1
-      objectReference: {fileID: 0}
     - target: {fileID: 5809960045183749868, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
       propertyPath: deathCloud
       value: 
       objectReference: {fileID: 1542172989}
     - target: {fileID: 5809960045183749868, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
-      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5809960045183749868, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
-      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5809960045183749868, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1542172991}
-    - target: {fileID: 5809960045183749868, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
-      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5809960045183749868, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
-      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetTrigger
-      objectReference: {fileID: 0}
-    - target: {fileID: 5809960045183749868, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
-      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.Animator, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5809960045183749868, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
-      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Death
-      objectReference: {fileID: 0}
-    - target: {fileID: 5809960045183749868, guid: 62bca40d1acf20b41b2015b70217ddad, type: 3}
-      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
