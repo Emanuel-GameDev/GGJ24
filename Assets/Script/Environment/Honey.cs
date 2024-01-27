@@ -19,6 +19,14 @@ public class Honey : MonoBehaviour
 
     private void Update()
     {
+        if (playerController == null) return;
+        
+        // se il playe prova a saltare allora disattivo l'appicico 
+        if (playerController.attachedToWall == false)
+        {
+            isAttached = false;
+            playerController = null;
+        }
 
         if (isAttached)
         {
@@ -30,9 +38,9 @@ public class Honey : MonoBehaviour
     private void AttachToWall()
     {
         List<Vector2> dirsToCheck = new List<Vector2>()
-        { Vector2.down, Vector2.left, Vector2.right};
+        { Vector2.down, Vector2.left, Vector2.right,Vector2.up};
 
-        if (playerController != null && playerController.LineGroundCheck(LayerMask.GetMask("Ground"), dirsToCheck, lineGroundCheckLenght))
+        if (playerController != null && playerController.GroundCheck(LayerMask.GetMask("Terrain")) || playerController != null && playerController.HeadCheck(LayerMask.GetMask("Terrain")))
         {
             float attachmentForce = coefficenteDiAppiccico * 
                 Mathf.Abs(playerController.gameObject.GetComponent<Rigidbody2D>().gravityScale);
@@ -53,6 +61,7 @@ public class Honey : MonoBehaviour
 
             AudioManager.instance.PlaySound(clip);
         }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -63,6 +72,8 @@ public class Honey : MonoBehaviour
             isAttached = false;
             playerController.attachedToWall = false;
             playerController = null;
+
         }
     }
+
 }

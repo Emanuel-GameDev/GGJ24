@@ -129,6 +129,7 @@ public class Ham : PowerUp
 
         if (playerRb.gravityScale != defaultPlayerGravity)
         {
+
             playerRb.gravityScale = defaultPlayerGravity;
             activated = false;
             moveInAir = false;
@@ -155,5 +156,10 @@ public class Ham : PowerUp
         else
             DeactivateHam();
 
+    }
+
+    private void OnDestroy()
+    {
+        DeactivateHam();
     }
 }

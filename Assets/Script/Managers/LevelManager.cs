@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.PlayerLoop;
-using  UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
@@ -12,7 +10,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
     [SerializeField] private float lezzumeSliderSpeed = 1;
     [SerializeField] public Slider lezzumeSlider;
-    [SerializeField] float respawnTime=1;
+    [SerializeField] float respawnTime = 1;
 
     [SerializeField] Transform levelSpawn;
     [SerializeField] PlayerController playerController;
@@ -42,7 +40,11 @@ public class LevelManager : MonoBehaviour
     //}
     private void Start()
     {
-        //Respawn();
+        if (levelSpawn != null)
+        {
+            Respawn();
+        }
+
     }
 
     public void LoadNextScene()
@@ -86,7 +88,23 @@ public class LevelManager : MonoBehaviour
         //playerController.gameObject.SetActive(true);
     }
 
-    
+    public void Respawn()
+    {
+        playerController.SetLezzume(0);
+        playerController.transform.SetPositionAndRotation(GetRespawnPoint(), Quaternion.LookRotation(Vector3.forward, Vector3.up));
+        playerController.visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.LookRotation(Vector3.forward, Vector3.up));
+
+        List<PowerUp> powers = playerController.GetActivePowers();
+
+        foreach (PowerUp powerup in powers)
+        {
+            powerup.RemovePower();
+        }
+
+        playerController.gameObject.SetActive(true);
+    }
+
+
 
     public IEnumerator ClampLezzumeBar(float newLezzume)
     {
@@ -99,12 +117,10 @@ public class LevelManager : MonoBehaviour
     IEnumerator WaitForRespawn()
     {
         yield return new WaitForSeconds(respawnTime);
-        playerController.SetLezzume(0);
-        playerController.transform.SetPositionAndRotation(GetRespawnPoint(), Quaternion.LookRotation(Vector3.forward, Vector3.up));
-        playerController.visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.LookRotation(Vector3.forward, Vector3.up));
-        playerController.gameObject.SetActive(true);
 
         RespawnItems();
+        Respawn();
+
     }
 
     private void RespawnItems()
@@ -112,7 +128,8 @@ public class LevelManager : MonoBehaviour
         foreach (PowerUp power in powerUpInScene)
         {
             power.gameObject.SetActive(true);
-            
+
         }
+
     }
 }

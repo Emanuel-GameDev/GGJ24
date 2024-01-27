@@ -275,8 +275,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLezzume: 2
-  lezzumeSlider: {fileID: 0}
-  lezzumeSliderSpeed: 5
   jumpForce: 3000
   jumpBadassForce: 15
   rotationToUnlockBadassJump: 4
@@ -287,7 +285,12 @@ MonoBehaviour:
   line: {fileID: 6167584356458765812}
   smashForce: 250
   rotationSpeed: 3
+  voteDisplay: {fileID: 0}
   pointToApplyForce: {fileID: 8008876647909593805}
+  voteImages:
+  - {fileID: 21300000, guid: c9d9337a66e010f4f969e8ed9929059b, type: 3}
+  - {fileID: 21300000, guid: 5afa5bd89a8995648833512a311c7bba, type: 3}
+  - {fileID: 21300000, guid: f3cd8616cb549aa4ebd5c565d38d2fd9, type: 3}
   groundCheck: {fileID: 8901035957351916170}
   groundCheckRadius: 0.51
   groundMask:
@@ -300,11 +303,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   headCheck: {fileID: 6200340480174528624}
-  headCheckRadius: 0.25
+  headCheckRadius: 0.13
+  colorWhenDamaged: {r: 1, g: 0, b: 0, a: 1}
   visual: {fileID: 613020781728955701}
   balanced: 0
   angleLeftGrounded: 0
   angleRightGrounded: 0
+  moveSlider: 0
   smashing: 0
   rotating: 0
   attachedToWall: 0
