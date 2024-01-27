@@ -8,7 +8,9 @@ public class Death : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<PlayerController>() != null)
         {
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<PlayerController>().SetLezzume(collision.gameObject.GetComponent<PlayerController>().maxLezzume);
+            //Destroy(collision.gameObject);
+            LevelManager.Instance.StartRespawn();
         }
     }
 }
