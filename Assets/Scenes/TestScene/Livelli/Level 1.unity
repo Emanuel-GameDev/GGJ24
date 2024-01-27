@@ -322,6 +322,10 @@ PrefabInstance:
       propertyPath: pointB
       value: 
       objectReference: {fileID: 1273316016}
+    - target: {fileID: 5081326594406431552, guid: 664fe16c06f7e1d4b8afdea179cb0ee9, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -485,11 +489,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45f7c2b2428a79f4eace3e88afa8cc70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &334038279 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6269706843150975320, guid: 8809ea8303892cb42b5efa015af777dd, type: 3}
-  m_PrefabInstance: {fileID: 944482531}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &352822115 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7066205103960973735, guid: 2e52b193d5db58944beb1b446329c195, type: 3}
@@ -131802,19 +131801,27 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1245055495}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4982847287878045441, guid: 8809ea8303892cb42b5efa015af777dd, type: 3}
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6153849139671487243, guid: 8809ea8303892cb42b5efa015af777dd, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6153849139671487243, guid: 8809ea8303892cb42b5efa015af777dd, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6269706843150975320, guid: 8809ea8303892cb42b5efa015af777dd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.5351353
+      value: 11.035135
       objectReference: {fileID: 0}
     - target: {fileID: 6269706843150975320, guid: 8809ea8303892cb42b5efa015af777dd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.8422685
+      value: 5.6422687
       objectReference: {fileID: 0}
     - target: {fileID: 6269706843150975320, guid: 8809ea8303892cb42b5efa015af777dd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -132575,10 +132582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4048808120996970296, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 334038279}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee829758779528748a44f85225cdc62c, type: 3}
 --- !u!1001 &1804852345
@@ -133311,6 +133315,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 798598541}
+  - {fileID: 944482531}
   - {fileID: 1718945442}
   - {fileID: 2090249545}
   - {fileID: 1816962758}
