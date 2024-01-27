@@ -111,9 +111,9 @@ public class LevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(respawnTime);
 
+        RespawnItems();
         Respawn();
 
-        RespawnItems();
     }
 
     private void RespawnItems()
