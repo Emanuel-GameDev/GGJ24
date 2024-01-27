@@ -37,6 +37,7 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
             // Se player sta schiacciando nemico muore, poi ritorna
             if (playerController.smashing)
             {
+                Debug.Log(gameObject.name);
                 anim.SetTrigger("Death");
             }
             else
