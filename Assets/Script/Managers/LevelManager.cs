@@ -50,7 +50,8 @@ public class LevelManager : MonoBehaviour
 
             for (int i = 0; i < respawnableParent.transform.childCount; i++)
             {
-                itemRespawnPoints.Add(respawnableParent.transform.GetChild(i).gameObject, respawnableParent.transform.GetChild(i));
+                GameObject newGO = respawnableParent.transform.GetChild(i).gameObject;
+                itemRespawnPoints.Add(newGO, newGO.transform);
 
             }
         }
@@ -130,7 +131,10 @@ public class LevelManager : MonoBehaviour
 
         foreach (KeyValuePair<GameObject, Transform> item in itemRespawnPoints)
         {
-            Instantiate(item.Key, item.Value);
+            GameObject newGO = item.Key;
+            newGO.transform.position = item.Value.position;
+
+            Instantiate(newGO);
         }
 
     }
