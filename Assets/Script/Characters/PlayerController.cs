@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [Header("Lezzume")]
-    [SerializeField,Min(1)] private float maxLezzume = 1;
+    [SerializeField, Min(1)] private float maxLezzume = 1;
     [SerializeField] private Slider lezzumeSlider;
 
     [Header("Jump")]
@@ -58,17 +58,17 @@ public class PlayerController : MonoBehaviour
     float Lezzume
     {
         get { return lezzume; }
-        set 
-        { 
-            if(value>maxLezzume)
-                lezzume=maxLezzume;
-            else if (value<0)
-                lezzume=0;
+        set
+        {
+            if (value > maxLezzume)
+                lezzume = maxLezzume;
+            else if (value < 0)
+                lezzume = 0;
             else
-                lezzume=value;
+                lezzume = value;
 
-            lezzumeSlider.value=lezzume;
-        
+            lezzumeSlider.value = lezzume;
+
         }
     }
 
@@ -123,6 +123,32 @@ public class PlayerController : MonoBehaviour
 
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
+
+        counterJumpRotation = 0;
+
+        balanced = false;
+        angleLeftGrounded = false;
+        angleRightGrounded = false;
+
+        angleToJump = 0;
+        maxAngleLeftReached = false;
+        maxAngleRightReached = false;
+
+        nextIsBadassJump = false;
+        headToGround = false;
+        canGlide = false;
+
+        smashing = false;
+
+        movingArrow = false;
+        rotating = false;
+        attachedToWall = false;
+
+        rotationInput = 0;
+
+        arrowMovementdirection = 0;
+        animatorZ = 0;
+
     }
 
     private void FinishReached(object obj)
@@ -147,7 +173,7 @@ public class PlayerController : MonoBehaviour
         lezzumeSlider.maxValue = maxLezzume;
         Lezzume = 0;
 
-        
+
 
     }
     float animatorZ = 0;
@@ -195,7 +221,7 @@ public class PlayerController : MonoBehaviour
                 if (rotationThisJump > 0)
                 {
                     //aggiungere formiche qui
-                    
+
 
                     if (rotationThisJump >= rotationToUnlockBadassJump)
                         nextIsBadassJump = true;
@@ -214,7 +240,7 @@ public class PlayerController : MonoBehaviour
             angleRightGrounded = false;
             balanced = false;
 
-            
+
 
 
         }
@@ -234,7 +260,7 @@ public class PlayerController : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Morto");
+        LevelManager.Instance.Respawn();
     }
 
     private void OnDisable()
@@ -310,12 +336,18 @@ public class PlayerController : MonoBehaviour
             //Ruota
             rotating = true;
             rotationInput = obj.ReadValue<float>();
+
+            rb.angularVelocity = 0;
+
+
+
+
         }
 
     }
     private void Smash_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-            Smash();
+        Smash();
     }
 
     #endregion
@@ -371,7 +403,7 @@ public class PlayerController : MonoBehaviour
         else if (angleToJump < 0 && visual.transform.localScale.x == 1)
             visual.transform.localScale = new Vector3(-1, 1, 1);
 
-        
+
         rotationThisJump = 0;
 
         float forceToUse = 0;
@@ -437,14 +469,23 @@ public class PlayerController : MonoBehaviour
 
     private void RotateCharacter()
     {
-        if (rotationInput < 0)
-        {
-            rb.AddTorque(rotationSpeed);
-        }
-        else if (rotationInput > 0)
-        {
-            rb.AddTorque(-rotationSpeed);
-        }
+        //if (rotationInput < 0)
+        //{
+        //    rb.AddTorque(rotationSpeed);
+        //}
+        //else if (rotationInput > 0)
+        //{
+        //    rb.AddTorque(-rotationSpeed);
+        //}
+
+        rb.angularVelocity = 0;
+
+        float rotDir = 0;
+        if (rotationInput > 0)
+            rotDir = 1;
+        else rotDir = -1;
+
+        transform.Rotate(0, 0, -rotDir * rotationSpeed * Time.deltaTime);
 
     }
     #endregion

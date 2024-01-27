@@ -7,6 +7,8 @@ using  UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager Instance;
+
     [SerializeField] Transform levelSpawn;
     [SerializeField] PlayerController playerController;
     [SerializeField] List<Checkpoint> levelCheckpoints;
@@ -17,6 +19,8 @@ public class LevelManager : MonoBehaviour
 
     private void OnEnable()
     {
+        Instance = this;
+
         PubSub.Instance.RegisterFunction(EMessageType.checkpointTaken, SetLastCheckpointTaken);
         PubSub.Instance.RegisterFunction(EMessageType.finishReached, FinishReached);
     }
@@ -32,7 +36,7 @@ public class LevelManager : MonoBehaviour
     //}
     private void Start()
     {
-        Respawn();
+        //Respawn();
     }
 
     public void LoadNextScene()
@@ -43,10 +47,10 @@ public class LevelManager : MonoBehaviour
     private void Update()
     {
         //respawn
-        if(Input.GetKeyDown(KeyCode.H))
-        {
-            Respawn();
-        }
+        //if(Input.GetKeyDown(KeyCode.H))
+        //{
+        //    Respawn();
+        //}
     }
 
 
@@ -66,9 +70,9 @@ public class LevelManager : MonoBehaviour
     public void Respawn()
     {
         // Eventuali schermate di morte
+        playerController.SetLezzume(0);
         playerController.gameObject.SetActive(false);
-        //playerController.transform.position = GetRespawnPoint();
-        playerController.transform.SetPositionAndRotation(GetRespawnPoint(), Quaternion.identity);
+        playerController.transform.SetPositionAndRotation(GetRespawnPoint(), Quaternion.LookRotation(Vector3.forward, Vector3.up));
         playerController.gameObject.SetActive(true);
     }
 }
