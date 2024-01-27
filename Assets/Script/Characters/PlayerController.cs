@@ -138,6 +138,15 @@ public class PlayerController : MonoBehaviour
     private List<PowerUp> powerUps = new List<PowerUp>();
 
     #region UnityFunctions
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        {
+            PlayRandomFootstepSound();
+        }
+    }
+
     private void OnEnable()
     {
         Instance = this;
