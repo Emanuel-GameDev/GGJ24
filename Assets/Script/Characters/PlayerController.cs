@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform headCheck;
     [SerializeField] private float headCheckRadius;
 
+    [SerializeField] Color colorWhenDamaged = Color.red;
+
 
     [SerializeField] public GameObject visual;
 
@@ -65,7 +67,10 @@ public class PlayerController : MonoBehaviour
         set
         {
             if (value > lezzume)
+            {
                 slidingCoroutine = LevelManager.Instance.StartCoroutine(LevelManager.Instance.ClampLezzumeBar(value));
+                GetComponentInChildren<ChangeShaderWhenDamaged>().TakeDamage(colorWhenDamaged);
+            }
             else
             {
                 LevelManager.Instance.lezzumeSlider.value = value;
@@ -541,6 +546,8 @@ public class PlayerController : MonoBehaviour
         //{
         //    rb.AddTorque(-rotationSpeed);
         //}
+
+        if (canGlide) return;
 
         rb.angularVelocity = 0;
 

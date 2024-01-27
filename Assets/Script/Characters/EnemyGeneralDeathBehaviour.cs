@@ -11,37 +11,19 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
     [SerializeField]
     private int hitCooldown = 4;
 
-    [SerializeField]
-    private Transform deathCloud;
-
     private int hitCount = 1;
     private bool canDetectHit = true;
     private Animator anim;
+    private ChangeShaderWhenDamaged shade;
 
     private void Start()
     {
         anim = GetComponent<Animator>();    
+        shade = GetComponent<ChangeShaderWhenDamaged>();
+
+        if (anim == null)
+            anim = GetComponentInParent<Animator>();
     }
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.GetComponent<PlayerController>() != null)
-    //    {
-    //        if (!canDetectHit) return;
-
-    //        PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
-
-    //        // Se player sta schiacciando nemico muore, poi ritorna
-    //        if (playerController.smashing)
-    //        {
-    //            anim.SetTrigger("Death");
-    //        }
-    //        else
-    //        {
-    //            GiveHit(playerController);
-    //        }
-    //    }
-    //}
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -111,7 +93,9 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
-        if (gameObject.transform.parent.gameObject != null)
+        Transform t = gameObject.transform.parent;
+
+        if (t != null)
             Destroy(gameObject.transform.parent.gameObject);
         else
             Destroy(gameObject);
@@ -119,6 +103,8 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
 
     public void Die()
     {
+        anim.SetTrigger("Death");
+
         StartCoroutine(Death());
     }
 }

@@ -29,7 +29,7 @@ public class Honey : MonoBehaviour
         List<Vector2> dirsToCheck = new List<Vector2>()
         { Vector2.down, Vector2.left, Vector2.right};
 
-        if (playerController != null && playerController.LineGroundCheck(LayerMask.GetMask("Wall"), dirsToCheck, lineGroundCheckLenght))
+        if (playerController != null && playerController.LineGroundCheck(LayerMask.GetMask("Ground"), dirsToCheck, lineGroundCheckLenght))
         {
             float attachmentForce = coefficenteDiAppiccico * 
                 Mathf.Abs(playerController.gameObject.GetComponent<Rigidbody2D>().gravityScale);
