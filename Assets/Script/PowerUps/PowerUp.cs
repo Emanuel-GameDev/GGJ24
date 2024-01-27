@@ -19,6 +19,7 @@ public class PowerUp : MonoBehaviour
             playerController.gameObject.GetComponent<PowerUp>().Initialize(this);
         }
 
+        LevelManager.Instance.powerUpInScene.Add(this);
         gameObject.SetActive(false);
     }
 
