@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aliveTime: 5
+  clip: {fileID: 8300000, guid: 8135351233711644f885f43d78aa7a2a, type: 3}
 --- !u!61 &-5295994642958659537
 BoxCollider2D:
   m_ObjectHideFlags: 0
