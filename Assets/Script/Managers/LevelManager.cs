@@ -36,7 +36,7 @@ public class LevelManager : MonoBehaviour
     //}
     private void Start()
     {
-        Respawn();
+        //Respawn();
     }
 
     public void LoadNextScene()
@@ -72,7 +72,7 @@ public class LevelManager : MonoBehaviour
         // Eventuali schermate di morte
         playerController.SetLezzume(0);
         playerController.gameObject.SetActive(false);
-        playerController.transform.SetPositionAndRotation(GetRespawnPoint(), Quaternion.identity);
+        playerController.transform.SetPositionAndRotation(GetRespawnPoint(), Quaternion.LookRotation(Vector3.forward, Vector3.up));
         playerController.gameObject.SetActive(true);
     }
 }
