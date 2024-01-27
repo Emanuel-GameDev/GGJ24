@@ -339,8 +339,15 @@ public class PlayerController : MonoBehaviour
     private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         //salta
-        if (grounded)
+        if (grounded && attachedToWall)
+        {
+            attachedToWall = false;
             Jump();
+        }
+
+        else if (grounded)
+            Jump();
+
     }
 
     private void Jump_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
