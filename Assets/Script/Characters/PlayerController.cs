@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
             if (value > lezzume)
             {
                 slidingCoroutine = LevelManager.Instance.StartCoroutine(LevelManager.Instance.ClampLezzumeBar(value));
-                GetComponentInChildren<ChangeShaderWhenDamaged>().TakeDamage(colorWhenDamaged);
+                
             }
             else
             {
@@ -178,8 +178,17 @@ public class PlayerController : MonoBehaviour
 
         moveSlider = false;
 
-        
+        ResetPowerUps();
 
+    }
+
+    private void ResetPowerUps()
+    {
+
+        foreach(PowerUp p in GetComponents<PowerUp>())
+        {
+            Destroy(p);
+        }
     }
 
     private void FinishReached(object obj)
@@ -372,8 +381,15 @@ public class PlayerController : MonoBehaviour
     private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         //salta
-        if (grounded)
+        if (grounded && attachedToWall)
+        {
+            attachedToWall = false;
             Jump();
+        }
+
+        else if (grounded)
+            Jump();
+
     }
 
     private void Jump_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -558,7 +574,7 @@ public class PlayerController : MonoBehaviour
         //    rb.AddTorque(-rotationSpeed);
         //}
 
-        if (canGlide|| grounded) return;
+        if (canGlide || grounded) return;
 
         rb.angularVelocity = 0;
 
