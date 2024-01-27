@@ -21,6 +21,7 @@ public class LevelManager : MonoBehaviour
     Checkpoint lastTakenCheckPoint;
 
     Transform respawnPoint;
+    [HideInInspector] public List<PowerUp> powerUpInScene = new List<PowerUp>();
 
     private void OnEnable()
     {
@@ -118,7 +119,7 @@ public class LevelManager : MonoBehaviour
 
     private void RespawnItems()
     {
-        foreach (PowerUp power in playerController.GetActivePowers())
+        foreach (PowerUp power in powerUpInScene)
         {
             power.gameObject.SetActive(true);
             
