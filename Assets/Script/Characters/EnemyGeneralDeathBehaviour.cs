@@ -13,11 +13,6 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
     private int hitCount = 1;
     private bool canDetectHit = true;
 
-    private void Start()
-    {
-        PubSub.Instance.RegisterFunction(EMessageType.projectileHit, GiveHit);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<PlayerController>() != null)
@@ -41,15 +36,8 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
         }
     }
 
-    private void GiveHit(object obj)
+    public void GiveHit(PlayerController playerController)
     {
-        if (obj is null) return;
-
-        PlayerController playerController = null;
-
-        if (obj is PlayerController)
-            playerController = (PlayerController)obj;
-
         // Guarda se ha power up
         List<PowerUp> playerActivePowers = playerController.GetActivePowers();
 
