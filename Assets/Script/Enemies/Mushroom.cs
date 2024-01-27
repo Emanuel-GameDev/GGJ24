@@ -44,4 +44,9 @@ public class MushroomBehaviour : MonoBehaviour
         // Muovi il nemico verso il punto di destinazione
         transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, patrolSpeed * Time.deltaTime);
     }
+
+    public void PlaySound(AudioClip clip)
+    {
+        AudioManager.instance.PlaySound(clip);
+    }
 }
