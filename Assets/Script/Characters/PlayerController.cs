@@ -222,7 +222,11 @@ public class PlayerController : MonoBehaviour
         //}
         if (rotationThisJump > 0 && !lastWasBadassJumping)
         {
-            voteDisplay.color = new Color(1, 1, 1, 1);
+            if(displayCoroutine!=null)
+                StopCoroutine(displayCoroutine);
+
+            voteDisplay.color=new Color(1,1,1,1);
+
             switch (rotationThisJump)
             {
                 case 1:
@@ -239,8 +243,6 @@ public class PlayerController : MonoBehaviour
                     break;
             }
         }
-        else
-            voteDisplay.color = new Color(0, 0, 0, 0);
 
 
 
@@ -269,6 +271,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (rotationThisJump > 0 )
                 {
+                    displayCoroutine = StartCoroutine(RemoveDisplay());
                     if (!lastWasBadassJumping)
                     {
                         //aggiungere formiche qui
@@ -312,6 +315,12 @@ public class PlayerController : MonoBehaviour
 
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
+    }
+    Coroutine displayCoroutine;
+    IEnumerator RemoveDisplay()
+    {
+        yield return new WaitForSeconds(1);
+        voteDisplay.color = new Color(1, 1, 1, 0);
     }
 
     private void Die()
