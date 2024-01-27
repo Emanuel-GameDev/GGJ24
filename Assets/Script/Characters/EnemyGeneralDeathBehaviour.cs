@@ -56,7 +56,7 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
             // se non ne ha togli una vita e ritorna
             if (hitCount == hitsNeededToMakePlayerDie)
             {
-                LevelManager.Instance.Respawn();
+                LevelManager.Instance.StartRespawn();
             }
             else
             {

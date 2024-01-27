@@ -3,11 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.PlayerLoop;
 using  UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
+    [SerializeField] private float lezzumeSliderSpeed = 1;
+    [SerializeField] public Slider lezzumeSlider;
+    [SerializeField] float respawnTime=1;
 
     [SerializeField] Transform levelSpawn;
     [SerializeField] PlayerController playerController;
@@ -46,11 +51,11 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        //respawn
-        //if(Input.GetKeyDown(KeyCode.H))
-        //{
-        //    Respawn();
-        //}
+        if (playerController.moveSlider)
+        {
+            float newValue = Mathf.MoveTowards(lezzumeSlider.value, playerController.GetLezzume(), lezzumeSliderSpeed * Time.deltaTime);
+            lezzumeSlider.value = newValue;
+        }
     }
 
 
@@ -67,11 +72,33 @@ public class LevelManager : MonoBehaviour
             return lastTakenCheckPoint.transform.position;
     }
 
-    public void Respawn()
+    public void StartRespawn()
     {
         // Eventuali schermate di morte
-        playerController.SetLezzume(0);
         playerController.gameObject.SetActive(false);
+
+        StartCoroutine(WaitForRespawn());
+
+        ////playerController.SetLezzume(0);
+        //playerController.transform.SetPositionAndRotation(GetRespawnPoint(), Quaternion.LookRotation(Vector3.forward, Vector3.up));
+        //playerController.visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.LookRotation(Vector3.forward, Vector3.up));
+        //playerController.gameObject.SetActive(true);
+    }
+
+    
+
+    public IEnumerator ClampLezzumeBar(float newLezzume)
+    {
+        playerController.moveSlider = true;
+
+        yield return new WaitUntil(() => lezzumeSlider.value >= newLezzume);
+        playerController.moveSlider = false;
+    }
+
+    IEnumerator WaitForRespawn()
+    {
+        yield return new WaitForSeconds(respawnTime);
+        playerController.SetLezzume(0);
         playerController.transform.SetPositionAndRotation(GetRespawnPoint(), Quaternion.LookRotation(Vector3.forward, Vector3.up));
         playerController.visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.LookRotation(Vector3.forward, Vector3.up));
         playerController.gameObject.SetActive(true);

@@ -9,9 +9,9 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
 
     [Header("Lezzume")]
-    [SerializeField, Min(1)] private float maxLezzume = 1;
-    [SerializeField] private Slider lezzumeSlider;
-    [SerializeField] private float lezzumeSliderSpeed = 1;
+    [SerializeField, Min(1)] public float maxLezzume = 1;
+    
+    
 
     [Header("Jump")]
     [SerializeField] private float jumpForce = 10;
@@ -64,7 +64,13 @@ public class PlayerController : MonoBehaviour
         set
         {
             if (value > lezzume)
-                StartCoroutine(ClampLezzumeBar(value));
+                slidingCoroutine = LevelManager.Instance.StartCoroutine(LevelManager.Instance.ClampLezzumeBar(value));
+            else
+            {
+                LevelManager.Instance.lezzumeSlider.value = value;
+                if (slidingCoroutine != null)
+                    StopCoroutine(slidingCoroutine);
+            }
 
             if (value > maxLezzume)
                 lezzume = maxLezzume;
@@ -76,12 +82,9 @@ public class PlayerController : MonoBehaviour
 
         }
     }
-
-   IEnumerator ClampLezzumeBar(float newLezzume)
-    {
-        lezzumeSlider.value = Mathf.MoveTowards(lezzumeSlider.value,newLezzume,lezzumeSliderSpeed/10);
-        yield return new WaitUntil(() =>lezzumeSlider.value >= newLezzume);
-    }
+    Coroutine slidingCoroutine;
+    [HideInInspector] public bool moveSlider = false;
+   
 
     int counterJumpRotation = 0;
 
@@ -148,6 +151,7 @@ public class PlayerController : MonoBehaviour
         maxAngleRightReached = false;
 
         nextIsBadassJump = false;
+        lastWasBadassJumping = false;
         headToGround = false;
         canGlide = false;
 
@@ -163,6 +167,8 @@ public class PlayerController : MonoBehaviour
         animatorZ = 0;
 
         deactivateGroundCheck = false;
+
+        moveSlider = false;
 
         
 
@@ -187,13 +193,14 @@ public class PlayerController : MonoBehaviour
         lastPointRotation = transform.TransformDirection(Vector3.up);
         lastPointRotation.z = 0;
 
-        lezzumeSlider.maxValue = maxLezzume;
+        LevelManager.Instance.lezzumeSlider.maxValue = maxLezzume;
         Lezzume = 0;
 
 
 
     }
     float animatorZ = 0;
+    bool lastWasBadassJumping = false;
     private void Update()
     {
         //Debug
@@ -202,11 +209,12 @@ public class PlayerController : MonoBehaviour
         //    SetLezzume(Lezzume + 1);
         //}
 
-        if (Lezzume >= maxLezzume)
-        {
-            Die();
-            return;
-        }
+        //if (Lezzume >= maxLezzume)
+        //{
+        //    Die();
+        //    return;
+        //}
+        
 
 
         if (rotating)
@@ -226,6 +234,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsSmashing", false);
             smashTrail.enabled = false;
 
+
             //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x, transform.position.y, transform.position.z) - transform.position, 1, groundMask);
             //if (hit.collider != null)
             //    if (visual.transform.localScale.x > 0)
@@ -235,16 +244,22 @@ public class PlayerController : MonoBehaviour
 
             if (balanced)
             {
-                if (rotationThisJump > 0)
+                if (rotationThisJump > 0 )
                 {
-                    //aggiungere formiche qui
+                    if (!lastWasBadassJumping)
+                    {
+                        //aggiungere formiche qui
 
 
-                    if (rotationThisJump >= rotationToUnlockBadassJump)
-                        nextIsBadassJump = true;
+                        if (rotationThisJump >= rotationToUnlockBadassJump)
+                            nextIsBadassJump = true;
 
-                    rotationThisJump = 0;
-                    ResetCurrentRadialCounter();
+                        rotationThisJump = 0;
+                        
+
+                    }
+                        
+                        ResetCurrentRadialCounter();
 
                 }
             }
@@ -277,7 +292,7 @@ public class PlayerController : MonoBehaviour
 
     private void Die()
     {
-        LevelManager.Instance.Respawn();
+        LevelManager.Instance.StartRespawn();
     }
 
     private void OnDisable()
@@ -425,10 +440,17 @@ public class PlayerController : MonoBehaviour
 
         float forceToUse = 0;
 
-        if (nextIsBadassJump)
+        if (nextIsBadassJump&&!lastWasBadassJumping)
+        {
             forceToUse = jumpBadassForce;
+            lastWasBadassJumping = true;
+            Debug.Log("Badass performed");
+        }
         else
+        {
             forceToUse = jumpForce;
+            lastWasBadassJumping = false;
+        }
 
         rb.AddForceAtPosition(forceDirection.normalized * forceToUse, pointToApplyForce.position);
         ResetCurrentRadialCounter();
@@ -619,7 +641,7 @@ public class PlayerController : MonoBehaviour
         totalRotattion += angle;
         lastPointRotation = facing;
 
-        counterJumpRotation = ((int)totalRotattion) / 360;
+        counterJumpRotation = ((int)totalRotattion) / 350;
 
         if (Mathf.Abs(counterJumpRotation) == 1)
         {
