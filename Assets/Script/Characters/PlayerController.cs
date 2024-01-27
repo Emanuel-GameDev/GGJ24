@@ -234,7 +234,7 @@ public class PlayerController : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Morto");
+        LevelManager.Instance.Respawn();
     }
 
     private void OnDisable()
@@ -310,6 +310,12 @@ public class PlayerController : MonoBehaviour
             //Ruota
             rotating = true;
             rotationInput = obj.ReadValue<float>();
+
+            rb.angularVelocity = 0;
+
+           
+
+            
         }
 
     }
@@ -437,14 +443,23 @@ public class PlayerController : MonoBehaviour
 
     private void RotateCharacter()
     {
-        if (rotationInput < 0)
-        {
-            rb.AddTorque(rotationSpeed);
-        }
-        else if (rotationInput > 0)
-        {
-            rb.AddTorque(-rotationSpeed);
-        }
+        //if (rotationInput < 0)
+        //{
+        //    rb.AddTorque(rotationSpeed);
+        //}
+        //else if (rotationInput > 0)
+        //{
+        //    rb.AddTorque(-rotationSpeed);
+        //}
+
+        rb.angularVelocity = 0;
+
+        float rotDir = 0;
+        if (rotationInput > 0)
+            rotDir = 1;
+        else rotDir = -1;
+
+        transform.Rotate(0, 0, -rotDir * rotationSpeed * Time.deltaTime);
 
     }
     #endregion

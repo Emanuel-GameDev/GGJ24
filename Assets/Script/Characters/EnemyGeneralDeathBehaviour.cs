@@ -55,13 +55,17 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
         }
         else
         {
+            float damage = playerController.GetLezzume() + 1;
+            playerController.SetLezzume(damage);
+
             // se non ne ha togli una vita e ritorna
             if (hitCount == hitsNeededToMakePlayerDie)
             {
-                Destroy(playerController.gameObject);
+                LevelManager.Instance.Respawn();
             }
             else
             {
+                
                 hitCount++;
             }
         }
