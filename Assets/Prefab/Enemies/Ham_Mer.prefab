@@ -241,6 +241,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitsNeededToMakePlayerDie: 2
   hitCooldown: 4
+  utilityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6776195714510641691, guid: 8809ea8303892cb42b5efa015af777dd, type: 3}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 164a3502dd1d69040b4ef5ff0d806fdc, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &8418068526639480905
 Animator:
   serializedVersion: 5

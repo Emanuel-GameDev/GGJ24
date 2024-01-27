@@ -11,15 +11,16 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
     [SerializeField]
     private int hitCooldown = 4;
 
+    [SerializeField]
+    private UnityEvent utilityEvent;
+
     private int hitCount = 1;
     private bool canDetectHit = true;
     private Animator anim;
-    private ChangeShaderWhenDamaged shade;
 
     private void Start()
     {
         anim = GetComponent<Animator>();    
-        shade = GetComponent<ChangeShaderWhenDamaged>();
 
         if (anim == null)
             anim = GetComponentInParent<Animator>();
@@ -40,6 +41,7 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
             }
             else
             {
+                utilityEvent.Invoke();
                 GiveHit(playerController);
             }
         }

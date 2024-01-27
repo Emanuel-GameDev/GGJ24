@@ -6,6 +6,9 @@ public class Jam : MonoBehaviour
 {
     private PlayerController playerController;
 
+    [SerializeField]
+    private AudioClip clip;
+
     // Modifica della potenza del salto causata dalla marmellata
     public float jumpPowerReduction = 0.5f;
 
@@ -16,6 +19,8 @@ public class Jam : MonoBehaviour
             playerController = collision.gameObject.GetComponent<PlayerController>();
 
             ApplyEffect();
+
+            AudioManager.instance.PlaySound(clip);
         }
     }
 
