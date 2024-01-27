@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BreakThings : MonoBehaviour
 {
     private PlayerController playerController;
     private Animator animator;
+
+    public UnityEvent DieEvent;
 
     private void Start()
     {
@@ -33,7 +36,7 @@ public class BreakThings : MonoBehaviour
 
             if (playerController.smashing)
             {
-                Destroy();
+                DieEvent.Invoke();
             }
         }
     }
