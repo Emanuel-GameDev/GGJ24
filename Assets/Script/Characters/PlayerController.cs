@@ -178,8 +178,17 @@ public class PlayerController : MonoBehaviour
 
         moveSlider = false;
 
-        
+        ResetPowerUps();
 
+    }
+
+    private void ResetPowerUps()
+    {
+
+        foreach(PowerUp p in GetComponents<PowerUp>())
+        {
+            Destroy(p);
+        }
     }
 
     private void FinishReached(object obj)
@@ -565,7 +574,7 @@ public class PlayerController : MonoBehaviour
         //    rb.AddTorque(-rotationSpeed);
         //}
 
-        if (canGlide|| grounded) return;
+        if (canGlide || grounded) return;
 
         rb.angularVelocity = 0;
 
