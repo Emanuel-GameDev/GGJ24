@@ -41,7 +41,11 @@ public class LevelManager : MonoBehaviour
     //}
     private void Start()
     {
-        //Respawn();
+        if(levelSpawn != null)
+        {
+            Respawn();
+
+        }
     }
 
     public void LoadNextScene()
@@ -85,9 +89,17 @@ public class LevelManager : MonoBehaviour
         //playerController.gameObject.SetActive(true);
     }
 
-    
+    public void Respawn()
+    {
+        playerController.SetLezzume(0);
+        playerController.transform.SetPositionAndRotation(GetRespawnPoint(), Quaternion.LookRotation(Vector3.forward, Vector3.up));
+        playerController.visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.LookRotation(Vector3.forward, Vector3.up));
+        playerController.gameObject.SetActive(true);
+    }
 
-    public IEnumerator ClampLezzumeBar(float newLezzume)
+
+
+        public IEnumerator ClampLezzumeBar(float newLezzume)
     {
         playerController.moveSlider = true;
 
@@ -98,9 +110,6 @@ public class LevelManager : MonoBehaviour
     IEnumerator WaitForRespawn()
     {
         yield return new WaitForSeconds(respawnTime);
-        playerController.SetLezzume(0);
-        playerController.transform.SetPositionAndRotation(GetRespawnPoint(), Quaternion.LookRotation(Vector3.forward, Vector3.up));
-        playerController.visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.LookRotation(Vector3.forward, Vector3.up));
-        playerController.gameObject.SetActive(true);
+        Respawn();
     }
 }
