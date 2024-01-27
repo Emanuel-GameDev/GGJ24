@@ -556,7 +556,7 @@ public class PlayerController : MonoBehaviour
         //    rb.AddTorque(-rotationSpeed);
         //}
 
-        if (canGlide) return;
+        if (canGlide|| grounded) return;
 
         rb.angularVelocity = 0;
 
