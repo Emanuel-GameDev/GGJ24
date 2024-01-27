@@ -116,6 +116,7 @@ public class Ham : PowerUp
             playerRb.gravityScale = defaultPlayerGravity;
             activated = false;
             moveInAir = false;
+
         }
     }
 

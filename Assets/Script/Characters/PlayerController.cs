@@ -523,6 +523,8 @@ public class PlayerController : MonoBehaviour
         //    rb.AddTorque(-rotationSpeed);
         //}
 
+        if (canGlide) return;
+
         rb.angularVelocity = 0;
 
         float rotDir = 0;
