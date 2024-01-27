@@ -14,6 +14,8 @@ public class Ham : PowerUp
     private bool activated = false;
     private float defaultPlayerGravity;
     private PlayerInputs inputs;
+    private bool moveInAir = false;
+    private Vector2 vec;
 
     protected override void PickUp()
     {
@@ -57,10 +59,9 @@ public class Ham : PowerUp
         if (!playerController.Grounded)
         {
             float f = context.ReadValue<float>();
+            vec = new Vector2(f * moveForce, 0);
 
-            Vector2 vec = new Vector2(f * moveForce, 0);
-
-            playerRb.velocity = vec;
+            moveInAir = true;
         }
     }
 
@@ -114,6 +115,7 @@ public class Ham : PowerUp
         {
             playerRb.gravityScale = defaultPlayerGravity;
             activated = false;
+            moveInAir = false;
         }
     }
 
@@ -126,6 +128,11 @@ public class Ham : PowerUp
             if (playerRb.velocity.y < 0)
             {
                 ActivateHam();
+            }
+
+            if (moveInAir)
+            {
+                playerRb.velocity = new Vector2(vec.x, playerRb.velocity.y);
             }
         }
         else
