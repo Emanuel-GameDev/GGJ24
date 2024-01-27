@@ -408,6 +408,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efb95bfd0d5c7f64cb614810c2df868e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DieEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4181054534604013978}
+        m_TargetAssemblyTypeName: EnemyGeneralDeathBehaviour, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &4005030259414585419
 PrefabInstance:
   m_ObjectHideFlags: 0
