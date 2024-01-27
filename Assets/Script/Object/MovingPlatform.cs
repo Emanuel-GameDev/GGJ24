@@ -40,6 +40,8 @@ public class MovingPlatform : MonoBehaviour
     private float timeToWaypoint;
     private float elapsedTime;
 
+    private Transform platformParent;
+
     #endregion
 
     #region UnityFunctions
@@ -51,6 +53,8 @@ public class MovingPlatform : MonoBehaviour
             InitializeWaypoints();
             TargetNextWaypoint();
         }
+
+        platformParent = transform.parent;
     }
 
     private void OnValidate()
@@ -107,7 +111,7 @@ public class MovingPlatform : MonoBehaviour
                 {
                     if (hit[i].collider != null && hit[i].collider.gameObject.GetComponent<MovingPlatform>())
                     {
-                        collision.gameObject.transform.parent.parent = transform;
+                        collision.gameObject.transform.parent = platformParent;
                         //objStanding = collision.gameObject;
                     }
                 }
@@ -134,7 +138,10 @@ public class MovingPlatform : MonoBehaviour
         foreach (LayerMask mask in affectedLayers)
         {
             if (collision.gameObject.layer == Mathf.RoundToInt(Mathf.Log(mask.value, 2f)))
-                collision.gameObject.transform.parent.parent = null;
+            {
+                if (platformParent.gameObject.activeInHierarchy)
+                    collision.gameObject.transform.SetParent(null);
+            }
             //objStanding = null;
         }
 
