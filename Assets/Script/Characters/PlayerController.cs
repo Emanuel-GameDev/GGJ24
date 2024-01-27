@@ -267,7 +267,8 @@ public class PlayerController : MonoBehaviour
                     if (!lastWasBadassJumping)
                     {
                         //aggiungere formiche qui
-
+                        if (rotationThisJump >= voteImages.Length)
+                            voteDisplay.gameObject.GetComponentInParent<Animator>().SetTrigger("Ants");
 
                         if (rotationThisJump >= rotationToUnlockBadassJump)
                             nextIsBadassJump = true;
