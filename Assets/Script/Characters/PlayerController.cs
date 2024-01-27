@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [Header("Lezzume")]
     [SerializeField, Min(1)] private float maxLezzume = 1;
     [SerializeField] private Slider lezzumeSlider;
+    [SerializeField] private float lezzumeSliderSpeed = 1;
 
     [Header("Jump")]
     [SerializeField] private float jumpForce = 10;
@@ -62,6 +63,9 @@ public class PlayerController : MonoBehaviour
         get { return lezzume; }
         set
         {
+            if (value > lezzume)
+                StartCoroutine(ClampLezzumeBar(value));
+
             if (value > maxLezzume)
                 lezzume = maxLezzume;
             else if (value < 0)
@@ -69,9 +73,14 @@ public class PlayerController : MonoBehaviour
             else
                 lezzume = value;
 
-            lezzumeSlider.value = lezzume;
 
         }
+    }
+
+   IEnumerator ClampLezzumeBar(float newLezzume)
+    {
+        lezzumeSlider.value = Mathf.MoveTowards(lezzumeSlider.value,newLezzume,lezzumeSliderSpeed/10);
+        yield return new WaitUntil(() =>lezzumeSlider.value >= newLezzume);
     }
 
     int counterJumpRotation = 0;
@@ -154,6 +163,8 @@ public class PlayerController : MonoBehaviour
         animatorZ = 0;
 
         deactivateGroundCheck = false;
+
+        
 
     }
 
@@ -446,6 +457,12 @@ public class PlayerController : MonoBehaviour
     public void SetLezzume(float newValue)
     {
         Lezzume = newValue;
+
+    }
+
+    public void ResetLezzume()
+    {
+        Lezzume = 0;
     }
 
     IEnumerator DeactivateGround()
@@ -633,6 +650,6 @@ public class PlayerController : MonoBehaviour
     {
         return powerUps[0];
     }
-
+     
     #endregion
 }
