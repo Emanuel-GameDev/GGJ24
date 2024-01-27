@@ -7,6 +7,8 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private float aliveTime = 5f;
 
+    private EnemyGeneralDeathBehaviour shooter;
+
     private void Start()
     {
         StartCoroutine(AliveTimer());
@@ -17,9 +19,24 @@ public class Projectile : MonoBehaviour
         StopCoroutine(AliveTimer());
 
         if (collision.gameObject.GetComponent<PlayerController>() != null)
-            PubSub.Instance.Notify(EMessageType.projectileHit, collision.gameObject.GetComponent<PlayerController>());
+        {
+            if (shooter != null)
+                shooter.GiveHit(collision.gameObject.GetComponent<PlayerController>());
+        }
+        else if (collision.gameObject.GetComponent<SaltShooter>() != null)
+            return;
 
         gameObject.SetActive(false);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<SaltShooter>() != null)
+        {
+            EnemyGeneralDeathBehaviour GDE = collision.gameObject.GetComponentInChildren<EnemyGeneralDeathBehaviour>();
+            shooter = GDE;
+
+        }
     }
 
     private IEnumerator AliveTimer()
