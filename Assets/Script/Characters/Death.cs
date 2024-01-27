@@ -10,7 +10,7 @@ public class Death : MonoBehaviour
         {
             collision.gameObject.GetComponent<PlayerController>().SetLezzume(collision.gameObject.GetComponent<PlayerController>().maxLezzume);
             //Destroy(collision.gameObject);
-            LevelManager.Instance.StartRespawn();
+            //LevelManager.Instance.StartRespawn();
         }
     }
 }
