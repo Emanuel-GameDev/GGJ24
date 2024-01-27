@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    public bool taken=false;
+     bool taken=false;
     Animator animator;
 
     private void Awake()

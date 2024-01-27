@@ -73,6 +73,7 @@ public class LevelManager : MonoBehaviour
         playerController.SetLezzume(0);
         playerController.gameObject.SetActive(false);
         playerController.transform.SetPositionAndRotation(GetRespawnPoint(), Quaternion.LookRotation(Vector3.forward, Vector3.up));
+        playerController.visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.LookRotation(Vector3.forward, Vector3.up));
         playerController.gameObject.SetActive(true);
     }
 }
