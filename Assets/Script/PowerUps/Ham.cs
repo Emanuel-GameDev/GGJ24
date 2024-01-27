@@ -1,6 +1,9 @@
 using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Ham : PowerUp
 {
@@ -16,18 +19,47 @@ public class Ham : PowerUp
     [SerializeField]
     private AudioClip powerLossCLip;
 
+    [SerializeField]
+    private float selfDestroyTime;
+
+    [SerializeField]
+    private TextMeshProUGUI text;
+
+    [SerializeField]
+    private GameObject panel;
+
     private Rigidbody2D playerRb;
     private bool activated = false;
     private float defaultPlayerGravity;
     private PlayerInputs inputs;
     private bool moveInAir = false;
     private Vector2 vec;
+    private bool activateSelfDestroyTimer = false;
+    private int elapsedTime;
+    private int count = 1;
 
     protected override void PickUp()
     {
         base.PickUp();
 
         AudioManager.instance.PlaySound(pickUpClip);
+
+    }
+
+    public void TriggerSelfDestruct(bool mode)
+    {
+        if (mode)
+        {
+            text.text = selfDestroyTime.ToString();
+            panel.SetActive(true);
+
+            activateSelfDestroyTimer = true;
+        }
+        else
+        {
+            panel.SetActive(false);
+            activateSelfDestroyTimer = false;
+        }
     }
 
     private void OnEnable()
@@ -64,7 +96,6 @@ public class Ham : PowerUp
 
         playerRb.freezeRotation = true;
 
-
         playerController.TriggerGlideMode(true);
     }
 
@@ -88,7 +119,13 @@ public class Ham : PowerUp
             Ham copy = (Ham)startingPower;
             gravityDivider = copy.gravityDivider;
             moveForce = copy.moveForce;
+            selfDestroyTime = copy.selfDestroyTime;
+            activateSelfDestroyTimer = copy.activateSelfDestroyTimer;
+            text = copy.text;   
+            panel = copy.panel;
         }
+
+        TriggerSelfDestruct(true);
 
     }
 
@@ -139,6 +176,34 @@ public class Ham : PowerUp
 
     private void Update()
     {
+        if (activateSelfDestroyTimer)
+        {
+            selfDestroyTime -= Time.deltaTime;
+
+            //elapsedTime += (int)Time.deltaTime;
+
+            if (selfDestroyTime <= 0f)
+            {
+                TriggerSelfDestruct(false);
+                DeactivateHam();
+                Destroy(this);
+            }
+            else
+            {
+                // Update the countdown text
+                text.text = Mathf.Round(selfDestroyTime).ToString();
+            }
+
+            //if (elapsedTime >= (count + 1))
+            //{
+            //    count = elapsedTime;
+            //    int a = (int)(selfDestroyTime - elapsedTime);
+            //    text.text = a.ToString();
+            //}
+
+   
+        }
+
         if (playerController == null || playerRb == null) return;
 
         if (!playerController.Grounded)
