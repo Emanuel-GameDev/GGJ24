@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance;
+
     [Header("Lezzume")]
     [SerializeField, Min(1)] private float maxLezzume = 1;
     [SerializeField] private Slider lezzumeSlider;
@@ -108,6 +110,8 @@ public class PlayerController : MonoBehaviour
     #region UnityFunctions
     private void OnEnable()
     {
+        Instance = this;
+
         inputs = new PlayerInputs();
         PubSub.Instance.RegisterFunction(EMessageType.finishReached, FinishReached);
 
@@ -130,7 +134,7 @@ public class PlayerController : MonoBehaviour
         angleLeftGrounded = false;
         angleRightGrounded = false;
 
-        angleToJump = 0;
+        
         maxAngleLeftReached = false;
         maxAngleRightReached = false;
 
@@ -148,6 +152,8 @@ public class PlayerController : MonoBehaviour
 
         arrowMovementdirection = 0;
         animatorZ = 0;
+
+        deactivateGroundCheck = false;
 
     }
 
