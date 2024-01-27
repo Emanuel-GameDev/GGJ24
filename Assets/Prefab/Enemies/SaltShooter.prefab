@@ -56,6 +56,7 @@ MonoBehaviour:
   projectileSpeed: 10
   fireRate: 0.5
   poolProjectileAmount: 10
+  shootClip: {fileID: 8300000, guid: bd274ae48ac597148a86ba6f57b16c46, type: 3}
 --- !u!95 &8817001783920957115
 Animator:
   serializedVersion: 5

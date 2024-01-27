@@ -10,6 +10,12 @@ public class Ham : PowerUp
     [SerializeField]
     private float moveForce = 2f;
 
+    [SerializeField]
+    private AudioClip pickUpClip;
+
+    [SerializeField]
+    private AudioClip powerLossCLip;
+
     private Rigidbody2D playerRb;
     private bool activated = false;
     private float defaultPlayerGravity;
@@ -20,6 +26,8 @@ public class Ham : PowerUp
     protected override void PickUp()
     {
         base.PickUp();
+
+        AudioManager.instance.PlaySound(pickUpClip);
     }
 
     private void OnEnable()
@@ -91,6 +99,8 @@ public class Ham : PowerUp
         playerRb.freezeRotation = false;
 
         base.RemovePower();
+
+        AudioManager.instance.PlaySound(powerLossCLip);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
