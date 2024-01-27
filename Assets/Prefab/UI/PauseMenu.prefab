@@ -158,7 +158,6 @@ GameObject:
   - component: {fileID: 236159018424931380}
   - component: {fileID: 3542532813874287495}
   - component: {fileID: 275592460791489816}
-  - component: {fileID: 8449414540388504709}
   m_Layer: 5
   m_Name: Bread
   m_TagString: Untagged
@@ -174,16 +173,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2470231061136016135}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2988541566998621755}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.17180002, y: 0.11140909}
-  m_AnchorMax: {x: 0.8292, y: 0.2934091}
-  m_AnchoredPosition: {x: -0.5, y: 1}
-  m_SizeDelta: {x: 2.3822632, y: -2.245575}
+  m_AnchorMin: {x: 0.25383335, y: 0.066}
+  m_AnchorMax: {x: 0.7493333, y: 0.35613638}
+  m_AnchoredPosition: {x: -1, y: -3}
+  m_SizeDelta: {x: -0.13418579, y: 1.5548096}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &236159018424931380
 CanvasRenderer:
@@ -213,7 +212,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2a18c16cf58e0e64686c296fa646c3fe, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 04455cdc0534fc647820e08f2b6f3377, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -266,32 +265,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3542532813874287495}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8449414540388504709}
-        m_TargetAssemblyTypeName: BtnBehaviour, Assembly-CSharp
-        m_MethodName: Exit
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &8449414540388504709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2470231061136016135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1ecec4d8a34472498ac035cf5a8f462, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  newSprite: {fileID: 21300000, guid: fa1802901104abf4f9296ff609b74e29, type: 3}
+      m_Calls: []
 --- !u!1 &3701213878732478711
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,7 +386,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1471589510541391263}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ClosePauseMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7072510964422304982
 MonoBehaviour:
   m_ObjectHideFlags: 0
