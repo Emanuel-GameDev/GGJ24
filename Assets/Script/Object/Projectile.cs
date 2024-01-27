@@ -7,6 +7,9 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private float aliveTime = 5f;
 
+    [SerializeField]
+    private AudioClip clip;
+
     private EnemyGeneralDeathBehaviour shooter;
 
     private void Start()
@@ -25,6 +28,8 @@ public class Projectile : MonoBehaviour
         }
         else if (collision.gameObject.GetComponent<SaltShooter>() != null)
             return;
+
+        AudioManager.instance.PlaySound(clip);
 
         gameObject.SetActive(false);
     }

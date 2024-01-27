@@ -16,6 +16,9 @@ public class Butter : MonoBehaviour
     [SerializeField]
     private float decelarationRatio = 2f; // Durata della decelerazione
 
+    [SerializeField]
+    private AudioClip clip;
+
     private bool isSliding = false;
     private float slideTimer = 0f;
     private Vector2 slideDirection = Vector2.zero;
@@ -27,6 +30,8 @@ public class Butter : MonoBehaviour
         {
             playerController = collision.gameObject.GetComponent<PlayerController>();
             ApplyEffect();
+
+            AudioManager.instance.PlaySound(clip);
         }
     }
 
