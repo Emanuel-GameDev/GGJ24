@@ -35,6 +35,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform pointToApplyForce;
     [SerializeField] private Sprite[] voteImages = new Sprite[3];
 
+    [Header("Sounds")]
+    [SerializeField] List<AudioClip> footstepSounds;
+    [SerializeField] List<AudioClip> jumpSounds;
+    [SerializeField] AudioClip badassJumpSound;
+    [SerializeField] AudioClip deathSound;
+    
+
     [Header("Ground")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius;
@@ -52,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] Color colorWhenDamaged = Color.red;
 
-
+    PlayerAudioLibrary audioLibrary;
     [SerializeField] public GameObject visual;
 
     public bool balanced = false;
@@ -86,7 +93,10 @@ public class PlayerController : MonoBehaviour
                 lezzume = value;
 
             if (lezzume == maxLezzume)
+            {
+                AudioManager.instance.PlaySound(deathSound);
                 LevelManager.Instance.StartRespawn();
+            }
 
         }
     }
@@ -131,7 +141,7 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         Instance = this;
-
+        audioLibrary = GetComponent<PlayerAudioLibrary>();
         inputs = new PlayerInputs();
         PubSub.Instance.RegisterFunction(EMessageType.finishReached, FinishReached);
 
@@ -287,7 +297,10 @@ public class PlayerController : MonoBehaviour
                     {
                         //aggiungere formiche qui
                         if (rotationThisJump >= voteImages.Length)
+                        {
+                            AudioManager.instance.PlaySound(badassJumpSound);
                             voteDisplay.gameObject.GetComponentInParent<Animator>().SetTrigger("Ants");
+                        }
 
                         if (rotationThisJump >= rotationToUnlockBadassJump)
                             nextIsBadassJump = true;
@@ -502,6 +515,8 @@ public class PlayerController : MonoBehaviour
             forceToUse = jumpForce;
             lastWasBadassJumping = false;
         }
+
+        PlayRandomJumpSound();
 
         rb.AddForceAtPosition(forceDirection.normalized * forceToUse, pointToApplyForce.position);
         ResetCurrentRadialCounter();
@@ -727,6 +742,16 @@ public class PlayerController : MonoBehaviour
     {
         return powerUps[0];
     }
-     
+
+    public void PlayRandomFootstepSound()
+    {
+        AudioManager.instance.PlaySound(footstepSounds[UnityEngine.Random.Range(0, footstepSounds.Count)]);
+    }
+
+    public void PlayRandomJumpSound()
+    {
+        AudioManager.instance.PlaySound(jumpSounds[UnityEngine.Random.Range(0, jumpSounds.Count)]);
+    }
+
     #endregion
 }
