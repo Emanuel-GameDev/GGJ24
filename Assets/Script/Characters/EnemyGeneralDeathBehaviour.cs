@@ -13,20 +13,14 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
 
     [SerializeField]
     private Transform deathCloud;
-    [SerializeField]
-    private Vector2 pos;
-
-    public UnityEvent OnDeath;
 
     private int hitCount = 1;
     private bool canDetectHit = true;
+    private Animator anim;
 
-
-    private void SetDeathCloudPos(Vector2 pos)
+    private void Start()
     {
-        if (deathCloud == null) return;
-
-        deathCloud.localPosition = pos;
+        anim = GetComponent<Animator>();    
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -40,13 +34,7 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
             // Se player sta schiacciando nemico muore, poi ritorna
             if (playerController.smashing)
             {
-                SetDeathCloudPos(pos);
-                OnDeath.Invoke();
-
-                if (gameObject.transform.parent.gameObject != null)
-                    Destroy(gameObject.transform.parent.gameObject);
-                else
-                    Destroy(gameObject);
+                anim.SetTrigger("Death");
             }
             else
             {
@@ -93,5 +81,20 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
 
         Debug.Log("Countdown finished!");
         canDetectHit = true;    
+    }
+
+    private IEnumerator Death()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        if (gameObject.transform.parent.gameObject != null)
+            Destroy(gameObject.transform.parent.gameObject);
+        else
+            Destroy(gameObject);
+    }
+
+    public void Die()
+    {
+        StartCoroutine(Death());
     }
 }
