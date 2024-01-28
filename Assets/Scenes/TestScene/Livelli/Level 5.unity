@@ -324,11 +324,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa985e92873a2ab42a28a63221e3c5a8, type: 3}
---- !u!4 &29552353 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4983378171304596538, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
-  m_PrefabInstance: {fileID: 2090249545}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &63732225
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -131618,6 +131613,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9096541265850320916, guid: ce1e798b124aaef428b1eefea4373287, type: 3}
   m_PrefabInstance: {fileID: 1427321934}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1427321936 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6748594695261278422, guid: ce1e798b124aaef428b1eefea4373287, type: 3}
+  m_PrefabInstance: {fileID: 1427321934}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85279207d6e754a4f8d2adc8e545fa3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1435557591
 GameObject:
   m_ObjectHideFlags: 0
@@ -132106,6 +132112,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3e68f870b2ebbf43876563a4b02fac5, type: 3}
+--- !u!4 &1567586358 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2069974450708511046, guid: c3e68f870b2ebbf43876563a4b02fac5, type: 3}
+  m_PrefabInstance: {fileID: 1567586357}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1568441174
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132643,6 +132654,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9096541265850320916, guid: ce1e798b124aaef428b1eefea4373287, type: 3}
   m_PrefabInstance: {fileID: 1768773263}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1768773265 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6748594695261278422, guid: ce1e798b124aaef428b1eefea4373287, type: 3}
+  m_PrefabInstance: {fileID: 1768773263}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85279207d6e754a4f8d2adc8e545fa3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1785595759
 GameObject:
   m_ObjectHideFlags: 0
@@ -133176,6 +133198,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9096541265850320916, guid: ce1e798b124aaef428b1eefea4373287, type: 3}
   m_PrefabInstance: {fileID: 1946166533}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1946166535 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6748594695261278422, guid: ce1e798b124aaef428b1eefea4373287, type: 3}
+  m_PrefabInstance: {fileID: 1946166533}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85279207d6e754a4f8d2adc8e545fa3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1956506275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -133336,7 +133369,7 @@ PrefabInstance:
     - target: {fileID: 2646589738236379488, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
       propertyPath: levelSpawn
       value: 
-      objectReference: {fileID: 29552353}
+      objectReference: {fileID: 1567586358}
     - target: {fileID: 2646589738236379488, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
       propertyPath: lezzumeSlider
       value: 
@@ -133349,6 +133382,22 @@ PrefabInstance:
       propertyPath: playerController
       value: 
       objectReference: {fileID: 1075547384}
+    - target: {fileID: 2646589738236379488, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
+      propertyPath: levelCheckpoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2646589738236379488, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
+      propertyPath: levelCheckpoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1768773265}
+    - target: {fileID: 2646589738236379488, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
+      propertyPath: levelCheckpoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 1946166535}
+    - target: {fileID: 2646589738236379488, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
+      propertyPath: levelCheckpoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 1427321936}
     - target: {fileID: 4983378171304596538, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.7
