@@ -205,7 +205,7 @@ Rigidbody2D:
   m_Mass: 10
   m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 0.5
+  m_GravityScale: 0.4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -275,16 +275,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLezzume: 2
-  jumpForce: 3000
-  jumpBadassForce: 15
-  rotationToUnlockBadassJump: 4
+  jumpForce: 6500
+  jumpBadassForce: 12000
+  rotationToUnlockBadassJump: 3
   maxJumpAngle: 70
   arrowSensitivity: 1
   arrowPointer: {fileID: 1809180912859708768}
   arrowRotationPoint: {fileID: 6881965214304423759}
   line: {fileID: 6167584356458765812}
   smashForce: 250
-  rotationSpeed: 3
+  rotationSpeed: 250
   voteDisplay: {fileID: 0}
   pointToApplyForce: {fileID: 8008876647909593805}
   voteImages:

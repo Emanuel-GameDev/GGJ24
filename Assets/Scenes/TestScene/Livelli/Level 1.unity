@@ -133613,6 +133613,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: DebugTp
       objectReference: {fileID: 0}
+    - target: {fileID: 7432767587172417336, guid: de08a366af8e66740a13022a0f79721a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289974387824942510, guid: de08a366af8e66740a13022a0f79721a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8289974387824942510, guid: de08a366af8e66740a13022a0f79721a, type: 3}
       propertyPath: objToTeleport
       value: 
