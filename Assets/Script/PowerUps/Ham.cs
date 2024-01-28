@@ -159,7 +159,7 @@ public class Ham : PowerUp
             activated = true;
             playerController.GetAnimator().SetBool("IsGliding", true);
 
-            playerController.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, -100));
+            playerController.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, 0));
 
         }
     }

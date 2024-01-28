@@ -525,7 +525,6 @@ public class PlayerController : MonoBehaviour
             nextIsBadassJump = false;
             forceToUse = jumpBadassForce;
             lastWasBadassJumping = true;
-            Debug.Log("Badass performed");
         }
         else
         {
