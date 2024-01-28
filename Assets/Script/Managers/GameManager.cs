@@ -18,6 +18,12 @@ public class GameManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
+
+        for (int i = 1; i <= 5; i++)
+        {
+            lvlStatus.Add(i, false);
+            Debug.Log(GetLevelStatus(i));
+        }
     }
 
     public bool GetLevelStatus(int id)
