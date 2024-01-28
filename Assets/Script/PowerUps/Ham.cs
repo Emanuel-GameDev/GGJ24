@@ -179,8 +179,6 @@ public class Ham : PowerUp
 
             playerController.TriggerGlideMode(false);
 
-            playerController.blockRot = false;
-
             playerController.GetAnimator().SetBool("IsGliding", false);
 
         }
@@ -200,6 +198,7 @@ public class Ham : PowerUp
                 DeactivateHam();
 
                 playerRb.freezeRotation = false;
+                playerController.blockRot = false;
 
                 Destroy(this);
             }
@@ -234,5 +233,10 @@ public class Ham : PowerUp
     private void OnDestroy()
     {
         DeactivateHam();
+
+        if (playerRb != null)
+            playerRb.freezeRotation = false;
+        if (playerController != null && playerController.blockRot == true)
+            playerController.blockRot = false;
     }
 }
