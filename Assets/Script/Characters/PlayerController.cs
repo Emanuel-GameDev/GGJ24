@@ -215,6 +215,8 @@ public class PlayerController : MonoBehaviour
     private void FinishReached(object obj)
     {
         inputs.Disable();
+        AudioManager.instance.PlaySound(badassJumpSound);
+        voteDisplay.gameObject.GetComponentInParent<Animator>().SetTrigger("Ants");
         animator.SetTrigger("Finish");
     }
 
