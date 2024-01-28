@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 6665647045343713481}
   - component: {fileID: 5919078885228221547}
   - component: {fileID: 8848147524766903947}
+  - component: {fileID: 5292494923199567115}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -169,8 +170,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 99.766, y: -125.27}
-  m_SizeDelta: {x: 210.47, y: 39.463}
+  m_AnchoredPosition: {x: 99.19575, y: -123.23203}
+  m_SizeDelta: {x: 225.295, y: 93.7151}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6665647045343713481
 CanvasRenderer:
@@ -200,8 +201,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 6c0ce39f2815f5649b8148ba75b2dfa2, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -253,7 +254,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5919078885228221547}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5292494923199567115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5507178253849691065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ecec4d8a34472498ac035cf5a8f462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newSprite: {fileID: 21300000, guid: ad3c5072fdab8764bbcb91f18b4261b1, type: 3}
 --- !u!1 &6416937350790164009
 GameObject:
   m_ObjectHideFlags: 0

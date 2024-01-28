@@ -368,6 +368,18 @@ PrefabInstance:
       propertyPath: m_text
       value: LVL 5
       objectReference: {fileID: 0}
+    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1321884660}
+    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 9077035789701619664, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
       propertyPath: m_Name
       value: Lvl5Selection
@@ -538,6 +550,18 @@ PrefabInstance:
     - target: {fileID: 8607333934339785217, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
       propertyPath: m_text
       value: LVL 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1321884660}
+    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9077035789701619664, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
       propertyPath: m_Name
@@ -895,6 +919,18 @@ PrefabInstance:
       propertyPath: m_text
       value: LVL 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1321884660}
+    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 9077035789701619664, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
       propertyPath: m_Name
       value: Lvl4Selection
@@ -1001,6 +1037,18 @@ PrefabInstance:
       propertyPath: m_text
       value: LVL 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1321884660}
+    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 9077035789701619664, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
       propertyPath: m_Name
       value: Lvl3Selection
@@ -1104,37 +1152,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1321884660}
-    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadLevel
-      objectReference: {fileID: 0}
-    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8848147524766903947, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 9077035789701619664, guid: ce45319b73c14eb459d95ae7d14167c9, type: 3}
       propertyPath: m_Name
       value: Lvl1Selection
