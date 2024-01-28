@@ -133902,6 +133902,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Finish
       objectReference: {fileID: 0}
+    - target: {fileID: 3547733336664108876, guid: 6e4ba21940e663b4fa5e4051eb594bba, type: 3}
+      propertyPath: m_SceneBindings.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3547733336664108876, guid: 6e4ba21940e663b4fa5e4051eb594bba, type: 3}
+      propertyPath: m_SceneBindings.Array.data[4].key
+      value: 
+      objectReference: {fileID: -64033945936625462, guid: 62a50383bc0a0054db10c23e664dcf0c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -135064,14 +135072,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 368178749}
-    - target: {fileID: 6629973256927888606, guid: 2c4a216e973ba264c9d280bf694e8a0a, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlaySound
-      objectReference: {fileID: 0}
-    - target: {fileID: 7206620686717822751, guid: 2c4a216e973ba264c9d280bf694e8a0a, type: 3}
-      propertyPath: m_SortingOrder
-      value: 652
-      objectReference: {fileID: 0}
     - target: {fileID: 7972799166695590363, guid: 2c4a216e973ba264c9d280bf694e8a0a, type: 3}
       propertyPath: m_Name
       value: Canvas

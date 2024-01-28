@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<int, bool> lvlStatus = new Dictionary<int, bool>();
 
+    public UIManager manager;
+
     private void Awake()
     {
         if (instance == null)
@@ -27,15 +29,7 @@ public class GameManager : MonoBehaviour
 
     public bool GetLevelStatus(int id)
     {
-        foreach (KeyValuePair<int, bool> lvl in lvlStatus)
-        {
-            if (lvl.Key == id)
-            {
-                return lvl.Value;
-            }
-        }
-
-        return false;   
+        return lvlStatus[id];
     }
 
     public void AddLevel(int lvlNum, bool status)
@@ -74,14 +68,6 @@ public class GameManager : MonoBehaviour
         {
             // La chiave id non esiste nella mappa dei livelli
             Debug.LogError("La chiave " + id + " non esiste nella mappa dei livelli.");
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.P))
-        {
-            LoadNextScene();
         }
     }
 }

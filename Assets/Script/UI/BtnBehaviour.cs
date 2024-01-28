@@ -41,8 +41,18 @@ public class BtnBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         GameManager.instance.Exit();
     }
 
-    public void Load()
+    public void Load(int id)
     {
-        GameManager.instance.LoadScene(0);
+        GameManager.instance.LoadScene(id);
+    }
+
+    public void Play(AudioClip clip)
+    {
+        AudioManager.instance.PlaySound(clip);
+    }
+
+    public void CloseMenu()
+    {
+        GameManager.instance.manager.ClosePauseMenu();
     }
 }
