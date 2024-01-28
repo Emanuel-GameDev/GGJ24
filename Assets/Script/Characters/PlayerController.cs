@@ -525,7 +525,6 @@ public class PlayerController : MonoBehaviour
             nextIsBadassJump = false;
             forceToUse = jumpBadassForce;
             lastWasBadassJumping = true;
-            Debug.Log("Badass performed");
         }
         else
         {
@@ -589,8 +588,9 @@ public class PlayerController : MonoBehaviour
     #region RotationMovement
     private void SetPlayerRotation()
     {
-        transform.rotation = Quaternion.identity;
         rb.angularVelocity = 0;
+        
+        transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, -90));
 
     }
 

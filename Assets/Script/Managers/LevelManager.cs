@@ -37,6 +37,7 @@ public class LevelManager : MonoBehaviour
     {
         if (GameManager.instance.lvlStatus[levelId]==false)
             GameManager.instance.EditLevel(levelId, true);
+
         GetComponent<PlayableDirector>().Play();
     }
 
