@@ -226,6 +226,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         smashTrail = GetComponent<TrailRenderer>();
+        smashTrail.enabled = false;
     }
 
     private void Start()

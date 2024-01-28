@@ -132631,30 +132631,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: jumpForce
-      value: 6500
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: maxLezzume
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: voteDisplay
-      value: 
-      objectReference: {fileID: 1994866017}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: rotationSpeed
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: jumpBadassForce
-      value: 12000
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: rotationToUnlockBadassJump
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 436749699012751027, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -133574,17 +133550,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de362c388727f3444baff12a2be92966, type: 3}
---- !u!114 &1994866017 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4830956410751629864, guid: ba62d80f5478bee4582bc6bb2a757981, type: 3}
-  m_PrefabInstance: {fileID: 63732225}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2090249545
 PrefabInstance:
   m_ObjectHideFlags: 0
