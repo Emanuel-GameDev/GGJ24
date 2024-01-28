@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
         for (int i = 1; i <= 5; i++)
         {
             lvlStatus.Add(i, false);
-            Debug.Log(GetLevelStatus(i));
         }
     }
 
@@ -47,6 +46,13 @@ public class GameManager : MonoBehaviour
     public void EditLevel(int lvlNum, bool status)
     {
         lvlStatus[lvlNum] = status;
+        //foreach (KeyValuePair<int, bool> lvl in lvlStatus)
+        //{
+        //    if (lvl.Key == lvlNum)
+        //    {
+        //        lvlStatus[lvl.Key] = status;
+        //    }
+        //}
     }
 
     public void Exit()
@@ -64,17 +70,7 @@ public class GameManager : MonoBehaviour
         // Verifica se la chiave id esiste nella mappa dei livelli
         if (lvlStatus.ContainsKey(id))
         {
-            // Verifica se il livello è stato sbloccato
-            if (lvlStatus[id])
-            {
-                // Carica il livello corrispondente alla chiave id
-                SceneManager.LoadScene(id);
-            }
-            else
-            {
-                // Il livello non è stato sbloccato, quindi non può essere caricato
-                Debug.LogWarning("Il livello " + id + " non è stato sbloccato.");
-            }
+            SceneManager.LoadScene(id);
         }
         else
         {
