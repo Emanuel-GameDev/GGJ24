@@ -128,6 +128,7 @@ public class PlayerController : MonoBehaviour
     bool movingArrow = false;
     public bool rotating = false;
     public bool attachedToWall = false;
+    public bool blockRot = false;
 
     float rotationInput = 0;
 
@@ -597,6 +598,7 @@ public class PlayerController : MonoBehaviour
 
     private void RotateCharacter()
     {
+        if (blockRot) return;
         //if (rotationInput < 0)
         //{
         //    rb.AddTorque(rotationSpeed);

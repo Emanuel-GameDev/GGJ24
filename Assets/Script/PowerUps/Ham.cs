@@ -94,9 +94,13 @@ public class Ham : PowerUp
         playerRb = playerController.gameObject.GetComponent<Rigidbody2D>();
         defaultPlayerGravity = playerRb.gravityScale;
 
-        playerRb.freezeRotation = true;
-
         playerController.TriggerGlideMode(true);
+
+        playerRb.freezeRotation = true;
+        if (inputs != null)
+        {
+            playerController.blockRot = true;
+        }
     }
 
     private void MoveHorizontal(InputAction.CallbackContext context)
@@ -132,8 +136,6 @@ public class Ham : PowerUp
     public override void RemovePower()
     {
         playerController.TriggerGlideMode(false);
-
-        playerRb.freezeRotation = false;
 
         base.RemovePower();
 
@@ -172,10 +174,12 @@ public class Ham : PowerUp
         {
 
             playerRb.gravityScale = defaultPlayerGravity;
-            playerRb.freezeRotation = false;
-            playerController.inputs.Enable();
             activated = false;
             moveInAir = false;
+
+            playerController.TriggerGlideMode(false);
+
+            playerController.blockRot = false;
 
             playerController.GetAnimator().SetBool("IsGliding", false);
 
@@ -194,6 +198,9 @@ public class Ham : PowerUp
             {
                 TriggerSelfDestruct(false);
                 DeactivateHam();
+
+                playerRb.freezeRotation = false;
+
                 Destroy(this);
             }
             else
@@ -201,14 +208,6 @@ public class Ham : PowerUp
                 // Update the countdown text
                 text.text = Mathf.Round(selfDestroyTime).ToString();
             }
-
-            //if (elapsedTime >= (count + 1))
-            //{
-            //    count = elapsedTime;
-            //    int a = (int)(selfDestroyTime - elapsedTime);
-            //    text.text = a.ToString();
-            //}
-
    
         }
 
@@ -216,6 +215,7 @@ public class Ham : PowerUp
 
         if (!playerController.Grounded)
         {
+
             if (playerRb.velocity.y < 0)
             {
                 ActivateHam();
