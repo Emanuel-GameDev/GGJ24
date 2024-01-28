@@ -295,7 +295,8 @@ public class PlayerController : MonoBehaviour
         if (grounded)
         {
             animator.SetBool("IsSmashing", false);
-            smashTrail.enabled = false;
+            if(smashTrail!=null)
+                smashTrail.enabled = false;
 
 
 
@@ -630,7 +631,8 @@ public class PlayerController : MonoBehaviour
             rotationThisJump = 0;
 
             smashing = true;
-            smashTrail.enabled = true;
+            if (smashTrail != null)
+                smashTrail.enabled = true;
 
             SetPlayerRotation();
             rb.velocity = Vector3.zero;
