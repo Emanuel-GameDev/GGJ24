@@ -103,7 +103,7 @@ MonoBehaviour:
   moveForce: 5
   pickUpClip: {fileID: 8300000, guid: f9795839315681c4c983034d2afa5575, type: 3}
   powerLossCLip: {fileID: 8300000, guid: 4e566c04866975240ba7d2f0fdcee22e, type: 3}
-  selfDestroyTime: 5
+  selfDestroyTime: 30
   text: {fileID: 0}
   panel: {fileID: 0}
 --- !u!58 &2667723376332422476
