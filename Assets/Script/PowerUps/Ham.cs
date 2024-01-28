@@ -157,6 +157,8 @@ public class Ham : PowerUp
         {
             playerRb.gravityScale *= gravityDivider;
             activated = true;
+            playerController.GetAnimator().SetBool("IsGliding", true);
+            Debug.Log("Set");
         }
     }
 
@@ -170,6 +172,8 @@ public class Ham : PowerUp
             playerRb.gravityScale = defaultPlayerGravity;
             activated = false;
             moveInAir = false;
+
+            playerController.GetAnimator().SetBool("IsGliding", false);
 
         }
     }

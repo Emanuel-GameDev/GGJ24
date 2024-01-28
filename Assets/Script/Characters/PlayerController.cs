@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] Color colorWhenDamaged = Color.red;
 
-    PlayerAudioLibrary audioLibrary;
     [SerializeField] public GameObject visual;
 
     public bool balanced = false;
@@ -150,7 +149,6 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         Instance = this;
-        audioLibrary = GetComponent<PlayerAudioLibrary>();
         inputs = new PlayerInputs();
         PubSub.Instance.RegisterFunction(EMessageType.finishReached, FinishReached);
 
@@ -200,6 +198,10 @@ public class PlayerController : MonoBehaviour
         ResetPowerUps();
 
     }
+    public Animator GetAnimator()
+    {
+        return animator;
+    }
 
     private void ResetPowerUps()
     {
@@ -213,6 +215,8 @@ public class PlayerController : MonoBehaviour
     private void FinishReached(object obj)
     {
         inputs.Disable();
+        AudioManager.instance.PlaySound(badassJumpSound);
+        voteDisplay.gameObject.GetComponentInParent<Animator>().SetTrigger("Ants");
         animator.SetTrigger("Finish");
     }
 
@@ -342,7 +346,10 @@ public class PlayerController : MonoBehaviour
             animatorZ = 360 - transform.rotation.eulerAngles.z;
             //Debug.Log(animatorZ);
             animator.SetFloat("ZRotation", animatorZ);
+            
         }
+
+        
 
         StartRotationCount();
 
