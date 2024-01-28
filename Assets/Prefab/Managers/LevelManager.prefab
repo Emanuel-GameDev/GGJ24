@@ -47,9 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a09819b8c987424ab9dbbfbda3c79ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelId: 0
   lezzumeSliderSpeed: 5
   lezzumeSlider: {fileID: 0}
-  respawnTime: 1
+  respawnTime: 2
   levelSpawn: {fileID: 0}
   playerController: {fileID: 0}
   levelCheckpoints:
@@ -269,7 +270,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 41
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &3059600280953090796
 MonoBehaviour:
