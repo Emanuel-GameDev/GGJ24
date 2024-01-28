@@ -123,7 +123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7033846646000405763}
         m_TargetAssemblyTypeName: BtnBehaviour, Assembly-CSharp
-        m_MethodName: Exit
+        m_MethodName: Load
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

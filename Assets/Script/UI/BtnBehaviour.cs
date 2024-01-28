@@ -40,4 +40,9 @@ public class BtnBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         GameManager.instance.Exit();
     }
+
+    public void Load()
+    {
+        GameManager.instance.LoadScene(0);
+    }
 }
