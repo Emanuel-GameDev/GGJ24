@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,9 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject pauseMenu;
+
+    [SerializeField]
+    private List<TextMeshProUGUI> lvlStatuses;
 
     private PlayerInputs inputs;
     private bool pauseActive = false;
@@ -26,6 +30,24 @@ public class UIManager : MonoBehaviour
         inputs.UI.Pause.performed -= TriggerPauseMenu;
 
         inputs.Disable();
+    }
+
+    private void Start()
+    {
+        if (lvlStatuses.Count == 0) return;
+
+        for (int i = 0; i < lvlStatuses.Count; i++)
+        {
+            bool status = GameManager.instance.GetLevelStatus(i);
+            string strStatus;
+
+            if (status)
+                strStatus = "Completato";
+            else
+                strStatus = "";
+
+            lvlStatuses[i].text = strStatus;
+        }
     }
 
     private void TriggerPauseMenu(InputAction.CallbackContext obj)
