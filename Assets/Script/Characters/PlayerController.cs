@@ -589,8 +589,9 @@ public class PlayerController : MonoBehaviour
     #region RotationMovement
     private void SetPlayerRotation()
     {
-        transform.rotation = Quaternion.identity;
         rb.angularVelocity = 0;
+        
+        transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, -90));
 
     }
 

@@ -66,15 +66,15 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
             playerController.SetLezzume(damage);
 
             // se non ne ha togli una vita e ritorna
-            if (hitCount == hitsNeededToMakePlayerDie)
-            {
-                LevelManager.Instance.StartRespawn();
-            }
-            else
-            {
+            //if (hitCount == hitsNeededToMakePlayerDie)
+            //{
+            //    LevelManager.Instance.StartRespawn();
+            //}
+            //else
+            //{
                 
-                hitCount++;
-            }
+            //    hitCount++;
+            //}
         }
 
         // Fine
