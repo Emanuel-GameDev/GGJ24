@@ -46,13 +46,11 @@ public class GameManager : MonoBehaviour
     public void EditLevel(int lvlNum, bool status)
     {
         lvlStatus[lvlNum] = status;
-        //foreach (KeyValuePair<int, bool> lvl in lvlStatus)
-        //{
-        //    if (lvl.Key == lvlNum)
-        //    {
-        //        lvlStatus[lvl.Key] = status;
-        //    }
-        //}
+    }
+
+    public void LoadScene(int id)
+    {
+        SceneManager.LoadScene(id);
     }
 
     public void Exit()
