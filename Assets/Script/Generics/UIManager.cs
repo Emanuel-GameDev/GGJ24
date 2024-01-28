@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
     {
         if (lvlStatuses.Count == 0) return;
 
-        for (int i = 0; i < lvlStatuses.Count; i++)
+        for (int i = 1; i < lvlStatuses.Count; i++)
         {
             bool status = GameManager.instance.GetLevelStatus(i);
             string strStatus;
