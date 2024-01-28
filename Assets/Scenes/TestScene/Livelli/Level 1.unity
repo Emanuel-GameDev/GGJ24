@@ -133859,29 +133859,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: jumpForce
-      value: 6500
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: maxLezzume
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: voteDisplay
       value: 
       objectReference: {fileID: 1994866017}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: rotationSpeed
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: jumpBadassForce
-      value: 12000
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: rotationToUnlockBadassJump
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 436749699012751027, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -134025,18 +134005,6 @@ PrefabInstance:
     - target: {fileID: 8686415019569855524, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_Padding.z
       value: 86.56
-      objectReference: {fileID: 0}
-    - target: {fileID: 8753855081184397388, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: m_PreviewTimeScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8753855081184397388, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 058e4479ad92c1b48b23b82098de95d4, type: 2}
-    - target: {fileID: 8753855081184397388, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: m_Parameters.colorGradient.m_ColorSpace
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8774897633291369161, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_LocalRotation.w

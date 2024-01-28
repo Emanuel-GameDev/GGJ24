@@ -421,6 +421,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba62d80f5478bee4582bc6bb2a757981, type: 3}
+--- !u!114 &63732226 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4830956410751629864, guid: ba62d80f5478bee4582bc6bb2a757981, type: 3}
+  m_PrefabInstance: {fileID: 63732225}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &144347706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132631,6 +132642,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
+      propertyPath: voteDisplay
+      value: 
+      objectReference: {fileID: 63732226}
     - target: {fileID: 436749699012751027, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_Layer
       value: 8
