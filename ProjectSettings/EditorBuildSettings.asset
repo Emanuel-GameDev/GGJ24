@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestScene/Livelli/Level 5.unity
     guid: 6a5009a183560c54b9a1127868b8d1a7
+  - enabled: 1
+    path: Assets/Scenes/TestScene/Livelli/SceltaLivello.unity
+    guid: 13dd5b6aa14f3de44bfd816458eea806
   m_configObjects: {}
