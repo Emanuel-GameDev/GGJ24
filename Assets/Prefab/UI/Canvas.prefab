@@ -61,7 +61,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 500
   m_TargetDisplay: 0
 --- !u!114 &8084469034738947374
 MonoBehaviour:
@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 3414048999891178567}
+  lvlStatuses: []
 --- !u!1001 &6904436519277584838
 PrefabInstance:
   m_ObjectHideFlags: 0
