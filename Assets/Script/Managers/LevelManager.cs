@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
+    [SerializeField] private int levelId;
+
     [SerializeField] private float lezzumeSliderSpeed = 1;
     [SerializeField] public Slider lezzumeSlider;
     [SerializeField] float respawnTime = 1;
@@ -25,12 +27,16 @@ public class LevelManager : MonoBehaviour
     {
         Instance = this;
 
+        
+
         PubSub.Instance.RegisterFunction(EMessageType.checkpointTaken, SetLastCheckpointTaken);
         PubSub.Instance.RegisterFunction(EMessageType.finishReached, FinishReached);
     }
 
     private void FinishReached(object obj)
     {
+        if (GameManager.instance.lvlStatus[levelId]==false)
+            GameManager.instance.EditLevel(levelId, true);
         GetComponent<PlayableDirector>().Play();
     }
 
