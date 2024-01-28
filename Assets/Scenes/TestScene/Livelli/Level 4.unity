@@ -928,6 +928,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce1e798b124aaef428b1eefea4373287, type: 3}
+--- !u!114 &506898794 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6748594695261278422, guid: ce1e798b124aaef428b1eefea4373287, type: 3}
+  m_PrefabInstance: {fileID: 506898793}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85279207d6e754a4f8d2adc8e545fa3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &563618919
 GameObject:
   m_ObjectHideFlags: 0
@@ -141848,7 +141859,7 @@ Transform:
   m_GameObject: {fileID: 798598538}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.0369017, y: 2.0404568, z: -10}
+  m_LocalPosition: {x: 2.0365145, y: 2.0404568, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -144760,6 +144771,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1245055494}
     - target: {fileID: 2646589738236379488, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
+      propertyPath: levelId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2646589738236379488, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
       propertyPath: levelSpawn
       value: 
       objectReference: {fileID: 29552353}
@@ -144779,6 +144794,14 @@ PrefabInstance:
       propertyPath: respawnableParent
       value: 
       objectReference: {fileID: 1224057098}
+    - target: {fileID: 2646589738236379488, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
+      propertyPath: levelCheckpoints.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2646589738236379488, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
+      propertyPath: levelCheckpoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 506898794}
     - target: {fileID: 4983378171304596538, guid: 63c0bd0368701b84d8f4e61b40402ff3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.2
@@ -145020,7 +145043,7 @@ Transform:
   m_GameObject: {fileID: 2136274959}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.0369017, y: 2.0404568, z: -10}
+  m_LocalPosition: {x: 2.0365145, y: 2.0404568, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
