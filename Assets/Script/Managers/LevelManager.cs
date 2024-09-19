@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
     Checkpoint lastTakenCheckPoint;
 
     Transform respawnPoint;
-    [HideInInspector] public List<PowerUp> powerUpInScene = new List<PowerUp>();
+    [HideInInspector] public List<PowerUpEffect> powerUpInScene = new List<PowerUpEffect>();
 
     private void OnEnable()
     {
@@ -101,13 +101,6 @@ public class LevelManager : MonoBehaviour
         playerController.transform.SetPositionAndRotation(GetRespawnPoint(), Quaternion.LookRotation(Vector3.forward, Vector3.up));
         playerController.visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.LookRotation(Vector3.forward, Vector3.up));
 
-        List<PowerUp> powers = playerController.GetActivePowers();
-
-        foreach (PowerUp powerup in powers)
-        {
-            powerup.RemovePower();
-        }
-
         playerController.gameObject.SetActive(true);
     }
 
@@ -132,7 +125,7 @@ public class LevelManager : MonoBehaviour
 
     private void RespawnItems()
     {
-        foreach (PowerUp power in powerUpInScene)
+        foreach (PowerUpEffect power in powerUpInScene)
         {
             power.gameObject.SetActive(true);
 

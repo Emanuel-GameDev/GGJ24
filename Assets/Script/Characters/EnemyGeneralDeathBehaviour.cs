@@ -43,44 +43,44 @@ public class EnemyGeneralDeathBehaviour : MonoBehaviour
             else
             {
                 utilityEvent.Invoke();
-                GiveHit(playerController);
+                //GiveHit(playerController);
             }
         }
     }
 
-    public void GiveHit(PlayerController playerController)
-    {
-        // Guarda se ha power up
-        List<PowerUp> playerActivePowers = playerController.GetActivePowers();
+    //public void GiveHit(PlayerController playerController)
+    //{
+    //    // Guarda se ha power up
+    //    //List<PowerUpEffect> playerActivePowers = playerController.GetActivePowers();
 
-        if (playerActivePowers.Count > 0)
-        {
-            // se li ha togli l'ultimo e ritorna
-            PowerUp lastPowerUp = playerController.GetLastPowerUp();
+    //    if (playerActivePowers.Count > 0)
+    //    {
+    //        // se li ha togli l'ultimo e ritorna
+    //        //PowerUpEffect lastPowerUp = playerController.GetLastPowerUp();
 
-            lastPowerUp.RemovePower();
-        }
-        else
-        {
-            float damage = playerController.GetLezzume() + 1;
-            playerController.SetLezzume(damage);
+    //        //lastPowerUp.RemovePower();
+    //    }
+    //    else
+    //    {
+    //        float damage = playerController.GetLezzume() + 1;
+    //        playerController.SetLezzume(damage);
 
-            // se non ne ha togli una vita e ritorna
-            //if (hitCount == hitsNeededToMakePlayerDie)
-            //{
-            //    LevelManager.Instance.StartRespawn();
-            //}
-            //else
-            //{
+    //        // se non ne ha togli una vita e ritorna
+    //        //if (hitCount == hitsNeededToMakePlayerDie)
+    //        //{
+    //        //    LevelManager.Instance.StartRespawn();
+    //        //}
+    //        //else
+    //        //{
                 
-            //    hitCount++;
-            //}
-        }
+    //        //    hitCount++;
+    //        //}
+    //    }
 
-        // Fine
-        Debug.Log("Colpito");
-        StartCoroutine(Cooldown());
-    }
+    //    // Fine
+    //    Debug.Log("Colpito");
+    //    StartCoroutine(Cooldown());
+    //}
 
     private IEnumerator Cooldown()
     {
