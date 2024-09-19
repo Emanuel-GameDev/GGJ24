@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageable
 {
     public static PlayerController Instance;
 
     [Header("Lezzume")]
     [SerializeField, Min(1)] public float maxLezzume = 1;
-    
-    
+
+
 
     [Header("Jump")]
     [SerializeField] private float jumpForce = 10;
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] List<AudioClip> jumpSounds;
     [SerializeField] AudioClip badassJumpSound;
     [SerializeField] AudioClip deathSound;
-    
+
 
     [Header("Ground")]
     [SerializeField] private Transform groundCheck;
@@ -56,6 +56,23 @@ public class PlayerController : MonoBehaviour
     [Header("Head")]
     [SerializeField] private Transform headCheck;
     [SerializeField] private float headCheckRadius;
+
+    #region Gliding Variables
+
+    [Header("Gliding")]
+
+    [SerializeField]
+    private float glidingSpeed;
+
+    [SerializeField, Tooltip("La forza del movimento laterale durante il glide")]
+    private float moveForce;
+
+    private bool canGlide = false; // Da impostare da esterno per triggerare il glide
+    private bool moveInAir; // Per capire quando il personaggio sta premendo A o D per muoversi in aria mentre glida
+    private float initialGS; // GS = gravity scale
+    private Vector2 vecWhileMovingInAir;
+
+    #endregion
 
     [SerializeField] Color colorWhenDamaged = Color.red;
 
@@ -75,7 +92,7 @@ public class PlayerController : MonoBehaviour
             if (value > lezzume)
             {
                 slidingCoroutine = LevelManager.Instance.StartCoroutine(LevelManager.Instance.ClampLezzumeBar(value));
-                
+
             }
             else
             {
@@ -101,7 +118,7 @@ public class PlayerController : MonoBehaviour
     }
     Coroutine slidingCoroutine;
     [HideInInspector] public bool moveSlider = false;
-   
+
 
     int counterJumpRotation = 0;
 
@@ -121,7 +138,6 @@ public class PlayerController : MonoBehaviour
 
     bool nextIsBadassJump = false;
     bool headToGround = false;
-    bool canGlide = false;
 
     public bool smashing = false;
 
@@ -134,8 +150,6 @@ public class PlayerController : MonoBehaviour
 
     float baseJumpForce;
     float arrowMovementdirection = 0;
-
-    private List<PowerUp> powerUps = new List<PowerUp>();
 
     #region UnityFunctions
 
@@ -172,7 +186,7 @@ public class PlayerController : MonoBehaviour
         angleLeftGrounded = false;
         angleRightGrounded = false;
 
-        
+
         maxAngleLeftReached = false;
         maxAngleRightReached = false;
 
@@ -195,6 +209,8 @@ public class PlayerController : MonoBehaviour
         deactivateGroundCheck = false;
 
         moveSlider = false;
+        initialGS = rb.gravityScale;
+        moveInAir = false;
 
         ResetPowerUps();
 
@@ -207,7 +223,7 @@ public class PlayerController : MonoBehaviour
     private void ResetPowerUps()
     {
 
-        foreach(PowerUp p in GetComponents<PowerUp>())
+        foreach (PowerUpEffect p in GetComponents<PowerUpEffect>())
         {
             Destroy(p);
         }
@@ -240,8 +256,12 @@ public class PlayerController : MonoBehaviour
 
 
     }
+
+
     float animatorZ = 0;
     bool lastWasBadassJumping = false;
+
+
     private void Update()
     {
         //Debug
@@ -257,25 +277,28 @@ public class PlayerController : MonoBehaviour
         //}
         if (rotationThisJump > 0 && !lastWasBadassJumping)
         {
-            if(displayCoroutine!=null)
+            if (displayCoroutine != null)
                 StopCoroutine(displayCoroutine);
 
-            voteDisplay.color=new Color(1,1,1,1);
-
-            switch (rotationThisJump)
+            if (voteDisplay != null)
             {
-                case 1:
-                    voteDisplay.sprite = voteImages[0];
-                    break;
-                case 2:
-                    voteDisplay.sprite = voteImages[1];
-                    break;
-                case 3:
-                    voteDisplay.sprite = voteImages[2];
-                    break;
-                default:
-                    voteDisplay.sprite = voteImages[voteImages.Length - 1];
-                    break;
+                voteDisplay.color = new Color(1, 1, 1, 1);
+
+                switch (rotationThisJump)
+                {
+                    case 1:
+                        voteDisplay.sprite = voteImages[0];
+                        break;
+                    case 2:
+                        voteDisplay.sprite = voteImages[1];
+                        break;
+                    case 3:
+                        voteDisplay.sprite = voteImages[2];
+                        break;
+                    default:
+                        voteDisplay.sprite = voteImages[voteImages.Length - 1];
+                        break;
+                }
             }
         }
 
@@ -304,7 +327,7 @@ public class PlayerController : MonoBehaviour
 
             if (balanced)
             {
-                if (rotationThisJump > 0 )
+                if (rotationThisJump > 0)
                 {
                     displayCoroutine = StartCoroutine(RemoveDisplay());
                     if (!lastWasBadassJumping)
@@ -320,11 +343,11 @@ public class PlayerController : MonoBehaviour
                             nextIsBadassJump = true;
 
                         rotationThisJump = 0;
-                        
+
 
                     }
-                        
-                        ResetCurrentRadialCounter();
+
+                    ResetCurrentRadialCounter();
 
                 }
             }
@@ -336,28 +359,98 @@ public class PlayerController : MonoBehaviour
             angleLeftGrounded = false;
             angleRightGrounded = false;
             balanced = false;
-
-            
-
-
         }
+
+        // Glide 
 
         if (!canGlide)
         {
+            if (rb.gravityScale != initialGS)
+            {
+                rb.gravityScale = initialGS;
+
+                animator.SetBool("IsGliding", false);
+            }
+
             animatorZ = 360 - transform.rotation.eulerAngles.z;
             //Debug.Log(animatorZ);
             animator.SetFloat("ZRotation", animatorZ);
-            
         }
+        else
+        {
+            if (!grounded)
+            {
+                SetupInputsForGlideMode(true);
 
-        
+                if (rb.velocity.y < 0 && !smashing)
+                {
+                    rb.gravityScale = 0f;
+
+                    if (!moveInAir)
+                        rb.velocity = new Vector2(rb.velocity.x, -glidingSpeed);
+                    else
+                        rb.velocity = new Vector2(vecWhileMovingInAir.x, -glidingSpeed);
+
+                    animator.SetBool("IsGliding", true);
+                    transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, 0));
+
+                }
+            }
+            else
+            {
+                if (smashing)
+                    smashing = false;
+
+                SetupInputsForGlideMode(false);
+
+                if (rb.gravityScale != initialGS)
+                {
+                    rb.gravityScale = initialGS;
+                    animator.SetBool("IsGliding", false);
+                }
+            }
+        }
 
         StartRotationCount();
 
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
+
+        if (Input.GetKeyDown(KeyCode.L))
+            PubSub.Instance.Notify(EMessageType.smashOver, null);
     }
+
+    public void TriggerGlideMode(bool mode)
+    {
+        if (mode)
+            canGlide = true;
+        else
+            canGlide = false;
+    }
+
+    public void SetupInputsForGlideMode(bool mode)
+    {
+        if (mode)
+        {
+            inputs.Gameplay.Rotate.performed -= Rotate_performed;
+            inputs.Gameplay.Rotate.canceled -= Rotate_canceled;
+
+            inputs.Gameplay.Rotate.performed += MoveHorizontal;
+            inputs.Gameplay.Rotate.canceled += DisableHorizontal;
+        }
+        else
+        {
+            inputs.Gameplay.Rotate.performed += Rotate_performed;
+            inputs.Gameplay.Rotate.canceled += Rotate_canceled;
+
+            inputs.Gameplay.Rotate.performed -= MoveHorizontal;
+            inputs.Gameplay.Rotate.canceled -= DisableHorizontal;
+        }
+    }
+
     Coroutine displayCoroutine;
+
+
     IEnumerator RemoveDisplay()
     {
         yield return new WaitForSeconds(1);
@@ -378,6 +471,9 @@ public class PlayerController : MonoBehaviour
 
         inputs.Gameplay.Jump.performed -= Jump_performed;
         inputs.Gameplay.Jump.canceled -= Jump_canceled;
+
+        inputs.Gameplay.Rotate.performed -= MoveHorizontal;
+        inputs.Gameplay.Rotate.canceled -= DisableHorizontal;
 
         inputs.Disable();
         inputs.Dispose();
@@ -439,25 +535,35 @@ public class PlayerController : MonoBehaviour
         if (grounded)
         {
             //freccia
-
             movingArrow = true;
             arrowMovementdirection = obj.ReadValue<float>();
         }
         else
         {
-
             //Ruota
             rotating = true;
             rotationInput = obj.ReadValue<float>();
 
             rb.angularVelocity = 0;
-
-
-
-
         }
-
     }
+
+    private void MoveHorizontal(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        if (!grounded)
+        {
+            float f = context.ReadValue<float>();
+            vecWhileMovingInAir = new Vector2(f * moveForce, 0);
+
+            moveInAir = true;
+        }
+    }
+
+    private void DisableHorizontal(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        moveInAir = false;
+    }
+
     private void Smash_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         Smash();
@@ -521,7 +627,7 @@ public class PlayerController : MonoBehaviour
 
         float forceToUse = 0;
 
-        if (nextIsBadassJump&&!lastWasBadassJumping)
+        if (nextIsBadassJump && !lastWasBadassJumping)
         {
             nextIsBadassJump = false;
             forceToUse = jumpBadassForce;
@@ -578,19 +684,13 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void TriggerGlideMode(bool mode)
-    {
-        canGlide = mode;
-
-    }
-
     #endregion
 
     #region RotationMovement
     private void SetPlayerRotation()
     {
         rb.angularVelocity = 0;
-        
+
         transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, -90));
 
     }
@@ -739,27 +839,13 @@ public class PlayerController : MonoBehaviour
         }
     }
     public int rotationThisJump = 0;
+
     private void ResetCurrentRadialCounter()
     {
         lastPointRotation = transform.TransformDirection(Vector3.up);
         lastPointRotation.z = 0;
         totalRotattion = 0;
         counterJumpRotation = 0;
-    }
-
-    public List<PowerUp> GetActivePowers()
-    {
-        return powerUps;
-    }
-
-    public PowerUp GetLastPowerUp()
-    {
-        return powerUps[powerUps.Count];
-    }
-
-    public PowerUp GetFirst()
-    {
-        return powerUps[0];
     }
 
     public void PlayRandomFootstepSound()
@@ -770,6 +856,27 @@ public class PlayerController : MonoBehaviour
     public void PlayRandomJumpSound()
     {
         AudioManager.instance.PlaySound(jumpSounds[UnityEngine.Random.Range(0, jumpSounds.Count)]);
+    }
+
+    public bool TakeHit(float dmg)
+    {
+        // Se ho dei power up attivi, togli l'ultimo preso e poi ritorna
+        if (PowerUpsManager.instance.GetActivePowers().Count > 0)
+        {
+            PowerUpEffect last = PowerUpsManager.instance.GetLastPowerUp();
+
+            PowerUpsManager.instance.RemovePower(last);
+
+            return false;
+        }
+
+        SetLezzume(lezzume + (int)dmg);
+
+        // se pg muore ritorno true, sennò false
+        if (lezzume == maxLezzume)
+            return true;
+        else
+            return false;
     }
 
     #endregion

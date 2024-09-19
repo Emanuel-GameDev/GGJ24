@@ -7,7 +7,7 @@ public enum EMessageType
 {
     checkpointTaken,
     finishReached,
-    projectileHit
+    smashOver
 }
 
 public class FunctionsList : Dictionary<EMessageType, List<Action<object>>> { }

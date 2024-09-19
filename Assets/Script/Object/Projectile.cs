@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : MonoBehaviour, IDamager
 {
     [SerializeField]
     private float aliveTime = 5f;
 
     [SerializeField]
+    private LayerMask targetMask;
+
+    [SerializeField]
     private AudioClip clip;
 
-    private EnemyGeneralDeathBehaviour shooter;
+    private int damage = 1;
 
     private void Start()
     {
@@ -21,12 +24,14 @@ public class Projectile : MonoBehaviour
     {
         StopCoroutine(AliveTimer());
 
-        if (collision.gameObject.GetComponent<PlayerController>() != null)
+        if (Utility.LayerDetectedInMask(targetMask, collision.gameObject.layer))
         {
-            if (shooter != null)
-                shooter.GiveHit(collision.gameObject.GetComponent<PlayerController>());
+            bool targetDead = GiveHit(collision.gameObject.GetComponent<IDamageable>());
+
+            if (targetDead)
+                LevelManager.Instance.StartRespawn();
         }
-        else if (collision.gameObject.GetComponent<SaltShooter>() != null)
+        else if (collision.gameObject.GetComponent<BaseEnemy>() != null)
             return;
 
         AudioManager.instance.PlaySound(clip);
@@ -34,20 +39,20 @@ public class Projectile : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.GetComponent<SaltShooter>() != null)
-        {
-            EnemyGeneralDeathBehaviour GDE = collision.gameObject.GetComponentInChildren<EnemyGeneralDeathBehaviour>();
-            shooter = GDE;
-
-        }
-    }
-
     private IEnumerator AliveTimer()
     {
         yield return new WaitForSeconds(aliveTime); 
 
         gameObject.SetActive(false);
+    }
+
+    public void SetDamage(int val)
+    {
+        damage = val;
+    }
+
+    public bool GiveHit(IDamageable damageable)
+    {
+        return damageable.TakeHit(damage);
     }
 }
