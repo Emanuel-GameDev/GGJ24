@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8774897633291369161}
   - component: {fileID: 8295674093744842662}
+  - component: {fileID: 9082029640674645741}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -83,7 +84,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: -876546973899608171, guid: 6bf7e533b15b70c4387f257da7152ef2, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -115,6 +116,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &9082029640674645741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613020781728955701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9495d17d88cd4fa4489383ed82bac8dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorWhenDamaged: {r: 1, g: 0, b: 0, a: 1}
+  fadeSpeed: 3.99
 --- !u!1 &1041929743575272501
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,9 +228,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &2371625701575465560
 BoxCollider2D:
@@ -249,7 +264,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.02237463, y: -0.081015944}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -260,7 +275,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 1.4}
+  m_Size: {x: 0.9068136, y: 1.1620319}
   m_EdgeRadius: 0
 --- !u!114 &250654806340606757
 MonoBehaviour:
@@ -275,7 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLezzume: 2
-  jumpForce: 6500
+  jumpForce: 5000
   jumpBadassForce: 12000
   rotationToUnlockBadassJump: 3
   maxJumpAngle: 70
@@ -283,8 +298,8 @@ MonoBehaviour:
   arrowPointer: {fileID: 1809180912859708768}
   arrowRotationPoint: {fileID: 6881965214304423759}
   line: {fileID: 6167584356458765812}
-  smashForce: 250
-  rotationSpeed: 250
+  smashForce: 51.3
+  rotationSpeed: 200
   voteDisplay: {fileID: 0}
   pointToApplyForce: {fileID: 8008876647909593805}
   voteImages:
@@ -322,6 +337,8 @@ MonoBehaviour:
     m_Bits: 64
   headCheck: {fileID: 6200340480174528624}
   headCheckRadius: 0.13
+  glidingSpeed: 1
+  moveForce: 2.76
   colorWhenDamaged: {r: 1, g: 0, b: 0, a: 1}
   visual: {fileID: 613020781728955701}
   balanced: 0
@@ -331,6 +348,7 @@ MonoBehaviour:
   smashing: 0
   rotating: 0
   attachedToWall: 0
+  blockRot: 0
   rotationThisJump: 0
 --- !u!96 &8753855081184397388
 TrailRenderer:
