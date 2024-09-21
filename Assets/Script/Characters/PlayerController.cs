@@ -47,15 +47,17 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
 
-    [SerializeField] private Transform groundCheckAngleLeft;
-    [SerializeField] private Transform groundCheckAngleRight;
+    [SerializeField] private Transform groundCheckAngleBottomLeft;
+    [SerializeField] private Transform groundCheckAngleBottomRight;
+    [SerializeField] private Transform groundCheckAngleTopLeft;
+    [SerializeField] private Transform groundCheckAngleTopRight;
     [SerializeField] private float groundCheckAngleRadius = 1;
     [SerializeField] private LayerMask groundAngleMask;
 
 
     [Header("Head")]
-    [SerializeField] private Transform headCheck;
-    [SerializeField] private float headCheckRadius;
+    //[SerializeField] private Transform headCheck;
+    //[SerializeField] private float headCheckRadius;
 
     #region Gliding Variables
 
@@ -79,8 +81,10 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] public GameObject visual;
 
     public bool balanced = false;
-    public bool angleLeftGrounded = false;
-    public bool angleRightGrounded = false;
+    public bool angleBottomLeftGrounded = false;
+    public bool angleBottomRightGrounded = false;
+    public bool angleTopLeftGrounded = false;
+    public bool angleTopRightGrounded = false;
 
     float lezzume;
 
@@ -137,7 +141,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     bool maxAngleRightReached = false;
 
     bool nextIsBadassJump = false;
-    bool headToGround = false;
+    //bool headToGround = false;
 
     public bool smashing = false;
 
@@ -183,8 +187,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         counterJumpRotation = 0;
 
         balanced = false;
-        angleLeftGrounded = false;
-        angleRightGrounded = false;
+        angleBottomLeftGrounded = false;
+        angleBottomRightGrounded = false;
 
 
         maxAngleLeftReached = false;
@@ -192,7 +196,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         nextIsBadassJump = false;
         lastWasBadassJumping = false;
-        headToGround = false;
+        //headToGround = false;
         canGlide = false;
 
         smashing = false;
@@ -314,11 +318,14 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (!attachedToWall)
         {
             GroundCheck(groundMask);
-            HeadCheck(groundMask);
+            //HeadCheck(groundMask);
         }
 
         if (grounded)
         {
+            if(!line.gameObject.activeSelf)
+                line.gameObject.SetActive(true);
+
             animator.SetBool("IsSmashing", false);
             if(smashTrail!=null)
                 smashTrail.enabled = false;
@@ -358,8 +365,11 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
         else
         {
-            angleLeftGrounded = false;
-            angleRightGrounded = false;
+            if (line.gameObject.activeSelf)
+                line.gameObject.SetActive(false);
+
+            angleBottomLeftGrounded = false;
+            angleBottomRightGrounded = false;
             balanced = false;
         }
 
@@ -484,10 +494,13 @@ public class PlayerController : MonoBehaviour, IDamageable
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-        Gizmos.DrawWireSphere(headCheck.position, headCheckRadius);
+        //Gizmos.DrawWireSphere(headCheck.position, headCheckRadius);
 
-        Gizmos.DrawWireSphere(groundCheckAngleLeft.position, groundCheckAngleRadius);
-        Gizmos.DrawWireSphere(groundCheckAngleRight.position, groundCheckAngleRadius);
+        Gizmos.DrawWireSphere(groundCheckAngleBottomLeft.position, groundCheckAngleRadius);
+        Gizmos.DrawWireSphere(groundCheckAngleBottomRight.position, groundCheckAngleRadius);
+        Gizmos.DrawWireSphere(groundCheckAngleTopLeft.position, groundCheckAngleRadius);
+        Gizmos.DrawWireSphere(groundCheckAngleTopRight.position, groundCheckAngleRadius);
+
 
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x, transform.position.y, transform.position.z));
 
@@ -614,10 +627,10 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         Vector2 forceDirection = Vector2.zero;
 
-        if (!headToGround)
+        //if (!headToGround)
             forceDirection = arrowPointer.transform.position - transform.position;
-        else
-            forceDirection = Vector2.up;
+        //else
+        //    forceDirection = Vector2.up;
 
         if (angleToJump > 0 && visual.transform.localScale.x == -1)
             visual.transform.localScale = new Vector3(1, 1, 1);
@@ -756,12 +769,12 @@ public class PlayerController : MonoBehaviour, IDamageable
         smashing = false;
     }
 
-    public bool HeadCheck(LayerMask layerMask)
-    {
-        headToGround = Physics2D.OverlapCircle(headCheck.position, headCheckRadius, layerMask);
+    //public bool HeadCheck(LayerMask layerMask)
+    //{
+    //    headToGround = Physics2D.OverlapCircle(headCheck.position, headCheckRadius, layerMask);
 
-        return headToGround;
-    }
+    //    return headToGround;
+    //}
 
     bool deactivateGroundCheck = false;
     public bool GroundCheck(LayerMask layerMask)
@@ -785,11 +798,14 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         if (grounded)
         {
-            angleLeftGrounded = Physics2D.OverlapCircle(groundCheckAngleLeft.position, groundCheckAngleRadius, layerMask);
-            angleRightGrounded = Physics2D.OverlapCircle(groundCheckAngleRight.position, groundCheckAngleRadius, layerMask);
+            angleBottomLeftGrounded = Physics2D.OverlapCircle(groundCheckAngleBottomLeft.position, groundCheckAngleRadius, layerMask);
+            angleBottomRightGrounded = Physics2D.OverlapCircle(groundCheckAngleBottomRight.position, groundCheckAngleRadius, layerMask);
+            angleTopLeftGrounded= Physics2D.OverlapCircle(groundCheckAngleTopLeft.position, groundCheckAngleRadius, layerMask);
+            angleTopRightGrounded = Physics2D.OverlapCircle(groundCheckAngleTopRight.position, groundCheckAngleRadius, layerMask);
 
 
-            if (angleLeftGrounded && angleRightGrounded && Mathf.Abs(rb.angularVelocity) < 1)
+            if ((angleBottomLeftGrounded && angleBottomRightGrounded && Mathf.Abs(rb.angularVelocity) < 1) ||
+                (angleTopLeftGrounded && angleTopRightGrounded && Mathf.Abs(rb.angularVelocity) < 1))
                 balanced = true;
             else
                 balanced = false;

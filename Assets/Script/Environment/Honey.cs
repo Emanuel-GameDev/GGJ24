@@ -40,7 +40,7 @@ public class Honey : MonoBehaviour
         List<Vector2> dirsToCheck = new List<Vector2>()
         { Vector2.down, Vector2.left, Vector2.right,Vector2.up};
 
-        if (playerController != null && playerController.GroundCheck(LayerMask.GetMask("Terrain")) || playerController != null && playerController.HeadCheck(LayerMask.GetMask("Terrain")))
+        if (playerController != null && playerController.GroundCheck(LayerMask.GetMask("Terrain")) || playerController != null /*&& playerController.HeadCheck(LayerMask.GetMask("Terrain"))*/)
         {
             float attachmentForce = coefficenteDiAppiccico * 
                 Mathf.Abs(playerController.gameObject.GetComponent<Rigidbody2D>().gravityScale);
