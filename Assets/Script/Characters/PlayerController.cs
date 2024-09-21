@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField, Range(0, 180)] private float maxJumpAngle = 0;
 
     [Header("Arrow")]
-    [SerializeField] private float arrowSensitivity = 1;
+    [SerializeField] private float arrowSensitivity = 3;
     [SerializeField] private Transform arrowPointer;
     [SerializeField] private Transform arrowRotationPoint;
     [SerializeField] private LineRenderer line;
@@ -594,15 +594,15 @@ public class PlayerController : MonoBehaviour, IDamageable
             angle = 360 - arrowRotationPoint.localRotation.eulerAngles.z;
             angleToJump += arrowSensitivity;
 
-            if (angleToJump > maxJumpAngle)
-            {
-                maxAngleRightReached = true;
-            }
-            else
-            {
+            //if (angleToJump > maxJumpAngle)
+            //{
+            //    maxAngleRightReached = true;
+            //}
+            //else
+            //{
                 arrowRotationPoint.Rotate(-Vector3.forward * arrowMovementdirection, arrowSensitivity);
                 maxAngleLeftReached = false;
-            }
+            //}
 
         }
         else if (arrowMovementdirection < 0 && !maxAngleLeftReached)
@@ -610,15 +610,15 @@ public class PlayerController : MonoBehaviour, IDamageable
             angle = arrowRotationPoint.localRotation.eulerAngles.z;
             angleToJump -= arrowSensitivity;
 
-            if (angleToJump < -maxJumpAngle)
-            {
-                maxAngleLeftReached = true;
-            }
-            else
-            {
+            //if (angleToJump < -maxJumpAngle)
+            //{
+            //    maxAngleLeftReached = true;
+            //}
+            //else
+            //{
                 arrowRotationPoint.Rotate(-Vector3.forward * arrowMovementdirection, arrowSensitivity);
                 maxAngleRightReached = false;
-            }
+            //}
         }
 
     }
