@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] private LineRenderer line;
 
     [Header("Smash")]
+    [SerializeField] private GameObject smashDamager;
     [SerializeField] private float smashForce = 10;
 
 
@@ -184,6 +185,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
 
+        smashDamager.SetActive(false);
+
         counterJumpRotation = 0;
 
         balanced = false;
@@ -315,6 +318,12 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (movingArrow)
             MoveJumpDirection();
 
+        //if(smashing)
+        //{
+        //    if (rb.velocity.y <= 1f)
+        //        SmashOver();
+        //}
+
         if (!attachedToWall)
         {
             GroundCheck(groundMask);
@@ -411,7 +420,7 @@ public class PlayerController : MonoBehaviour, IDamageable
             else
             {
                 if (smashing)
-                    smashing = false;
+                    SmashOver();
 
                 SetupInputsForGlideMode(false);
 
@@ -581,7 +590,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void Smash_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        Smash();
+        if(!smashing)
+            Smash();
     }
 
     #endregion
@@ -744,6 +754,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         if (!grounded)
         {
+            smashDamager.SetActive(true);
+
             rotationThisJump = 0;
 
             smashing = true;
@@ -766,7 +778,9 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void SmashOver()
     {
+        Debug.Log("Over");
         smashing = false;
+        smashDamager.SetActive(false);
     }
 
     //public bool HeadCheck(LayerMask layerMask)

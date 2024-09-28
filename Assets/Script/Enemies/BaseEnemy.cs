@@ -12,18 +12,22 @@ public interface IDamager
     bool GiveHit(IDamageable damageable);
 }
 
-public class BaseEnemy : MonoBehaviour, IDamager
+public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
 {
     [Header("BASE ENEMY DATA")]
 
     [SerializeField]
     private int hitCooldown = 4;
 
+    [SerializeField] private int lifePoints = 1;
+
     [SerializeField]
     private GameObject deathEffectprefab;
 
     [SerializeField, Tooltip("Tempo prima che il nemico scompaia a seguoto della morte")]
     private float deathDelay = 1f;
+
+
 
 
     private bool canDetectHit = true;
@@ -40,23 +44,24 @@ public class BaseEnemy : MonoBehaviour, IDamager
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        
         if (collision.gameObject.GetComponent<PlayerController>() != null)
         {
             if (!canDetectHit) return;
 
             PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
 
-            // Se player sta schiacciando nemico muore, poi ritorna
+            //Se player sta schiacciando nemico muore, poi ritorna
             if (playerController.smashing)
             {
-                StartCoroutine(Death());
+                //StartCoroutine(Death());
 
                 //anim.SetTrigger("Death");
             }
             else
             {
                 //utilityEvent.Invoke();
-                //GiveHit(playerController);
+                GiveHit(playerController);
             }
         }
     }
@@ -79,6 +84,17 @@ public class BaseEnemy : MonoBehaviour, IDamager
 
     public bool GiveHit(IDamageable damageable)
     {
-        throw new System.NotImplementedException();
+        damageable.TakeHit(1);
+        return true;
+    }
+
+    public bool TakeHit(float dmg)
+    {
+        lifePoints -=(int) dmg;
+
+        if (lifePoints <= 0)
+            gameObject.SetActive(false);
+
+        return true;
     }
 }

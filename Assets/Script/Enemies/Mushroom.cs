@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MushroomBehaviour : MonoBehaviour
+public class MushroomBehaviour : BaseEnemy
 {
     [SerializeField]
     private Transform pointA; // Arrivo
@@ -13,7 +13,7 @@ public class MushroomBehaviour : MonoBehaviour
     [SerializeField]
     private float patrolSpeed = 2f;
 
-    void Start()
+    public override void Start()
     {
         if (pointA == null || pointB == null) return;
 

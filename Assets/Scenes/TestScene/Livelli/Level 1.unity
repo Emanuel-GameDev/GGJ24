@@ -132222,6 +132222,14 @@ PrefabInstance:
       propertyPath: fireRate
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 471811994403289113, guid: de362c388727f3444baff12a2be92966, type: 3}
+      propertyPath: projectileSpeed
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 471811994403289113, guid: de362c388727f3444baff12a2be92966, type: 3}
+      propertyPath: deathEffectprefab
+      value: 
+      objectReference: {fileID: 2526141502250720967, guid: c4fb6d8c9601db54bb36ca5b38edb06b, type: 3}
     - target: {fileID: 725448747659644452, guid: de362c388727f3444baff12a2be92966, type: 3}
       propertyPath: m_Name
       value: SaltShooter

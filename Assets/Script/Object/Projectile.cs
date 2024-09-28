@@ -2,41 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour, IDamager
+public class Projectile : TriggerDamager
 {
     [SerializeField]
     private float aliveTime = 5f;
-
-    [SerializeField]
-    private LayerMask targetMask;
-
-    [SerializeField]
-    private AudioClip clip;
-
-    private int damage = 1;
 
     private void Start()
     {
         StartCoroutine(AliveTimer());
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public override void OnTriggerEnter2D(Collider2D collision)
     {
-        StopCoroutine(AliveTimer());
-
-        if (Utility.LayerDetectedInMask(targetMask, collision.gameObject.layer))
+        if (Utility.LayerDetectedInMask(layerDamagable, collision.gameObject.layer))
         {
-            bool targetDead = GiveHit(collision.gameObject.GetComponent<IDamageable>());
+            //Colpito qualcosa
+            StopCoroutine(AliveTimer());
 
-            if (targetDead)
-                LevelManager.Instance.StartRespawn();
+            if (clip != null)
+                AudioManager.instance.PlaySound(clip);
+
+            //Fai danno se danneggiabile
+            IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+
+            if (damageable == null)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+            else
+            {
+                bool targetDead = GiveHit(damageable);
+
+                if (targetDead)
+                    LevelManager.Instance.StartRespawn();
+
+                gameObject.SetActive(false);
+            }
         }
-        else if (collision.gameObject.GetComponent<BaseEnemy>() != null)
-            return;
-
-        AudioManager.instance.PlaySound(clip);
-
-        gameObject.SetActive(false);
     }
 
     private IEnumerator AliveTimer()
@@ -49,10 +52,5 @@ public class Projectile : MonoBehaviour, IDamager
     public void SetDamage(int val)
     {
         damage = val;
-    }
-
-    public bool GiveHit(IDamageable damageable)
-    {
-        return damageable.TakeHit(damage);
     }
 }
