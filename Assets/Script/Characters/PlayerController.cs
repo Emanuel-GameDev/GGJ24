@@ -251,6 +251,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         rb = GetComponent<Rigidbody2D>();
         smashTrail = GetComponent<TrailRenderer>();
         smashTrail.enabled = false;
+        initialDrag = rb.drag;
     }
 
     private void Start()
@@ -312,13 +313,13 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 
 
-        if (rotating)
+        if (rotating && !smashing)
             RotateCharacter();
 
         if (movingArrow)
             MoveJumpDirection();
 
-        //if(smashing)
+        //if (smashing)
         //{
         //    if (rb.velocity.y <= 1f)
         //        SmashOver();
@@ -336,6 +337,7 @@ public class PlayerController : MonoBehaviour, IDamageable
                 line.gameObject.SetActive(true);
 
             animator.SetBool("IsSmashing", false);
+
             if(smashTrail!=null)
                 smashTrail.enabled = false;
 
@@ -748,10 +750,11 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     }
     #endregion
-
+    float initialDrag;
     #region OtherMovemnet
     private void Smash()
     {
+       
         if (!grounded)
         {
             smashDamager.SetActive(true);
@@ -759,6 +762,7 @@ public class PlayerController : MonoBehaviour, IDamageable
             rotationThisJump = 0;
 
             smashing = true;
+
             if (smashTrail != null)
                 smashTrail.enabled = true;
 
@@ -769,6 +773,7 @@ public class PlayerController : MonoBehaviour, IDamageable
             visual.transform.localScale = new Vector3(1, 1, 1);
 
             rb.AddForce(Vector2.down * smashForce * 100);
+            rb.drag = 0;
         }
 
     }
@@ -778,6 +783,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void SmashOver()
     {
+        rb.drag= initialDrag;
         Debug.Log("Over");
         smashing = false;
         smashDamager.SetActive(false);
