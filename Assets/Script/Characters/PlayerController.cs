@@ -66,9 +66,13 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] private LayerMask groundAngleMask;
 
 
-    [Header("Head")]
+    [Header("Double jump")]
+    [SerializeField] bool canDoubleJump = false;
+    [SerializeField] bool worldSpaceDoubleJump = false;
+    [SerializeField] float doubleJumpForce = 5;
     //[SerializeField] private Transform headCheck;
     //[SerializeField] private float headCheckRadius;
+    bool extraJumpExecuted = false;
 
     #region Gliding Variables
 
@@ -364,7 +368,7 @@ public class PlayerController : MonoBehaviour, IDamageable
             if(smashTrail!=null)
                 smashTrail.enabled = false;
 
-
+            extraJumpExecuted = false;
 
             GroundAngleCheck(groundAngleMask);
 
@@ -468,7 +472,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     
     private void InAirHorizontalMovement()
     {
-        
         rb.AddForce(Vector2.right * airMovementSpeed* airMovementInput);
         if (Mathf.Abs(rb.velocity.x) > MaxHorizontalSpeed)
         {
@@ -575,14 +578,18 @@ public class PlayerController : MonoBehaviour, IDamageable
     private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         //salta
-        if (grounded && attachedToWall)
+        //if (grounded && attachedToWall)
+        //{
+        //    attachedToWall = false;
+        //    Jump();
+        //}
+         if (grounded)
+            Jump();
+        else if(!grounded && canDoubleJump && !extraJumpExecuted)
         {
-            attachedToWall = false;
-            Jump();
+            DoubleJump();
+           
         }
-
-        else if (grounded)
-            Jump();
 
     }
 
@@ -749,6 +756,18 @@ public class PlayerController : MonoBehaviour, IDamageable
         animator.SetTrigger("Jump");
         StartCoroutine(DeactivateGround());
     }
+
+    public void DoubleJump()
+    {
+        extraJumpExecuted = true;
+
+        if (worldSpaceDoubleJump)
+        {
+            rb.AddForce(Vector2.up * doubleJumpForce);
+        }else
+            rb.AddForce(transform.TransformDirection(Vector2.up) * doubleJumpForce);
+    }
+
     public void SetJumpPower(float jumpPower)
     {
         jumpForce = jumpPower;
