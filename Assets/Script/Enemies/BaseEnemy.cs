@@ -22,7 +22,7 @@ public class BaseEnemy : MonoBehaviour, IDamager
     [SerializeField]
     private GameObject deathEffectprefab;
 
-    [SerializeField, Tooltip("Tempo prima che il nemico scompaia a seguoto della morte")]
+    [SerializeField, Tooltip("Tempo prima che il nemico scompaia a seguito della morte")]
     private float deathDelay = 1f;
 
 
