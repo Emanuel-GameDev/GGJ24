@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class MushroomBehaviour : BaseEnemy
+public class Mushroom : BaseEnemy
 {
+    [Header("SETUP")]
+
     [SerializeField]
     private Transform pointA; // Arrivo
 
