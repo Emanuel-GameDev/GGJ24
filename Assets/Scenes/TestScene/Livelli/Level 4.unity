@@ -144652,29 +144652,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: jumpForce
-      value: 6500
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: maxLezzume
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: voteDisplay
       value: 
       objectReference: {fileID: 202168880}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: rotationSpeed
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: jumpBadassForce
-      value: 12000
-      objectReference: {fileID: 0}
-    - target: {fileID: 250654806340606757, guid: ee829758779528748a44f85225cdc62c, type: 3}
-      propertyPath: rotationToUnlockBadassJump
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 436749699012751027, guid: ee829758779528748a44f85225cdc62c, type: 3}
       propertyPath: m_Layer
       value: 8

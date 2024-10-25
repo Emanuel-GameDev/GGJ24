@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
 public class PlayerController : MonoBehaviour, IDamageable
 {
@@ -11,21 +13,30 @@ public class PlayerController : MonoBehaviour, IDamageable
     [Header("Lezzume")]
     [SerializeField, Min(1)] public float maxLezzume = 1;
 
+    
+
+    [Header("AirMovement")]
+    [SerializeField] float MaxHorizontalSpeed = 5f;
+    [SerializeField] float airMovementSpeed = 100f;
+    float airMovementInput = 0;
+    bool calculateAirMovement = false;
 
 
     [Header("Jump")]
+    [SerializeField] bool startWithRotation = false;
     [SerializeField] private float jumpForce = 10;
     [SerializeField] private float jumpBadassForce = 15;
     [SerializeField] private int rotationToUnlockBadassJump = 4;
     [SerializeField, Range(0, 180)] private float maxJumpAngle = 0;
 
     [Header("Arrow")]
-    [SerializeField] private float arrowSensitivity = 1;
+    [SerializeField] private float arrowSensitivity = 3;
     [SerializeField] private Transform arrowPointer;
     [SerializeField] private Transform arrowRotationPoint;
     [SerializeField] private LineRenderer line;
 
     [Header("Smash")]
+    [SerializeField] private GameObject smashDamager;
     [SerializeField] private float smashForce = 10;
 
 
@@ -47,15 +58,21 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
 
-    [SerializeField] private Transform groundCheckAngleLeft;
-    [SerializeField] private Transform groundCheckAngleRight;
+    [SerializeField] private Transform groundCheckAngleBottomLeft;
+    [SerializeField] private Transform groundCheckAngleBottomRight;
+    [SerializeField] private Transform groundCheckAngleTopLeft;
+    [SerializeField] private Transform groundCheckAngleTopRight;
     [SerializeField] private float groundCheckAngleRadius = 1;
     [SerializeField] private LayerMask groundAngleMask;
 
 
-    [Header("Head")]
-    [SerializeField] private Transform headCheck;
-    [SerializeField] private float headCheckRadius;
+    [Header("Double jump")]
+    [SerializeField] bool canDoubleJump = false;
+    [SerializeField] bool worldSpaceDoubleJump = false;
+    [SerializeField] float doubleJumpForce = 5;
+    //[SerializeField] private Transform headCheck;
+    //[SerializeField] private float headCheckRadius;
+    bool extraJumpExecuted = false;
 
     #region Gliding Variables
 
@@ -79,8 +96,10 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] public GameObject visual;
 
     public bool balanced = false;
-    public bool angleLeftGrounded = false;
-    public bool angleRightGrounded = false;
+    public bool angleBottomLeftGrounded = false;
+    public bool angleBottomRightGrounded = false;
+    public bool angleTopLeftGrounded = false;
+    public bool angleTopRightGrounded = false;
 
     float lezzume;
 
@@ -137,7 +156,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     bool maxAngleRightReached = false;
 
     bool nextIsBadassJump = false;
-    bool headToGround = false;
+    //bool headToGround = false;
 
     public bool smashing = false;
 
@@ -169,8 +188,14 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         inputs.Enable();
 
-        inputs.Gameplay.Rotate.performed += Rotate_performed;
-        inputs.Gameplay.Rotate.canceled += Rotate_canceled;
+        inputs.Gameplay.RotateInAir.performed += RotateInAir_performed;
+        inputs.Gameplay.RotateInAir.canceled += RotateInAir_canceled;
+
+        inputs.Gameplay.MoveInAir.performed += MoveInAir_performed;
+        inputs.Gameplay.MoveInAir.canceled += MoveInAir_canceled;
+
+        inputs.Gameplay.RotateArrow.performed += RotateArrow_performed;
+        inputs.Gameplay.RotateArrow.canceled += RotateArrow_canceled;
 
         inputs.Gameplay.Smash.performed += Smash_performed;
 
@@ -180,11 +205,13 @@ public class PlayerController : MonoBehaviour, IDamageable
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
 
+        smashDamager.SetActive(false);
+
         counterJumpRotation = 0;
 
         balanced = false;
-        angleLeftGrounded = false;
-        angleRightGrounded = false;
+        angleBottomLeftGrounded = false;
+        angleBottomRightGrounded = false;
 
 
         maxAngleLeftReached = false;
@@ -192,7 +219,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         nextIsBadassJump = false;
         lastWasBadassJumping = false;
-        headToGround = false;
+        //headToGround = false;
         canGlide = false;
 
         smashing = false;
@@ -215,6 +242,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         ResetPowerUps();
 
     }
+
+   
+
     public Animator GetAnimator()
     {
         return animator;
@@ -243,6 +273,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         smashTrail = GetComponent<TrailRenderer>();
+        smashTrail.enabled = false;
+        initialDrag = rb.drag;
     }
 
     private void Start()
@@ -302,26 +334,41 @@ public class PlayerController : MonoBehaviour, IDamageable
             }
         }
 
+        if (calculateAirMovement)
+        {
+            InAirHorizontalMovement();
+        }
 
 
-        if (rotating)
+        if (rotating && !smashing)
             RotateCharacter();
 
         if (movingArrow)
             MoveJumpDirection();
 
+        //if (smashing)
+        //{
+        //    if (rb.velocity.y <= 1f)
+        //        SmashOver();
+        //}
+
         if (!attachedToWall)
         {
             GroundCheck(groundMask);
-            HeadCheck(groundMask);
+            //HeadCheck(groundMask);
         }
 
         if (grounded)
         {
+            if(!line.gameObject.activeSelf)
+                line.gameObject.SetActive(true);
+
             animator.SetBool("IsSmashing", false);
-            smashTrail.enabled = false;
 
+            if(smashTrail!=null)
+                smashTrail.enabled = false;
 
+            extraJumpExecuted = false;
 
             GroundAngleCheck(groundAngleMask);
 
@@ -356,8 +403,11 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
         else
         {
-            angleLeftGrounded = false;
-            angleRightGrounded = false;
+            if (line.gameObject.activeSelf)
+                line.gameObject.SetActive(false);
+
+            angleBottomLeftGrounded = false;
+            angleBottomRightGrounded = false;
             balanced = false;
         }
 
@@ -399,7 +449,7 @@ public class PlayerController : MonoBehaviour, IDamageable
             else
             {
                 if (smashing)
-                    smashing = false;
+                    SmashOver();
 
                 SetupInputsForGlideMode(false);
 
@@ -416,8 +466,20 @@ public class PlayerController : MonoBehaviour, IDamageable
         line.SetPosition(0, transform.position);
         line.SetPosition(1, arrowPointer.position);
 
-        if (Input.GetKeyDown(KeyCode.L))
-            PubSub.Instance.Notify(EMessageType.smashOver, null);
+        //if (Input.GetKeyDown(KeyCode.L))
+        //    PubSub.Instance.Notify(EMessageType.smashOver, null);
+    }
+    
+    private void InAirHorizontalMovement()
+    {
+        rb.AddForce(Vector2.right * airMovementSpeed* airMovementInput);
+        if (Mathf.Abs(rb.velocity.x) > MaxHorizontalSpeed)
+        {
+            if (rb.velocity.x < 0)
+                rb.velocity = new Vector2(-MaxHorizontalSpeed, rb.velocity.y);
+            else
+                rb.velocity = new Vector2(MaxHorizontalSpeed, rb.velocity.y);
+        }
     }
 
     public void TriggerGlideMode(bool mode)
@@ -432,19 +494,19 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         if (mode)
         {
-            inputs.Gameplay.Rotate.performed -= Rotate_performed;
-            inputs.Gameplay.Rotate.canceled -= Rotate_canceled;
+            inputs.Gameplay.RotateInAir.performed -= RotateInAir_performed;
+            inputs.Gameplay.RotateInAir.canceled -= RotateInAir_canceled;
 
-            inputs.Gameplay.Rotate.performed += MoveHorizontal;
-            inputs.Gameplay.Rotate.canceled += DisableHorizontal;
+            inputs.Gameplay.RotateInAir.performed += MoveHorizontal;
+            inputs.Gameplay.RotateInAir.canceled += DisableHorizontal;
         }
         else
         {
-            inputs.Gameplay.Rotate.performed += Rotate_performed;
-            inputs.Gameplay.Rotate.canceled += Rotate_canceled;
+            inputs.Gameplay.RotateInAir.performed += RotateInAir_performed;
+            inputs.Gameplay.RotateInAir.canceled += RotateInAir_canceled;
 
-            inputs.Gameplay.Rotate.performed -= MoveHorizontal;
-            inputs.Gameplay.Rotate.canceled -= DisableHorizontal;
+            inputs.Gameplay.RotateInAir.performed -= MoveHorizontal;
+            inputs.Gameplay.RotateInAir.canceled -= DisableHorizontal;
         }
     }
 
@@ -464,16 +526,22 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void OnDisable()
     {
-        inputs.Gameplay.Rotate.performed -= Rotate_performed;
-        inputs.Gameplay.Rotate.canceled -= Rotate_canceled;
+        inputs.Gameplay.RotateInAir.performed -= RotateInAir_performed;
+        inputs.Gameplay.RotateInAir.canceled -= RotateInAir_canceled;
+
+        inputs.Gameplay.MoveInAir.performed -= MoveInAir_performed;
+        inputs.Gameplay.MoveInAir.canceled -= MoveInAir_canceled;
+
+        inputs.Gameplay.RotateArrow.performed -= RotateArrow_performed;
+        inputs.Gameplay.RotateArrow.canceled -= RotateArrow_canceled;
 
         inputs.Gameplay.Smash.performed -= Smash_performed;
 
         inputs.Gameplay.Jump.performed -= Jump_performed;
         inputs.Gameplay.Jump.canceled -= Jump_canceled;
 
-        inputs.Gameplay.Rotate.performed -= MoveHorizontal;
-        inputs.Gameplay.Rotate.canceled -= DisableHorizontal;
+        inputs.Gameplay.RotateInAir.performed -= MoveHorizontal;
+        inputs.Gameplay.RotateInAir.canceled -= DisableHorizontal;
 
         inputs.Disable();
         inputs.Dispose();
@@ -482,10 +550,13 @@ public class PlayerController : MonoBehaviour, IDamageable
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-        Gizmos.DrawWireSphere(headCheck.position, headCheckRadius);
+        //Gizmos.DrawWireSphere(headCheck.position, headCheckRadius);
 
-        Gizmos.DrawWireSphere(groundCheckAngleLeft.position, groundCheckAngleRadius);
-        Gizmos.DrawWireSphere(groundCheckAngleRight.position, groundCheckAngleRadius);
+        Gizmos.DrawWireSphere(groundCheckAngleBottomLeft.position, groundCheckAngleRadius);
+        Gizmos.DrawWireSphere(groundCheckAngleBottomRight.position, groundCheckAngleRadius);
+        Gizmos.DrawWireSphere(groundCheckAngleTopLeft.position, groundCheckAngleRadius);
+        Gizmos.DrawWireSphere(groundCheckAngleTopRight.position, groundCheckAngleRadius);
+
 
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + visual.transform.localScale.x, transform.position.y, transform.position.z));
 
@@ -507,14 +578,18 @@ public class PlayerController : MonoBehaviour, IDamageable
     private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         //salta
-        if (grounded && attachedToWall)
+        //if (grounded && attachedToWall)
+        //{
+        //    attachedToWall = false;
+        //    Jump();
+        //}
+         if (grounded)
+            Jump();
+        else if(!grounded && canDoubleJump && !extraJumpExecuted)
         {
-            attachedToWall = false;
-            Jump();
+            DoubleJump();
+           
         }
-
-        else if (grounded)
-            Jump();
 
     }
 
@@ -523,22 +598,52 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     }
 
-    private void Rotate_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    private void RotateArrow_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (grounded)
+        {
+            movingArrow = true;
+            arrowMovementdirection = obj.ReadValue<float>();
+        }
+    }
+
+    private void RotateArrow_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        movingArrow = false;
+    }
+
+    private void MoveInAir_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        calculateAirMovement = false;
+        airMovementInput = 0;
+    }
+
+    private void MoveInAir_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (!grounded)
+        {
+            calculateAirMovement = true;
+
+            airMovementInput = obj.ReadValue<float>();
+        }
+    }
+
+    private void RotateInAir_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         rotating = false;
         movingArrow = false;
     }
 
-    private void Rotate_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    private void RotateInAir_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         //sposta
-        if (grounded)
-        {
-            //freccia
-            movingArrow = true;
-            arrowMovementdirection = obj.ReadValue<float>();
-        }
-        else
+        if (!grounded)
+        //{
+        //    //freccia
+        //    movingArrow = true;
+        //    arrowMovementdirection = obj.ReadValue<float>();
+        //}
+        //else
         {
             //Ruota
             rotating = true;
@@ -566,7 +671,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void Smash_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        Smash();
+        if(!smashing)
+            Smash();
     }
 
     #endregion
@@ -579,15 +685,15 @@ public class PlayerController : MonoBehaviour, IDamageable
             angle = 360 - arrowRotationPoint.localRotation.eulerAngles.z;
             angleToJump += arrowSensitivity;
 
-            if (angleToJump > maxJumpAngle)
-            {
-                maxAngleRightReached = true;
-            }
-            else
-            {
+            //if (angleToJump > maxJumpAngle)
+            //{
+            //    maxAngleRightReached = true;
+            //}
+            //else
+            //{
                 arrowRotationPoint.Rotate(-Vector3.forward * arrowMovementdirection, arrowSensitivity);
                 maxAngleLeftReached = false;
-            }
+            //}
 
         }
         else if (arrowMovementdirection < 0 && !maxAngleLeftReached)
@@ -595,15 +701,15 @@ public class PlayerController : MonoBehaviour, IDamageable
             angle = arrowRotationPoint.localRotation.eulerAngles.z;
             angleToJump -= arrowSensitivity;
 
-            if (angleToJump < -maxJumpAngle)
-            {
-                maxAngleLeftReached = true;
-            }
-            else
-            {
+            //if (angleToJump < -maxJumpAngle)
+            //{
+            //    maxAngleLeftReached = true;
+            //}
+            //else
+            //{
                 arrowRotationPoint.Rotate(-Vector3.forward * arrowMovementdirection, arrowSensitivity);
                 maxAngleRightReached = false;
-            }
+            //}
         }
 
     }
@@ -612,10 +718,10 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         Vector2 forceDirection = Vector2.zero;
 
-        if (!headToGround)
+        //if (!headToGround)
             forceDirection = arrowPointer.transform.position - transform.position;
-        else
-            forceDirection = Vector2.up;
+        //else
+        //    forceDirection = Vector2.up;
 
         if (angleToJump > 0 && visual.transform.localScale.x == -1)
             visual.transform.localScale = new Vector3(1, 1, 1);
@@ -641,12 +747,27 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         PlayRandomJumpSound();
 
-        rb.AddForceAtPosition(forceDirection.normalized * forceToUse, pointToApplyForce.position);
+        if(startWithRotation)
+            rb.AddForceAtPosition(forceDirection.normalized * forceToUse, pointToApplyForce.position);
+        else
+            rb.AddForce(forceDirection.normalized * forceToUse);
         ResetCurrentRadialCounter();
 
         animator.SetTrigger("Jump");
         StartCoroutine(DeactivateGround());
     }
+
+    public void DoubleJump()
+    {
+        extraJumpExecuted = true;
+
+        if (worldSpaceDoubleJump)
+        {
+            rb.AddForce(Vector2.up * doubleJumpForce);
+        }else
+            rb.AddForce(transform.TransformDirection(Vector2.up) * doubleJumpForce);
+    }
+
     public void SetJumpPower(float jumpPower)
     {
         jumpForce = jumpPower;
@@ -723,16 +844,21 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     }
     #endregion
-
+    float initialDrag;
     #region OtherMovemnet
     private void Smash()
     {
+       
         if (!grounded)
         {
+            smashDamager.SetActive(true);
+
             rotationThisJump = 0;
 
             smashing = true;
-            smashTrail.enabled = true;
+
+            if (smashTrail != null)
+                smashTrail.enabled = true;
 
             SetPlayerRotation();
             rb.velocity = Vector3.zero;
@@ -741,6 +867,7 @@ public class PlayerController : MonoBehaviour, IDamageable
             visual.transform.localScale = new Vector3(1, 1, 1);
 
             rb.AddForce(Vector2.down * smashForce * 100);
+            rb.drag = 0;
         }
 
     }
@@ -750,15 +877,18 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void SmashOver()
     {
+        rb.drag= initialDrag;
+        Debug.Log("Over");
         smashing = false;
+        smashDamager.SetActive(false);
     }
 
-    public bool HeadCheck(LayerMask layerMask)
-    {
-        headToGround = Physics2D.OverlapCircle(headCheck.position, headCheckRadius, layerMask);
+    //public bool HeadCheck(LayerMask layerMask)
+    //{
+    //    headToGround = Physics2D.OverlapCircle(headCheck.position, headCheckRadius, layerMask);
 
-        return headToGround;
-    }
+    //    return headToGround;
+    //}
 
     bool deactivateGroundCheck = false;
     public bool GroundCheck(LayerMask layerMask)
@@ -782,11 +912,14 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         if (grounded)
         {
-            angleLeftGrounded = Physics2D.OverlapCircle(groundCheckAngleLeft.position, groundCheckAngleRadius, layerMask);
-            angleRightGrounded = Physics2D.OverlapCircle(groundCheckAngleRight.position, groundCheckAngleRadius, layerMask);
+            angleBottomLeftGrounded = Physics2D.OverlapCircle(groundCheckAngleBottomLeft.position, groundCheckAngleRadius, layerMask);
+            angleBottomRightGrounded = Physics2D.OverlapCircle(groundCheckAngleBottomRight.position, groundCheckAngleRadius, layerMask);
+            angleTopLeftGrounded= Physics2D.OverlapCircle(groundCheckAngleTopLeft.position, groundCheckAngleRadius, layerMask);
+            angleTopRightGrounded = Physics2D.OverlapCircle(groundCheckAngleTopRight.position, groundCheckAngleRadius, layerMask);
 
 
-            if (angleLeftGrounded && angleRightGrounded && Mathf.Abs(rb.angularVelocity) < 1)
+            if ((angleBottomLeftGrounded && angleBottomRightGrounded && Mathf.Abs(rb.angularVelocity) < 1) ||
+                (angleTopLeftGrounded && angleTopRightGrounded && Mathf.Abs(rb.angularVelocity) < 1))
                 balanced = true;
             else
                 balanced = false;

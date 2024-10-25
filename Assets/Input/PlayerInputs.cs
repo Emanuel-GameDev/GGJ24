@@ -28,9 +28,27 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             ""id"": ""a274f8a2-5ba5-498f-827c-818bd526ec8f"",
             ""actions"": [
                 {
-                    ""name"": ""Rotate"",
+                    ""name"": ""RotateArrow"",
                     ""type"": ""Button"",
                     ""id"": ""e190bd27-b05b-4882-b51c-246e96240306"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateInAir"",
+                    ""type"": ""Button"",
+                    ""id"": ""65aecd35-f0ce-46ef-93e8-6076698c5821"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveInAir"",
+                    ""type"": ""Button"",
+                    ""id"": ""0ab55080-ddd4-49e7-91e9-9e2bc39ce74a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -63,7 +81,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Rotate"",
+                    ""action"": ""RotateArrow"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -74,7 +92,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Rotate"",
+                    ""action"": ""RotateArrow"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -85,7 +103,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Rotate"",
+                    ""action"": ""RotateArrow"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -110,6 +128,72 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Smash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""2dfd9635-7527-4ff7-90d6-2888c425d335"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateInAir"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""075b992f-c140-40aa-bca0-ddd6b2ec55dc"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateInAir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""a224228c-0d92-4be4-a8f5-fb0dbe4a7b87"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateInAir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""1963c17b-ee2c-444f-a05c-36a4c9fe284b"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveInAir"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""5b980781-e6b9-479b-ac60-1e1d77d7c272"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveInAir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""39d10e83-b16b-4cbd-912b-7e804e1bcbc0"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveInAir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -499,7 +583,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_Rotate = m_Gameplay.FindAction("Rotate", throwIfNotFound: true);
+        m_Gameplay_RotateArrow = m_Gameplay.FindAction("RotateArrow", throwIfNotFound: true);
+        m_Gameplay_RotateInAir = m_Gameplay.FindAction("RotateInAir", throwIfNotFound: true);
+        m_Gameplay_MoveInAir = m_Gameplay.FindAction("MoveInAir", throwIfNotFound: true);
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Smash = m_Gameplay.FindAction("Smash", throwIfNotFound: true);
         // Player
@@ -577,14 +663,18 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     // Gameplay
     private readonly InputActionMap m_Gameplay;
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
-    private readonly InputAction m_Gameplay_Rotate;
+    private readonly InputAction m_Gameplay_RotateArrow;
+    private readonly InputAction m_Gameplay_RotateInAir;
+    private readonly InputAction m_Gameplay_MoveInAir;
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Smash;
     public struct GameplayActions
     {
         private @PlayerInputs m_Wrapper;
         public GameplayActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Rotate => m_Wrapper.m_Gameplay_Rotate;
+        public InputAction @RotateArrow => m_Wrapper.m_Gameplay_RotateArrow;
+        public InputAction @RotateInAir => m_Wrapper.m_Gameplay_RotateInAir;
+        public InputAction @MoveInAir => m_Wrapper.m_Gameplay_MoveInAir;
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @Smash => m_Wrapper.m_Gameplay_Smash;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
@@ -596,9 +686,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
-            @Rotate.started += instance.OnRotate;
-            @Rotate.performed += instance.OnRotate;
-            @Rotate.canceled += instance.OnRotate;
+            @RotateArrow.started += instance.OnRotateArrow;
+            @RotateArrow.performed += instance.OnRotateArrow;
+            @RotateArrow.canceled += instance.OnRotateArrow;
+            @RotateInAir.started += instance.OnRotateInAir;
+            @RotateInAir.performed += instance.OnRotateInAir;
+            @RotateInAir.canceled += instance.OnRotateInAir;
+            @MoveInAir.started += instance.OnMoveInAir;
+            @MoveInAir.performed += instance.OnMoveInAir;
+            @MoveInAir.canceled += instance.OnMoveInAir;
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
@@ -609,9 +705,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IGameplayActions instance)
         {
-            @Rotate.started -= instance.OnRotate;
-            @Rotate.performed -= instance.OnRotate;
-            @Rotate.canceled -= instance.OnRotate;
+            @RotateArrow.started -= instance.OnRotateArrow;
+            @RotateArrow.performed -= instance.OnRotateArrow;
+            @RotateArrow.canceled -= instance.OnRotateArrow;
+            @RotateInAir.started -= instance.OnRotateInAir;
+            @RotateInAir.performed -= instance.OnRotateInAir;
+            @RotateInAir.canceled -= instance.OnRotateInAir;
+            @MoveInAir.started -= instance.OnMoveInAir;
+            @MoveInAir.performed -= instance.OnMoveInAir;
+            @MoveInAir.canceled -= instance.OnMoveInAir;
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
@@ -793,7 +895,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     public UIActions @UI => new UIActions(this);
     public interface IGameplayActions
     {
-        void OnRotate(InputAction.CallbackContext context);
+        void OnRotateArrow(InputAction.CallbackContext context);
+        void OnRotateInAir(InputAction.CallbackContext context);
+        void OnMoveInAir(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSmash(InputAction.CallbackContext context);
     }
