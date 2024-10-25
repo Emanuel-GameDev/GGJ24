@@ -10,19 +10,19 @@ public class SaltShooter : BaseEnemy
     [SerializeField]
     private GameObject projectilePrefab; // Prefab del proiettile
 
-    [SerializeField]
+    [SerializeField, Tooltip("Punto da cui parte il proiettile")]
     private Transform firePoint; // Punto da cui sparare
 
-    [SerializeField]
+    [SerializeField, Tooltip("Velocità proiettile")]
     private float projectileSpeed = 10f; // Velocità del proiettile
 
-    [SerializeField]
+    [SerializeField, Tooltip("Rateo di sparo")]
     private float fireRate = 1f; // Rateo di sparo
 
     [SerializeField]
     private int projectileDamage = 1;
 
-    [SerializeField]
+    [SerializeField, Tooltip("Grandezza della pool di proiettili, preferibilmente deve rimanere a 10")]
     private int poolProjectileAmount = 10;
 
 

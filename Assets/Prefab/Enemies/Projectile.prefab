@@ -4962,7 +4962,7 @@ MonoBehaviour:
   damage: 1
   layerDamagable:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 1344
   aliveTime: 5
 --- !u!61 &-5295994642958659537
 BoxCollider2D:
