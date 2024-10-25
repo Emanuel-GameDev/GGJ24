@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4629176785267699520}
   - component: {fileID: 8412391534206348591}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Scala_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2805524896662554126}
   - component: {fileID: 719293508106903320}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: collider (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4751224910070714012}
   - component: {fileID: 3911607313686730338}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
