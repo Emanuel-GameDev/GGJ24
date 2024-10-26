@@ -26,6 +26,9 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
     [SerializeField] 
     private int damage = 1;
 
+    [SerializeField, Tooltip("Durata dell'invulnerabilità dopo aver inflitto un danno")]
+    private float invulerabilityTime = 1f;
+
     [SerializeField]
     private GameObject deathEffectprefab;
 
@@ -33,7 +36,7 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
     private float deathDelay = 1f;
 
 
-
+    private bool canDetectHit = true;
     private ParticleSystem deathEffect;
     private Knockback knockback;
 
@@ -53,6 +56,8 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
         
         if (collision.gameObject.GetComponent<PlayerController>() != null)
         {
+            if (!canDetectHit)
+                return; 
 
             PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
 
@@ -100,9 +105,21 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
         gameObject.SetActive(false);
     }
 
+    private IEnumerator InvulnerabilityCounter()
+    {
+        canDetectHit = false;
+
+        yield return new WaitForSeconds(invulerabilityTime);
+
+        canDetectHit = true;
+    }    
+
     public bool GiveHit(IDamageable damageable)
     {
         damageable.TakeHit(damage);
+
+        StartCoroutine(InvulnerabilityCounter());
+
         return true;
     }
 
