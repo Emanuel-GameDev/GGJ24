@@ -170,6 +170,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     float baseJumpForce;
     float arrowMovementdirection = 0;
 
+    private Knockback knockback;
+
     #region UnityFunctions
 
     private void OnCollisionEnter2D(Collision2D collision)

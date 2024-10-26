@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,19 +20,22 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
     [SerializeField]
     private int hitCooldown = 4;
 
-    [SerializeField] private int lifePoints = 1;
+    [SerializeField]
+    private int lifePoints = 1;
+
+    [SerializeField] 
+    private int damage = 1;
 
     [SerializeField]
     private GameObject deathEffectprefab;
 
-    [SerializeField, Tooltip("Tempo prima che il nemico scompaia a seguito della morte")]
+    [SerializeField, Tooltip("Tempo prima che il nemico scompaia a seguito della sua morte")]
     private float deathDelay = 1f;
 
 
 
-
-    private bool canDetectHit = true;
     private ParticleSystem deathEffect;
+    private Knockback knockback;
 
     public virtual void Start()
     {
@@ -40,6 +44,8 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
             deathEffectprefab = Instantiate(deathEffectprefab);
             deathEffect = deathEffectprefab.GetComponentInChildren<ParticleSystem>(); 
         }
+
+        knockback = GetComponent<Knockback>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -47,7 +53,6 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
         
         if (collision.gameObject.GetComponent<PlayerController>() != null)
         {
-            if (!canDetectHit) return;
 
             PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
 
@@ -62,8 +67,21 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
             {
                 //utilityEvent.Invoke();
                 GiveHit(playerController);
+
+                // Controlla se va applicato il knockback
+                if (knockback != null)
+                {
+                    Vector2 hitDir = FindHitDirection(playerController.gameObject.transform.position);
+                    knockback.CallKnockback(playerController.gameObject, hitDir, Vector2.up);
+                }
+
             }
         }
+    }
+
+    private Vector2 FindHitDirection(Vector3 position)
+    {
+        return (position - gameObject.transform.position).normalized;
     }
 
     private IEnumerator Death()
@@ -84,7 +102,7 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
 
     public bool GiveHit(IDamageable damageable)
     {
-        damageable.TakeHit(1);
+        damageable.TakeHit(damage);
         return true;
     }
 

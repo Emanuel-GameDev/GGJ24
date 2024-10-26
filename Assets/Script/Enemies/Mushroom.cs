@@ -17,6 +17,8 @@ public class Mushroom : BaseEnemy
 
     public override void Start()
     {
+        base.Start();
+
         if (pointA == null || pointB == null) return;
 
         currentTarget = pointA;
