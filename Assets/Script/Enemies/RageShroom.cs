@@ -33,7 +33,14 @@ public class RageShroom : Mushroom
         {
             case State.Patroling:
 
-                if (pointA == null || pointB == null) return;
+                if (pointA == null || pointB == null)
+                {
+                    Debug.LogWarning("Mancano i punti del path");
+                    return; 
+                }
+
+                if (animator.GetBool("stunned") != false)
+                    animator.SetBool("stunned", false);
 
                 Patrol();
 
@@ -54,18 +61,24 @@ public class RageShroom : Mushroom
 
                 if (omegaRunDirection == Vector2.zero)
                 {
-                    // Calcola la direzione verso il player solo una volta
+                    // Calcola la direzione verso il target
                     omegaRunDirection = (aggroObjPos - (Vector2)transform.position).normalized;
                 }
 
                 rb.velocity = new Vector2((omegaRunDirection.x * omegaRunSpeed), 0f);
 
+                if (animator.GetBool("hasBeenAggroed") != false)
+                    animator.SetBool("hasBeenAggroed", false);
+
                 break;
 
             case State.Stunned:
 
-                aggroObjPos = new Vector2(0f, 0f);
-                Debug.Log("sdhasf");
+                omegaRunDirection = Vector2.zero;   
+                SetAggro(false, Vector2.zero);
+
+                if (animator.GetBool("stunned") != true)
+                    animator.SetBool("stunned", true);
 
                 break;
 

@@ -198,7 +198,7 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
 
     internal virtual LayerMask GetAggroMask()
     {
-        // NUll
+        // Null
         return 0;
     }
 
