@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class RageShroom : Mushroom
+public class RageShroom : BaseEnemy
 {
     [Header("CHARGE & OMEGA-RUN SETUP")]
 
@@ -32,13 +32,6 @@ public class RageShroom : Mushroom
         switch (state)
         {
             case State.Patroling:
-
-                // Controllo che ci siano tutti i punti per fare il patrol
-                if (pointA == null || pointB == null)
-                {
-                    Debug.LogWarning("Mancano i punti del path");
-                    return; 
-                }
 
                 // Aggiorno stato animator rimuovendo lo stun state
                 if (animator.GetBool("stunned") != false)
@@ -114,10 +107,5 @@ public class RageShroom : Mushroom
     internal override LayerMask GetAggroMask()
     {
         return aggroTargetMask;
-    }
-
-    public override void SetState(State state)
-    {
-        base.SetState(state);
     }
 }

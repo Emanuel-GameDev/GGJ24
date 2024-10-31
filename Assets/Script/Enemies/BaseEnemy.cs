@@ -39,11 +39,22 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
     [SerializeField, Tooltip("Tempo prima che il nemico scompaia a seguito della sua morte")]
     private float deathDelay = 1f;
 
+    [Header("PATROL DATA")]
+
+    [SerializeField]
+    protected List<Transform> patrolPoints = new List<Transform>();
+
+    [SerializeField]
+    protected float patrolSpeed = 2f;
+
     #endregion
 
+    protected State state;
 
     private bool canDetectHit = true;
     private bool isFacingRight = true;
+    private bool goingForward = true;
+    private int currentIndex = 0;
 
     private ParticleSystem deathEffect;
     private Knockback knockback;
@@ -64,6 +75,9 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
         knockback = GetComponent<Knockback>();
         rb = GetComponent<Rigidbody2D>();
         enemyGFX = GetComponentInChildren<SpriteRenderer>().gameObject;
+
+        if (CheckPoints())
+            AlignPoints();
     }
 
     public virtual void OnCollisionEnter2D(Collision2D collision)
@@ -112,6 +126,94 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
         }
     }
 
+    #region StateMachine
+    public virtual void SetState(State state)
+    {
+        this.state = state;
+    }
+
+    #endregion
+
+    #region Patroling
+    protected void Patrol()
+    {
+        // Controlla se l'oggetto è vicino al punto di destinazione corrente
+        if (Vector3.Distance(transform.position, patrolPoints[currentIndex].position) < 0.1f)
+        {
+            // Cambia direzione alla fine della lista
+            if (goingForward)
+            {
+                if (currentIndex >= patrolPoints.Count - 1)
+                {
+                    goingForward = false;
+                    currentIndex--;
+                }
+                else
+                {
+                    currentIndex++;
+                }
+            }
+            else
+            {
+                if (currentIndex <= 0)
+                {
+                    goingForward = true;
+                    currentIndex++;
+                }
+                else
+                {
+                    currentIndex--;
+                }
+            }
+        }
+
+        // Calcola la direzione di movimento verso il target
+        Vector3 direction = (patrolPoints[currentIndex].position - transform.position).normalized;
+
+        // Imposta la velocità del Rigidbody nella direzione calcolata
+        rb.velocity = direction * patrolSpeed;
+    }
+
+
+    /// <summary>
+    /// Pone sulla stessa x (quella dell'enemy) tutti i punti
+    /// </summary>
+    protected void AlignPoints()
+    {
+        foreach (Transform point in patrolPoints)
+        {
+            if (point.localPosition.y != transform.position.y)
+            {
+                point.localPosition = new Vector2(point.localPosition.x, transform.position.y);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Controlla che tutte le reference ai punti siano impostate correttamente
+    /// </summary>
+    /// <returns></returns>
+    protected bool CheckPoints()
+    {
+        if (patrolPoints.Count == 0)
+        {
+            Debug.LogWarning("Non ci sono punti di patrol inseriti");
+            return false;
+        }
+
+        foreach (Transform item in patrolPoints)
+        {
+            if (item == null)
+            {
+                Debug.LogWarning("Manca la reference ad uno o più dei patrol point");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    #endregion
 
     #region After Damage Calculated
     private IEnumerator Death()
