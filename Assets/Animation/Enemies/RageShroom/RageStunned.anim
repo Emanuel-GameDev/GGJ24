@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Stunned
+  m_Name: RageStunned
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -213,7 +213,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.9529412
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -252,7 +252,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.48235294
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -291,7 +291,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.48235294
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -301,8 +301,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.8333333
         value: 0.9622642
-        inSlope: 0.053274054
-        outSlope: 0.053274054
+        inSlope: 0
+        outSlope: 0
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
@@ -579,7 +579,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.9529412
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -618,7 +618,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.48235294
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -657,7 +657,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.48235294
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -667,8 +667,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.8333333
         value: 0.9622642
-        inSlope: 0.053274054
-        outSlope: 0.053274054
+        inSlope: 0
+        outSlope: 0
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334

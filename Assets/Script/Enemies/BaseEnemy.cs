@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,9 +12,13 @@ public interface IDamager
     bool GiveHit(IDamageable damageable);
 }
 
-public enum AnimationTriggerType
+public enum State
 {
-    ChargeComplete
+    Patroling,
+    Charging,
+    OmegaRun,
+    InvertedOmegaRun,
+    Stunned
 }
 
 public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
@@ -52,15 +55,16 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
     protected State state;
 
     private bool canDetectHit = true;
-    private bool isFacingRight = true;
+    private bool isFacingRight = false;
     private bool goingForward = true;
     private int currentIndex = 0;
 
     private ParticleSystem deathEffect;
     private Knockback knockback;
     protected Rigidbody2D rb;
-    private GameObject enemyGFX;
+    protected GameObject enemyGFX;
     protected Vector2 aggroObjPos;
+    protected Animator animator;
 
     protected bool isAggroed = false;
 
@@ -69,15 +73,19 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
         if (!deathEffectprefab.activeInHierarchy)
         {
             deathEffectprefab = Instantiate(deathEffectprefab);
-            deathEffect = deathEffectprefab.GetComponentInChildren<ParticleSystem>(); 
+            deathEffect = deathEffectprefab.GetComponentInChildren<ParticleSystem>();
         }
 
         knockback = GetComponent<Knockback>();
         rb = GetComponent<Rigidbody2D>();
         enemyGFX = GetComponentInChildren<SpriteRenderer>().gameObject;
+        animator = GetComponent<Animator>();
 
         if (CheckPoints())
+        {
             AlignPoints();
+            state = State.Patroling;
+        }
     }
 
     public virtual void OnCollisionEnter2D(Collision2D collision)
@@ -85,7 +93,7 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
         if (collision.gameObject.GetComponent<PlayerController>() != null)
         {
             if (!canDetectHit)
-                return; 
+                return;
 
             PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
 
@@ -138,7 +146,7 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
     protected void Patrol()
     {
         // Controlla se l'oggetto è vicino al punto di destinazione corrente
-        if (Vector3.Distance(transform.position, patrolPoints[currentIndex].position) < 0.1f)
+        if (Vector3.Distance(transform.position, patrolPoints[currentIndex].position) < 0.2f)
         {
             // Cambia direzione alla fine della lista
             if (goingForward)
@@ -171,7 +179,7 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
         Vector3 direction = (patrolPoints[currentIndex].position - transform.position).normalized;
 
         // Imposta la velocità del Rigidbody nella direzione calcolata
-        rb.velocity = direction * patrolSpeed;
+        rb.velocity = new Vector2(direction.x * patrolSpeed, 0f);
     }
 
 
@@ -182,9 +190,9 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
     {
         foreach (Transform point in patrolPoints)
         {
-            if (point.localPosition.y != transform.position.y)
+            if (point.position.y != transform.position.y)
             {
-                point.localPosition = new Vector2(point.localPosition.x, transform.position.y);
+                point.position = new Vector2(point.position.x, transform.position.y);
             }
         }
     }
@@ -278,7 +286,7 @@ public class BaseEnemy : MonoBehaviour, IDamager, IDamageable
     /// <returns></returns>
     public bool TakeHit(float dmg)
     {
-        lifePoints -=(int) dmg;
+        lifePoints -= (int)dmg;
 
         if (lifePoints <= 0)
             gameObject.SetActive(false);

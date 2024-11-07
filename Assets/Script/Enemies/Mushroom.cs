@@ -1,14 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum State
-{
-    Patroling,
-    Charging,
-    OmegaRun,
-    Stunned
-}
-
 public class Mushroom : BaseEnemy
 {
     public override void Start()

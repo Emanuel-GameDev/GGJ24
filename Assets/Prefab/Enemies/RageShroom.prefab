@@ -210,7 +210,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9064145601180176142}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 16.84774, y: -2.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
@@ -394,7 +394,6 @@ MonoBehaviour:
   deathEffectprefab: {fileID: 2526141502250720967, guid: c4fb6d8c9601db54bb36ca5b38edb06b, type: 3}
   deathDelay: 1
   patrolPoints:
-  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   patrolSpeed: 4
